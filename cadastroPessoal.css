@@ -69,11 +69,22 @@ body * {
     justify-content: center;
 }
 
+.card-login select {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #092b50;
+    padding: 15px;
+    background: transparent;
+    outline: none;
+    color: #ffc400;
+    font-size: 12pt;
+    box-sizing: border-box;
+}
+
 .campoTexto input {
     width: 100%;
     border: none;
     border-bottom: 2px solid #092b50;
-    margin-bottom: 6%;
     padding: 15px;
     background: transparent;
     color: #FFFFFF;
@@ -86,14 +97,11 @@ body * {
 
 .campoTexto label {
     color: #FFFFFF;
+    margin-bottom: -4%;
+    margin-top: 1%;
     font-weight: 500;
     font-size: 14pt;
 }
-
-/* .campoTexto input::placeholder {
-    color: #FFFFFF;
-    opacity: 0.9;
-} */
 
 .btn-login {
     width: 100%;
@@ -119,19 +127,6 @@ body * {
     box-shadow: inset 400px 0 0 0 #0a2b4e;
 }
 
-.btn-senha {
-    font-weight: 550;
-    font-size: 11pt;
-    cursor: pointer;
-    color: #FFFFFF;
-    background: none;
-    border: none;
-    box-shadow: 0px 10px 40px -12px #000000;
-    -webkit-transition: ease-out 0.3s;
-    -moz-transition: ease-out 0.3s;
-    transition: ease-out 1.5s;
-}
-
 .btn-senha:hover {
     color: #E6763C;
 }
@@ -145,6 +140,7 @@ body * {
 @media only screen and (max-width: 600px) {
     .main-login {
         flex-direction: column;
+        gap: 3%;
     } 
     .login-esquerdo h1 {
         display: none;

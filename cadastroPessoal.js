@@ -1,4 +1,4 @@
-function fazerLogin() {
+function Continuar() {
     var loginUsuario = usuario.value
     var loginSenha = senha.value
 

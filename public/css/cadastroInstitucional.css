@@ -12,6 +12,7 @@ body * {
 .main-login {
     width: 100vw;
     height: 100vh;
+    gap: 0.9%;
     background: #EECB5D;
     display: flex;
     justify-content: center;
@@ -19,38 +20,49 @@ body * {
 }
 
 .login-esquerdo {
-    width: 45vw;
+    width: 50vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    flex-direction: column;
 }
 
-.login-esquerdo h1 {
+/* .login-esquerdo h1 {
     color: #114275;
     font-size: 3vw;
-}
+} */
 
 .login-esquerdo-imagem {
     width: 30vw;
 }
 
 .login-direito {
-    width: 55vw;
+    width: 50vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
+.login-direito .iconEstudante {
+    margin-top: 67%;
+    width: 26%;
+}
+
+.login-direito .balao {
+    position: absolute;
+    margin-top: 12%;
+    margin-left: 36%;
+    width: 11%;
+}
+
 .card-login {
-    width: 60%;
+    width: 68%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 10px 35px;
+    padding: 20px 35px;
     background: #004AAD;
     border-radius: 20px;
     box-shadow: 0px 10px 40px #000000;
@@ -67,19 +79,6 @@ body * {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-}
-
-.card-login select {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #092b50;
-    padding: 15px;
-    background: transparent;
-    outline: none;
-    color: #d4d100;
-    font-size: 12pt;
-    font-weight: 600;
-    box-sizing: border-box;
 }
 
 .campoTexto input {
@@ -126,6 +125,19 @@ body * {
     box-shadow: inset 400px 0 0 0 #0a2b4e;
 }
 
+.btn-senha {
+    font-weight: 550;
+    font-size: 11pt;
+    cursor: pointer;
+    color: #FFFFFF;
+    background: none;
+    border: none;
+    box-shadow: 0px 10px 40px -12px #000000;
+    -webkit-transition: ease-out 0.3s;
+    -moz-transition: ease-out 0.3s;
+    transition: ease-out 1.5s;
+}
+
 .btn-senha:hover {
     color: #E6763C;
 }
@@ -139,13 +151,14 @@ body * {
 @media only screen and (max-width: 600px) {
     .main-login {
         flex-direction: column;
-        gap: 3%;
     } 
     .login-esquerdo h1 {
         display: none;
     }
     .login-esquerdo {
         width: 100%;
+        align-items: center;
+        justify-content: center;
         height: auto;
     }
     .login-esquerdo-imagem {
@@ -154,7 +167,12 @@ body * {
     }
     .login-direito{
         width: 100%;
+        align-items: center;
+        justify-content: center;
         height: auto;
+    }
+    .login-direito img {
+        display: none;
     }
     .card-login {
         width: 80%;

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../imagens/logoSafePrint.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="login.js"></script>
+    <title>SafeLearn -- Login</title>
+</head>
+<body>
+    <div class="main-login">
+        <div class="login-esquerdo">
+            <h1>Bem-vindo novamente!</h1>
+            <img src="../imagens/Learning-cuate.png" class="login-esquerdo-imagem">
+        </div>
+        <div class="login-direito">
+            <div class="card-login">
+                <div class="campoTexto">
+                    <label for="usuario">Usuário</label>
+                    <input id="usuario">
+                </div>
+                <div class="campoTexto">
+                    <label for="Senha">Senha</label>
+                    <input type="password" id="senha">
+                </div>
+                <button onclick="fazerLogin()" class="btn-login">Entrar</button>
+                <button onclick="alterarSenha()" class="btn-senha">Esqueceu a senha? Clique aqui!</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

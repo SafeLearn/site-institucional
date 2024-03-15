@@ -2,15 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const cadastroController = require("../controllers/cadastroController");
 
-router.get("/cadastro-usuario", (req, res) => {
-    res.sendFile("cadastroPessoal.html", { root: "public" });
-});
-
-router.get("/cadastro-instituicao", (req, res) => {
-    res.sendFile("cadastroInstitucional.html", { root: "public" });
-});
-
-router.post("/usuario/cadastrar", async (req, res) => {
+router.post("/usuario", async (req, res) => {
     try {
         const novoUsuario = req.body;
         const usuarioCriado = await cadastroController.cadastrarUsuario(novoUsuario);
@@ -20,7 +12,7 @@ router.post("/usuario/cadastrar", async (req, res) => {
     }
 });
 
-router.post("/instituicao/cadastrar", async (req, res) => {
+router.post("/instituicao", async (req, res) => {
     try {
         const novaInstituicao = req.body;
         const instituicaoCriada = await cadastroController.cadastrarInstituicao(novaInstituicao);

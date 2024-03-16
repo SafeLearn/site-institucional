@@ -1,3 +1,4 @@
+
 *{
     margin: 0;
     padding: 0;
@@ -11,7 +12,7 @@ body{
 .sessao-servicos{
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 95vh;
     width: 100%;
     margin-top: 2px;
 }
@@ -25,7 +26,7 @@ body{
     background-color: #E6763C;
 }
 
-.sessao-servicos .titulo{
+.titulo{
     display: flex;
     align-self: center;
     padding: 25px;
@@ -53,8 +54,8 @@ body{
     flex-direction: column;
     align-items: center;
     width: 20%;
-    height: 55vh;
-    margin: 4% 2% 0 2%;
+    height: 60vh;
+    margin: 5% 2% 0 2%;
     padding: 1%;
     gap: 20px;
 }
@@ -88,4 +89,124 @@ body{
 .tp .texto-topico{
     font-size: 17px;
     text-align: center;
+}
+
+.sessao-avaliacao{
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.sessao-avaliacao .conteudo{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sessao-avaliacao .eclipse{
+    display: flex;
+    position: absolute;
+    align-self: flex-end;
+}
+
+.sessao-avaliacao .posicao-eclipse-02{
+    display: flex;
+    position: absolute;
+    height: 95%;
+    width: 50%;
+    flex-direction: column-reverse;
+}
+
+.posicao-eclipse-02 .eclipse-02{
+    display: flex;
+    position: absolute;
+    justify-self: flex-end;
+}
+
+.conteudo .imagem-parte{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 78vh;
+}
+
+.imagem-parte .icon-principal{
+    width: 60%;
+    height: 90%;
+    margin-left: 15%;
+    align-self: center;
+}
+
+.conteudo .avaliacao-parte{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 78vh;
+}
+
+.avaliacao-parte .avaliacao{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 8%;
+    margin-right: 10%;
+    height: 40%;
+    gap: 5%;
+}
+
+.avaliacao .estrelas-avaliacao{
+    width: 90%;
+}
+
+.estrelas-avaliacao .star{
+    width: 30px;
+    height: 30px;
+    margin-right: 1%;
+}
+
+.avaliacao .comentario{
+    display: flex;
+    width: 90%;
+    align-items: center;
+    height: 30%;
+}
+
+.avaliacao .autor{
+    display: flex;
+    width: 70%;
+    flex-direction: column-reverse;
+    align-items: end;
+}
+
+.conteudo .botao-contato{
+    height: 30%;
+    width: 90%;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 20%;
+}
+
+.botao-contato input{
+    display: flex;
+    background-color: #FF7E07;
+    height: 30%;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.botao-contato input:hover{
+    background-color: #ff8d21;
+}
+
+.rodape{
+    width: 100%;
+    height: 30vh;
+    background-color: #FF7E07;
 }

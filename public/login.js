@@ -52,3 +52,7 @@ function entrar(dadosLogin) {
     });
     return false;
 }
+
+function alterarSenha() {
+    window.location.href = "recuperarsenha.html";
+}

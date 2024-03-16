@@ -1,7 +1,7 @@
 const loginModel = require("../models/loginModel");
 class loginController {
-    buscar() {
-        return loginModel.buscar();
+    buscar(dadosLogin) {
+        return loginModel.buscar(dadosLogin);
     }
 }
 

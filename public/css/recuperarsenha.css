@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Raleway:wght@600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'El messiri', monospace;
+    font-size: 15px;
+    color: rgb(214, 65, 65);
+}
+
+p{
+    font-weight: 600;
+    color: #ee6b08;
+}
+
+h1{
+    font-size: 1.8rem;
+    color: black;
+    padding: 0px 0px 35px 15px;
+    text-align: center;
+}
+
+h2{
+    font-size: 1.4rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+input{
+    width: 80%;
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid #092b50;
+    outline: none;
+    font-weight: 500;
+    color: #092b50;
+    padding-left: 2px;
+    cursor: text;
+}
+
+button {
+    cursor: pointer;
+    width: 120px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    background: #EECB5D;
+    font-weight:1000;
+}
+
+
+body{
+    width: 100%;
+    height: 100vh;
+    background: #004AAD;
+    background-size: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner img{
+    width: 400px;
+}
+
+#container{
+    display: flex;
+    align-items: center;
+    background: #EECB5D;
+    width: 320px;
+    height: 520px;
+    border-radius: 20px;
+}
+
+#container > .banner{
+    width: 530px;
+    height: 520px;
+    border-radius: 10px;
+    background: #EECB5D;
+
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    display: none;
+}
+
+
+#container .box-login {
+    width: 320px;
+    height: 520px;
+    border-radius: 10px;
+    background: #fff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .box-login {
+        width: 80%;
+        height: 320px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .box-login .box-account {
+        width: 80%;
+        height: 360px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .box-account > p{
+        font-size: 12px;
+    }
+
+     #user {
+    cursor: pointer;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 1px solid #004AAD;
+    background: #EECB5D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+
+
+@media (min-width: 900px) {
+        #container {
+            width: 900px;
+            /* justify-content:space-bet */
+        }  
+
+            #container .banner {
+                display: flex;
+            }
+
+            #container .box-login {
+                width: 385px;
+                border-radius: 10px 10px 10px 0px;
+            }
+}

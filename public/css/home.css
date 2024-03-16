@@ -4,9 +4,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html{
+    scroll-behavior: smooth;
+}
 body{
     font-family: Arial, Helvetica, sans-serif;
+   
+
 }
 
 .sessao-servicos{
@@ -24,6 +28,7 @@ body{
     height: 10px;
     width: 30%;
     background-color: #E6763C;
+    border-radius: 12px;
 }
 
 .titulo{
@@ -76,10 +81,7 @@ body{
     height: 60%;
 }
 
-.tp .circulo:hover{
-    width: 61%;
-    height: 143px;
-}
+
 
 .tp .titulo-topico{
     font-size: 18px;
@@ -89,6 +91,15 @@ body{
 .tp .texto-topico{
     font-size: 17px;
     text-align: center;
+    
+}
+.circulo{
+    transition: all .5s;
+    border: 10px solid transparent;
+}
+.circulo:hover{
+    border: 10px solid #E6763C;
+    border-radius: 50%;
 }
 
 .sessao-avaliacao{
@@ -195,8 +206,8 @@ body{
     width: 50%;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
-    border: 1px solid #000;
+    border-radius: 12px;
+    border: none;
     cursor: pointer;
     font-weight: bold;
 }
@@ -210,3 +221,176 @@ body{
     height: 30vh;
     background-color: #FF7E07;
 }
+
+
+.container {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../landing-page/img/4c99e47609111a93dea376e11dd13359\ 1.png);
+    background-position: center;
+    background-size: cover;
+    box-sizing: border-box;
+
+
+}
+
+.navbar {
+    height: 12vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    position: fixed;
+    margin-bottom: 40%;
+
+}
+
+.logo {
+    width: 18%;
+    cursor: pointer;
+    margin-top: 5%;
+}
+
+    
+    button {
+        width: 180px;
+        color: #000;
+        font-size: 20px;
+        padding: 12px 0;
+        background: #E6763C;
+        border: 0;
+        border-radius: 20px;
+        outline: none;
+        margin-top: 1%;
+        cursor: pointer;
+}
+button:hover{
+   
+
+    background-color: #ff8d21;
+    
+}
+nav {
+    flex: 1;
+    text-align: right;
+}
+
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 10%;
+    margin-right: 6%;
+    justify-content: space-evenly;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+
+}
+a:hover{
+    transition: 1s;
+    color: #E6763C;
+}
+
+.row {
+    display: flex;
+    height: 88%;
+    align-items: center;
+}
+
+.col {
+    flex-basis: 70%;
+    margin-left: 4%;
+    margin-top: 10%;
+}
+
+h1{
+    color: white;
+    font-size: 60px;
+}
+
+p {
+    color: white;
+    font-size: 18px;
+    line-height: 15px;
+}
+
+   
+
+/*Header e banner*/
+
+/*Sobre nós*/
+
+.sobre{
+    width: 100%;
+    height: 130vh;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    
+}
+
+.barra{
+    background-color: #E6763C;
+    width: 30%;
+    height: 2vh;
+    display: flex;
+    margin-bottom: 60%;
+    border-radius: 12px;
+    
+}
+
+.texto{
+    font-size: 50px;
+    color: black;
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 90vh;
+    
+}
+.img{
+    width: 70%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+    
+}
+h5{
+ color: black;
+ font-size: 20px;
+ 
+}
+.logo2{
+    width: 75%;
+    display: flex;
+    align-items: center;
+    
+}
+.logo3{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    margin-top: 16%;
+    margin-left: 4%;
+}
+.logo4{
+    width: 70%;
+    
+    margin-top: 80%;
+}
+.imgfooter{
+    margin-top: 4%;
+    margin-left: 5%;
+
+}
+span{
+    font-size: 20px;
+}
+       
+/*Sobre nós*/

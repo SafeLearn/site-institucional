@@ -10,7 +10,7 @@ function FinalizarCadastro() {
     const telefoneInstituicao = telefoneInst.value;
     const cnpjInstituicao = cnpj.value;
 
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
 
     if (nomeInstituicao == "" || cepInstituicao == "" || estadoInstituicao == "" ||
         cidadeInstituicao == "" || ruaInstituicao == "" || numeroEnderecoInstituicao
@@ -26,7 +26,7 @@ function FinalizarCadastro() {
         alert("E-mail incorreto!");
     } else if (cnpjInstituicao.length != 14) {
         alert("Insira um CNPJ válido!");
-    } else if (telefoneInstituicao.length <= 10 || telefoneInstituicao.length >= 14) {
+    } else if (telefoneInstituicao.length <= 10 || telefoneInstituicao.length >= 15) {
         alert("Insira um telefone válido!");
     } else {
         const dadosInstituicao = {
@@ -60,7 +60,7 @@ function cadastrarInstituicao(dadosInstituicao) {
         }
     })
     .catch(function (resposta) {
-        console.log("Erro: " + resposta)
+        console.log("Erro: " + resposta);
     });
 
     return false;

@@ -1,8 +1,12 @@
 const conexao = require("../infra/conexao");
 class cadastroModel {
     cadastrarUsuario(novoUsuario) {
-        const sql = "";
-        const values = [novoUsuario.nome];
+        const sql = "INSERT INTO usuario (cargoPessoal, emailPessoal, senhaPessoal, nomePessoal, telefonePessoal) VALUES (?, ?, ?, ?, ?)";
+        const values = [novoUsuario.cargoPessoal,
+            novoUsuario.emailPessoal,
+            novoUsuario.senhaPessoal,
+            novoUsuario.nomePessoal,
+            novoUsuario.telefonePessoal];
         return new Promise((resolve, reject) => {
             conexao.query(sql, values, (error, resposta) => {
                 if(error) {

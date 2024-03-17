@@ -9,7 +9,8 @@ html{
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
-   
+   display: flex;
+   flex-direction: column;
 
 }
 
@@ -29,6 +30,7 @@ body{
     width: 30%;
     background-color: #E6763C;
     border-radius: 12px;
+    margin-top: 5px;
 }
 
 .titulo{
@@ -78,7 +80,7 @@ body{
 .circulo img{
     align-self: center;
     width: 60%;
-    height: 60%;
+    height: 70px;
 }
 
 
@@ -105,7 +107,7 @@ body{
 .sessao-avaliacao{
     display: flex;
     flex-direction: column;
-    height: 95vh;
+    height: 100vh;
     width: 100%;
     margin-top: 4px;
 }
@@ -114,6 +116,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: 82vh;
 }
 
 .sessao-avaliacao .eclipse{
@@ -125,7 +128,7 @@ body{
 .sessao-avaliacao .posicao-eclipse-02{
     display: flex;
     position: absolute;
-    height: 95%;
+    height: 100vh;
     width: 50%;
     flex-direction: column-reverse;
 }
@@ -140,7 +143,7 @@ body{
     display: flex;
     flex-direction: column;
     width: 50%;
-    height: 78vh;
+    height: 82vh;
 }
 
 .imagem-parte .icon-principal{
@@ -154,16 +157,18 @@ body{
     display: flex;
     flex-direction: column;
     width: 50%;
-    height: 78vh;
+    height: 82vh;
+    gap: 5%;
 }
 
 .avaliacao-parte .avaliacao{
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     align-items: flex-end;
     margin-top: 8%;
     margin-right: 10%;
-    height: 40%;
+    height: 200px;
     gap: 5%;
 }
 
@@ -181,7 +186,7 @@ body{
     display: flex;
     width: 90%;
     align-items: center;
-    height: 30%;
+    height: auto;
 }
 
 .avaliacao .autor{
@@ -192,7 +197,7 @@ body{
 }
 
 .conteudo .botao-contato{
-    height: 30%;
+    height: 150px;
     width: 90%;
     display: flex;
     flex-direction: row-reverse;
@@ -202,7 +207,7 @@ body{
 .botao-contato input{
     display: flex;
     background-color: #FF7E07;
-    height: 30%;
+    height: 50px;
     width: 50%;
     justify-content: center;
     align-items: center;
@@ -242,13 +247,14 @@ body{
     background-color: white;
     position: fixed;
     margin-bottom: 40%;
-
+    z-index: 1;
+    border-bottom: 1px solid #000;
 }
 
 .logo {
     width: 18%;
     cursor: pointer;
-    margin-top: 5%;
+    margin-top: 1%;
 }
 
     
@@ -257,12 +263,13 @@ body{
         color: #000;
         font-size: 20px;
         padding: 12px 0;
-        background: #E6763C;
-        border: 0;
+        background: #FF7E07;
+        border: 1px solid #000;
         border-radius: 20px;
         outline: none;
         margin-top: 1%;
         cursor: pointer;
+        font-weight: bold;
 }
 button:hover{
    
@@ -296,7 +303,7 @@ a:hover{
 
 .row {
     display: flex;
-    height: 88%;
+    height: 500px;
     align-items: center;
 }
 
@@ -312,7 +319,7 @@ h1{
 }
 
 p {
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 18px;
     line-height: 15px;
 }
@@ -325,12 +332,10 @@ p {
 
 .sobre{
     width: 100%;
-    height: 130vh;
+    height: 103vh;
     display: flex;
-    align-items: center;
-    flex-direction: row;
-
-    
+    flex-direction: row; 
+    margin-top: 20px; 
 }
 
 .barra{
@@ -343,28 +348,29 @@ p {
     
 }
 
-.texto{
+.sobre .texto{
     font-size: 50px;
     color: black;
     display: flex;
-    align-items: center;
-    width: 70%;
+    width: 50%;
     height: 90vh;
-    
+    margin-right: 5%;
 }
 .img{
-    width: 70%;
+    width: 50%;
     height: 80vh;
     display: flex;
     align-items: center;
     margin-top: 5%;
     
 }
-h5{
- color: black;
- font-size: 20px;
- 
+.texto span{
+    color: black;
+    font-size: 18px;
+    text-align: justify;
+    line-height: 24px;
 }
+
 .logo2{
     width: 75%;
     display: flex;
@@ -379,18 +385,14 @@ h5{
     margin-top: 16%;
     margin-left: 4%;
 }
-.logo4{
-    width: 70%;
-    
-    margin-top: 80%;
+.texto .logo4{
+    width: 20%;
+    margin-top: 30%;
+    position: absolute;
+    margin-left: 32.5%;
 }
 .imgfooter{
-    margin-top: 4%;
+    margin-top: 1%;
     margin-left: 5%;
-
+    width: 25%;
 }
-span{
-    font-size: 20px;
-}
-       
-/*Sobre nós*/

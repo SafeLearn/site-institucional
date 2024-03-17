@@ -251,6 +251,10 @@ body{
     border-bottom: 1px solid #000;
 }
 
+.menu-aberto{
+    display: none;
+}
+
 .logo {
     width: 18%;
     cursor: pointer;
@@ -258,7 +262,7 @@ body{
 }
 
     
-    button {
+button {
         width: 180px;
         color: #000;
         font-size: 20px;
@@ -272,11 +276,9 @@ body{
         font-weight: bold;
 }
 button:hover{
-   
-
     background-color: #ff8d21;
-    
 }
+
 nav {
     flex: 1;
     text-align: right;
@@ -317,13 +319,6 @@ h1{
     color: white;
     font-size: 60px;
 }
-
-p {
-    color: rgb(0, 0, 0);
-    font-size: 18px;
-    line-height: 15px;
-}
-
    
 
 /*Header e banner*/
@@ -349,7 +344,6 @@ p {
 }
 
 .sobre .texto{
-    font-size: 50px;
     color: black;
     display: flex;
     width: 50%;
@@ -395,4 +389,162 @@ p {
     margin-top: 1%;
     margin-left: 5%;
     width: 25%;
+}
+
+/*Responsividade*/
+
+@media only screen and (max-width: 950px){
+    .navbar{
+        height: 10vh;
+    }
+
+    .menu-aberto{
+        display: none;
+    }
+
+    nav ul li{
+        margin-left: 6%;
+        margin-right: 2%;
+    }
+
+    nav ul li a{
+        font-size: 16px;
+    }
+
+    h1{
+        font-size: 40px;
+    }
+
+    button{
+        font-size: 16px;
+    }
+
+    .titulo{
+        font-size: 22px;
+    }
+
+    .img{
+        display: flex;
+        width: 30%;
+        margin-top: 3%;
+        height: 0vh;
+        position: absolute;
+        flex-direction: column-reverse;
+    }
+
+    .logo2{
+        display: none;
+    }
+
+    .logo3{
+        width: 65%;
+        margin-top: 0;
+        margin-left: 15%;
+    }
+
+    .sobre{
+        height: 85vh;
+    }
+
+    .sobre .texto{
+        width: 100%;
+        margin: 5%;
+        height: 70vh;
+    }
+
+    .texto span{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .texto .logo4{
+        margin-left: 75%;
+        z-index: -1;
+        margin-top: 25%;
+    }
+
+    .topicos-servicos .linha{
+        margin-bottom: 17%;
+    }
+
+    .sessao-servicos .tp{
+        margin: 2% 2% 0 2%;
+    }
+
+    .tp .circulo{
+        width: 55%;
+        height: 100px;
+    }
+
+    .circulo img{
+        height: 52px;
+    }
+
+    .tp .titulo-topico{
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .tp .texto-topico{
+        font-size: 16px;
+    }
+
+    .avaliacao-parte .avaliacao{
+        height: 250px;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .navbar{
+        height: 8vh;
+        position: static;
+    }
+
+    .menu-aberto{
+        display: flex;
+        justify-self: flex-end;
+        width: 5%;
+        height: 30px;
+    }
+
+    .logo{
+        width: 20%;
+        margin-top: 0;
+    }
+
+    nav ul li a{
+        display: none;
+    }
+
+    .row{
+        height: 340px;
+        justify-content: center;
+    }
+
+    .col{
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+    .h1{
+        font-size: 50px;
+    }
+
+    button{
+        width: 340px;
+        margin-top: 3%;
+    }
+
+    .sobre{
+        margin-top: 0;
+        height: 70vh;
+    }
+
+    .img{
+        display: none;
+    }
+
+    .texto .logo4{
+        margin-top: 108%;
+    }
 }

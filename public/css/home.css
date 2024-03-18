@@ -21,6 +21,23 @@ body{
 
 }
 
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #E6763C;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #f56117;
+}
+
+body::-webkit-scrollbar-track-piece {
+    background: #10000a;
+}
+
 .dropdown{
     display: none;
 }

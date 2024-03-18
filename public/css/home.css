@@ -11,11 +11,11 @@ html{
     scroll-behavior: smooth;
 }
 body{
-<<<<<<< HEAD
+
     font-family: el ;
-=======
+
     font-family: "El Messiri", sans-serif;
->>>>>>> 5ef325a2a2a47bd7f50bf405c3aca65106cc0d3f
+
    display: flex;
    flex-direction: column;
 

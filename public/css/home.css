@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Raleway:wght@600&display=swap');
+
 
 *{
     margin: 0;
@@ -8,10 +10,14 @@ html{
     scroll-behavior: smooth;
 }
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "El Messiri", sans-serif;
    display: flex;
    flex-direction: column;
 
+}
+
+.dropdown{
+    display: none;
 }
 
 .sessao-servicos{
@@ -44,6 +50,10 @@ body{
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.sessao-servicos .carrossel-topicos{
+    display: none;
 }
 
 .topicos-servicos .linha{
@@ -82,8 +92,6 @@ body{
     width: 60%;
     height: 70px;
 }
-
-
 
 .tp .titulo-topico{
     font-size: 18px;
@@ -262,7 +270,7 @@ body{
 }
 
     
-button {
+.col button {
         width: 180px;
         color: #000;
         font-size: 20px;
@@ -275,7 +283,7 @@ button {
         cursor: pointer;
         font-weight: bold;
 }
-button:hover{
+.col button:hover{
     background-color: #ff8d21;
 }
 
@@ -398,7 +406,7 @@ h1{
         height: 10vh;
     }
 
-    .menu-aberto{
+    .dropdown{
         display: none;
     }
 
@@ -415,7 +423,7 @@ h1{
         font-size: 40px;
     }
 
-    button{
+    .col button{
         font-size: 16px;
     }
 
@@ -463,6 +471,10 @@ h1{
         margin-top: 25%;
     }
 
+    .sessao-servicos .carrossel-topicos{
+        display: none;
+    }
+
     .topicos-servicos .linha{
         margin-bottom: 17%;
     }
@@ -494,21 +506,65 @@ h1{
     }
 }
 
-@media only screen and (max-width: 500px){
+@media only screen and (max-width: 600px){
     .navbar{
         height: 8vh;
         position: static;
     }
 
-    .menu-aberto{
+    .dropdown{
         display: flex;
-        justify-self: flex-end;
-        width: 5%;
+        position: relative;
+        flex-direction: column;
+        margin-left: 20%;
+        width: 50%;
+    }
+
+    .dropdown .botao-menu{
+        border: none;
+        background-color: #FFF;
+        cursor: pointer;
+        align-self: flex-end;
+        margin-right: 15%;
+    }
+
+    .botao-menu .menu-aberto{
+        display: flex;
         height: 30px;
     }
 
+    .dropdown-child{
+        display: none;
+        width: 80%;
+        position: absolute;
+        height: 150px;
+        margin-left: 20%;
+        margin-top: 24%;
+        background-color: #FFF;
+        min-width: 20%;
+    }
+
+    ul{
+        width: 100%;
+    }
+
+    ul li{
+        list-style: none;
+        color: #000;
+        margin-top: 15px;
+        margin-left: 10px;
+    }
+
+    ul li a{
+        list-style: none;
+        text-decoration: none;
+        display: block;
+        justify-content: space-evenly;
+        color: #000;
+    }
+
     .logo{
-        width: 20%;
+        width: 30%;
         margin-top: 0;
     }
 
@@ -530,21 +586,185 @@ h1{
         font-size: 50px;
     }
 
-    button{
+    .col button{
         width: 340px;
         margin-top: 3%;
     }
 
+    .titulo{
+        font-size: 18px;
+    }
+
     .sobre{
         margin-top: 0;
-        height: 70vh;
+        height: 112vh;
     }
 
     .img{
         display: none;
     }
 
+    .sobre .texto{
+        height: 100vh;
+    }
+
+    .texto span{
+        font-size: 16.5px;
+    }
+
     .texto .logo4{
-        margin-top: 108%;
+        margin-top: 205%;
+    }
+
+    .sessao-servicos{
+        height: 80vh;
+    }
+
+    .sessao-servicos .carrossel-topicos{
+        display: flex;
+    }
+
+    .sessao-servicos .topicos-servicos{
+        display: none;
+    }
+
+    .carrossel-topicos .slider{
+        display: block;
+        height: 450px;
+        width: 50%;
+        margin: auto;
+        margin-top: 2%;
+        position: relative;
+    }
+
+    .slider li{
+        list-style: none;
+        position: absolute;
+        align-items: center;
+    }
+
+    .slider input{
+        display: none;
+    }
+
+    .slider label{
+        background-color: #000;
+        bottom: 10px;
+        cursor: pointer;
+        display: block;
+        height: 15px;
+        position: absolute;
+        width: 15px;
+        z-index: 10;
+        margin-top: 20px;
+        border-radius: 50%;
+    }
+
+    .slider li:nth-child(1) label{
+        left: 50px;
+    }
+
+    .slider li:nth-child(2) label{
+        left: 70px;
+    }
+
+    .slider li:nth-child(3) label{
+        left: 90px;
+    }
+
+    .slider li:nth-child(4) label{
+        left: 110px;
+    }
+
+    .slider .tp{
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .slider li input:checked ~ .tp{
+        opacity: 1;
+        visibility: visible;
+        z-index: 10;
+    }
+
+    .slider li label:checked{
+        background-color: #7c7c7c;
+    }
+
+    .tp .circulo{
+        height: 145px;
+        width: 90%;
+    }
+
+    .circulo img{
+        height: 75px;
+    }
+
+    .tp .titulo-topico{
+        font-size: 22px;
+    }
+
+    .tp .texto-topico{
+        font-size: 17px;
+    }
+
+    .sessao-avaliacao, .sessao-avaliacao .posicao-eclipse-02{
+        height: 90vh;
+    }
+
+    .posicao-eclipse-02 .eclipse-02{
+        width: 100%;
+    }
+
+    .sessao-avaliacao .eclipse{
+        width: 40%;
+        z-index: -1;
+    }
+
+    .sessao-avaliacao .conteudo{
+        height: 70vh;
+    }
+
+    .conteudo .imagem-parte{
+        display: none;
+    }
+
+    .conteudo .avaliacao-parte{
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .avaliacao-parte .avaliacao{
+        margin: 0;
+        align-items: center;
+        height: 300px;
+    }
+
+    .avaliacao .estrelas-avaliacao{
+        width: 50%;
+    }
+
+    .avaliacao .autor{
+        width: 80%;
+    }
+
+    .conteudo .botao-contato{
+        flex-direction: row;
+        margin: 0;
+        justify-content: center;
+    }
+
+    .rodape{
+        height: 16vh;
+    }
+
+    .imgfooter{
+        width: 45%;
     }
 }

@@ -40,8 +40,12 @@ app.get("/logar", (req, res) => {
     res.sendFile("login.html", { root: "public" });
 });
 
-app.get("/alterar-senha", (req, res) => {
+app.get("/esqueceu-sua-senha", (req, res) => {
     res.sendFile("recuperarsenha.html", { root: "public" });
+});
+
+app.get("/trocar-senha", (req, res) => {
+    res.sendFile("trocarsenha.html", { root: "public" });    
 });
 
 app.listen(port, (error) => {

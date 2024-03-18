@@ -54,5 +54,5 @@ function entrar(dadosLogin) {
 }
 
 function alterarSenha() {
-    window.location = "/alterar-senha";
+    window.location = "/esqueceu-sua-senha";
 }

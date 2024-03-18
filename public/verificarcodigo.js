@@ -8,6 +8,6 @@ function ocultarOverlay(){
 
 function verificarCodigo(){
     var codigoInserido = document.getElementById('code-input').value;
-    window.location.href = "trocarsenha.html"; 
+    window.location= "/trocar-senha"; 
     //logica para verificar
 }

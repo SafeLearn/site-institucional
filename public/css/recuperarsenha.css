@@ -162,3 +162,30 @@ body{
                 border-radius: 10px 10px 10px 0px;
             }
 }
+
+/* css obter código */
+#overlay{
+    display: none;
+    /* fica no meio */
+    position: fixed;
+}
+
+#code-box{
+    border: 2px solid #000; 
+    background-color: rgba(255, 255, 255, 0.9); 
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 10000; 
+}
+
+#code-box > button{
+    margin-top: 10px;
+}
+
+
+#code-box h2{
+    margin-bottom: 10px;
+}
+

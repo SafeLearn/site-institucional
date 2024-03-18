@@ -4,10 +4,9 @@ function confirmarEmail() {
 
     if (mail1 != emailConfirmar) {
         alert("Os e-mails estão diferentes!")
-    }else{
+    }
+    else{
         alert("O código foi enviado!")
     }
-
-
 
 }

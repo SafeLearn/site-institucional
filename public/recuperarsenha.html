@@ -34,7 +34,7 @@
                     correto e que esteja de acordo com a conta que
                     você deseja recuperar
                 </p>
-                <button onclick="confirmarEmail()">Obter o código</button>
+                <button onclick="mostrarOverlay(), confirmarEmail()">Obter o código</button>
             </div>
         </div>
 
@@ -45,6 +45,32 @@
             <img src="./imagens/user.png" alt="icone-usuário" title="fazer-login">
         </div>
     </a>
+:
+    <div id="overlay">
+        <div id="code-box">
+            <h2>O código foi enviado!</h2>
+            <h3>Digite o código</h3>
+            <input type="text" id="code-input" placeholder="Digite o código...">
+            <button onclick="verificarCodigo()">Verificar</button>
+        </div>
+    </div>
+    
 
 </body>
 </html>
+
+<script>
+        function mostrarOverlay(){
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function ocultarOverlay(){
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function verificarCodigo(){
+            var codigoInserido = document.getElementById('code-input').value;
+            window.location.href = "trocarsenha.html"; 
+            //logica para verificar
+        }
+</script>

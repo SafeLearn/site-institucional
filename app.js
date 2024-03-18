@@ -36,8 +36,12 @@ app.get("/cadastrar-instituicao", (req, res) => {
     res.sendFile("cadastroInstitucional.html", { root: "public" });
 });
 
-app.get('/logar', (req, res) => {
-    res.sendFile("login.html", { root: 'public' });
+app.get("/logar", (req, res) => {
+    res.sendFile("login.html", { root: "public" });
+});
+
+app.get("/alterar-senha", (req, res) => {
+    res.sendFile("recuperarsenha.html", { root: "public" });
 });
 
 app.listen(port, (error) => {

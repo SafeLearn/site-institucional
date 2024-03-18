@@ -8,6 +8,8 @@
     <title>SafeLearn -- Recuperar Senha</title>
     <link rel="stylesheet" href="css/recuperarsenha.css">
     <script src="recuperarsenha.js"></script>
+    <script src="verificarcodigo.js"></script>
+
 </head>
 <body>
     <div id="container">
@@ -62,18 +64,3 @@
 </body>
 </html>
 
-<script>
-        function mostrarOverlay(){
-            document.getElementById('overlay').style.display = 'block';
-        }
-
-        function ocultarOverlay(){
-            document.getElementById('overlay').style.display = 'none';
-        }
-
-        function verificarCodigo(){
-            var codigoInserido = document.getElementById('code-input').value;
-            window.location.href = "trocarsenha.html"; 
-            //logica para verificar
-        }
-</script>

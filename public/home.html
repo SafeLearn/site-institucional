@@ -19,8 +19,8 @@
             <img src="./imagens/SafeLearn.png" class="logo">
             
             <div class="dropdown">
-                <button class="botao-menu"><img src="./imagens/menu-aberto.png" alt="" class="menu-aberto"></button>
-                <div class="dropdown-child">
+                <button class="botao-menu"><img src="./imagens/menu-aberto.png" alt="" class="menu-aberto" onclick="clicarDropdown()"></button>
+                <div class="dropdown-child" id="dropdownChild">
                     <ul>
                         <li><a href="#sec1">Home</a></li>
                         <li><a href="#sec2">Sobre nós</a></li>
@@ -152,7 +152,7 @@
                             <span>Acesso Remoto à Nuvem</span>
                         </div>
                         <div class="texto-topico">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima rem, nihil beatae illum quia illo, consequatur modi ab</p>
+                            <p>Acesse remotamente a nuvem para monitorar suas máquinas escolares. Promovendo um ambiente digital ideal para a educação.</p>
                         </div>
                     </div>
                 </li>
@@ -209,8 +209,7 @@
                     <span>Acesso Remoto à Nuvem</span>
                 </div>
                 <div class="texto-topico">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima rem, nihil beatae illum quia
-                        illo, consequatur modi ab</p>
+                    <p>Monitore suas máquinas escolares de qualquer lugar com acesso remoto à nuvem. Garanta a segurança e a eficiência do sistema, promovendo um ambiente digital ideal para a educação.</p>
                 </div>
             </div>
             <div class="tp">
@@ -272,14 +271,12 @@
     <section class="rodape">
         <div class="containerr">
             <div class="navegacao">
-                <p>
                 <ul>
                     <li><a href="#sec1" class="ft">Home</a></li>
                     <li><a href="#sec2" class="ft">Sobre nós</a></li>
                     <li><a href="/logar" class="ft">Login</a></li>
                     <li><a href="#sec3" class="ft">Serviços</a></li>
                 </ul>
-                </p>
                 <p class="ft"> Endereço: <br> Rua Hadoock  lobo 595 AV. Paulista</p>
                 <p class="ft">Contato: <br>
                     SafeLearn@sptech.com
@@ -296,4 +293,21 @@
     function cadastro() {
     window.location = "/cadastrar-me";
 }
+
+    function clicarDropdown() {
+        var dropdown = document.getElementById("dropdownChild");
+        dropdown.classList.toggle("mostrar");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.menu-aberto')) {
+            var dropdown = document.getElementsByClassName("dropdown-child");
+            for(var i=0; i<dropdown.length;i++){
+                var openDropdown = dropdown[i];
+                if (openDropdown.classList.contains('mostrar')) {
+                    openDropdown.classList.remove('mostrar')
+                }
+            }
+        }
+    }
 </script>

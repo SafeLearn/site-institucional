@@ -257,7 +257,7 @@ body::-webkit-scrollbar-track-piece {
     background-color: #FF7E07;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 
@@ -457,36 +457,32 @@ h1{
     margin-left: 32.5%;
 }
 .imgfooter{
-    margin-top: 1%;
     margin-left: 5%;
-    width: 25%;
+    width: 23%;
 }
 
 
 .rodape .containerr{
-   
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.rodape .containerr .navegacao p {
-    color: black;
-    padding: 0 5vw 0 5vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.rodape .containerr .navegacao {
     width: 80%;
-    height: 100px;
-    display: flex;
-    justify-items: center;
-    align-items: center;
 }
-.ft{
-    color: black;
-    font-size: 18px;
+
+.containerr .navegacao{
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.navegacao ul li{
+    list-style: none;
     text-decoration: none;
+}
+
+.navegacao ul li a{
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
 }
 
 /*Responsividade*/
@@ -624,14 +620,20 @@ h1{
     }
 
     .dropdown-child{
-        display: none;
         width: 80%;
         position: absolute;
-        height: 150px;
+        /* height: 150px; */
         margin-left: 20%;
         margin-top: 24%;
         background-color: #FFF;
         min-width: 20%;
+        max-height: 0;
+        transition: max-height 0.3s ease-out;
+        overflow: hidden;
+    }
+
+    .mostrar {
+        max-height: 250px;
     }
 
     ul{
@@ -642,7 +644,6 @@ h1{
         list-style: none;
         color: #000;
         margin-top: 15px;
-        margin-left: 10px;
     }
 
     ul li a{
@@ -721,7 +722,7 @@ h1{
     .carrossel-topicos .slider{
         display: block;
         height: 450px;
-        width: 50%;
+        width: 60%;
         margin: auto;
         margin-top: 2%;
         position: relative;
@@ -751,19 +752,19 @@ h1{
     }
 
     .slider li:nth-child(1) label{
-        left: 50px;
+        left: 75px;
     }
 
     .slider li:nth-child(2) label{
-        left: 70px;
+        left: 95px;
     }
 
     .slider li:nth-child(3) label{
-        left: 90px;
+        left: 115px;
     }
 
     .slider li:nth-child(4) label{
-        left: 110px;
+        left: 135px;
     }
 
     .slider .tp{
@@ -851,10 +852,23 @@ h1{
     }
 
     .rodape{
-        height: 16vh;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 60vh;
+    }
+
+    .rodape .containerr{
+        height: 45vh;
+    }
+
+    .rodape .containerr .navegacao{
+        flex-direction: column;
+        align-items: unset;
     }
 
     .imgfooter{
+        margin-right: 8%;
         width: 45%;
+    
     }
 }

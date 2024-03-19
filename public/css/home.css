@@ -137,7 +137,7 @@ body::-webkit-scrollbar-track-piece {
 .sessao-avaliacao{
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 105vh;
     width: 100%;
     margin-top: 4px;
 }
@@ -158,7 +158,7 @@ body::-webkit-scrollbar-track-piece {
 .sessao-avaliacao .posicao-eclipse-02{
     display: flex;
     position: absolute;
-    height: 100vh;
+    height: 105vh;
     width: 50%;
     flex-direction: column-reverse;
 }
@@ -406,7 +406,7 @@ h1{
     align-items: center;
     animation: appear 1ms ease-in-out;
     animation-timeline: view();
-    animation-range: cover 0% cover 50%;
+    animation-range: cover 0% cover 35%;
     
 }
 @keyframes appear {
@@ -443,12 +443,12 @@ h1{
     margin-left: 4%;
     animation: appear 1ms ease-in-out;
     animation-timeline: view();
-    animation-range: cover 0% cover 40%;
+    animation-range: cover 0% cover 35%;
 }
 .ip{
     animation: appear 1ms ease-in-out;
     animation-timeline: view();
-    animation-range: cover 0% cover 50%;
+    animation-range: cover 0% cover 35%;
 }
 .texto .logo4{
     width: 20%;

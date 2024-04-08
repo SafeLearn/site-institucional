@@ -1,0 +1,27 @@
+.barraLateral{
+height: 80vh;
+width: 25vh;
+background-color: rgb(255, 255, 255);
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+border-right: 3px solid black;
+}
+
+*{
+    margin: 0;
+}
+
+
+.fotoUsuario{
+height: 20vh;
+background-color: rgb(255, 255, 255);
+width: 25vh;
+border-bottom: solid rgb(0, 0, 0) 3px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-right: 3px solid black;
+}
+

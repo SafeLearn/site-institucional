@@ -61,6 +61,10 @@ body::-webkit-scrollbar-track-piece {
     margin-top: 5px;
 }
 
+.ip {
+    font-weight: 650;
+}
+
 .titulo{
     display: flex;
     align-self: center;
@@ -117,12 +121,13 @@ body::-webkit-scrollbar-track-piece {
 
 .tp .titulo-topico{
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 1000;
 }
 
 .tp .texto-topico{
     font-size: 17px;
     text-align: center;
+    font-weight: 650;
     
 }
 .circulo{
@@ -217,6 +222,7 @@ body::-webkit-scrollbar-track-piece {
     width: 90%;
     align-items: center;
     height: auto;
+    font-weight: 650;
 }
 
 .avaliacao .autor{
@@ -224,6 +230,7 @@ body::-webkit-scrollbar-track-piece {
     width: 70%;
     flex-direction: column-reverse;
     align-items: end;
+    font-weight: 1000;
 }
 
 .conteudo .botao-contato{
@@ -258,6 +265,10 @@ body::-webkit-scrollbar-track-piece {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.rodape .ft {
+    font-weight: 1000;
 }
 
 

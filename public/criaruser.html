@@ -2,69 +2,208 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/dashboard.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/dashboard.css">
+  <link rel="stylesheet" href="./css/user.css">
+  <link rel="shortcut icon" href="./imagens/logoSafePrint.png">
+  <title>SafeLearn -- Dashboard</title>
 </head>
 
 <body>
-    <span style="font-family: verdana, geneva, sans-serif;">
-        <!DOCTYPE html>
-        <html lang="en">
+  <span style="font-family: verdana, geneva, sans-serif;">
+    <!DOCTYPE html>
+    <html lang="en">
 
-        <head>
-            <meta charset="UTF-8" />
-            <title>Dashboard</title>
-            <link rel="stylesheet" href="style.css" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-        </head>
+    <head>
+      <meta charset="UTF-8" />
+      <title>Dashboard</title>
+      <link rel="stylesheet" href="style.css" />
+      <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    </head>
 
-        <body>
-            <div class="container">
-                <nav>
-                    <ul>
-                        <li><a href="#" class="logo">
-                                <img src="./imagens/logoSafePrint.png" alt="">
-                                <span class="nav-item">DashBoard</span>
-                            </a></li>
-                        <li><a href="./dashboard.html">
-                                <i class="fas fa-home"></i>
-                                <span class="nav-item">Home</span>
-                            </a></li>
-                        <li><a href="./criaruser.html">
-                                <i class="fas fa-user"></i>
-                                <span class="nav-item">Usuários</span>
-                            </a></li>
+    <body>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="#" class="logo">
+                <img src="./imagens/logoSafePrint.png" alt="">
+                <span class="nav-item">DashBoard</span>
+              </a></li>
+            <li><a href="./dashboard.html">
+                <i class="fas fa-home"></i>
+                <span class="nav-item">Home</span>
+              </a></li>
+            <li><a href="./criaruser.html">
+                <i class="fas fa-user"></i>
+                <span class="nav-item">Usuários</span>
+              </a></li>
 
-                        <li><a href="./monitorar.html">
-                                <i class="fas fa-chart-bar"></i>
-                                <span class="nav-item">Monitoramento</span>
-                            </a></li>
-                        <li><a href="">
-                                <i class="fas fa-question-circle"></i>
-                                <span class="nav-item">Suporte</span>
-                            </a></li>
-                        <li><a href="./home.html" class="logout">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span class="nav-item">Sair</span>
-                            </a></li>
-                    </ul>
-                </nav>
+            <li><a href="./monitorar.html">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-item">Monitoramento</span>
+              </a></li>
+            <li><a href="">
+                <i class="fas fa-question-circle"></i>
+                <span class="nav-item">Suporte</span>
+              </a></li>
+            <li><a href="./home.html" class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-item">Sair</span>
+              </a></li>
+          </ul>
+        </nav>
 
-                <section class="main">
-                    <div class="main-top">
-                        <h1>Usuários</h1>
-                        <i class="fas fa-user-cog"></i>
-                    </div>
-                </section>
+        <section class="main">
 
 
+          <div class="containeruser">
+            <div class="header">
+              <span>Cadastro de Usuários</span>
+              <button onclick="openModal()" id="new">Incluir</i></button>
             </div>
-        </body>
 
-        </html>
-    </span>
+            <div class="divTable">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Senha</th>
+                    <th class="acao">Editar</th>
+                    <th class="acao">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="modal-container">
+              <div class="modal">
+                <form>
+                  <label for="m-nome">Nome</label>
+                  <input id="m-nome" type="text" required />
+
+                  <label for="m-email">Email</label>
+                  <input id="m-email" type="text" required />
+
+                  <label for="m-senha">Senha</label>
+                  <input id="m-senha" type="password" required />
+                  <button id="btnSalvar">Salvar</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+      </div>
+    </body>
+
+    </html>
+  </span>
 </body>
 
 </html>
+<script>
+  const modal = document.querySelector('.modal-container')
+  const tbody = document.querySelector('tbody')
+  const sNome = document.querySelector('#m-nome')
+  const sEmail = document.querySelector('#m-email')
+  const sSenha = document.querySelector('#m-senha')
+  const btnSalvar = document.querySelector('#btnSalvar')
+
+  let itens
+  let id
+
+  function openModal(edit = false, index = 0) {
+    modal.classList.add('active')
+
+    modal.onclick = e => {
+      if (e.target.className.indexOf('modal-container') !== -1) {
+        modal.classList.remove('active')
+      }
+    }
+
+    if (edit) {
+      sNome.value = itens[index].nome
+      sEmail.value = itens[index].email
+      sSenha.value = itens[index].senha
+      id = index
+    } else {
+      sNome.value = ''
+      sEmail.value = ''
+      sSenha.value = ''
+    }
+
+  }
+
+  function editItem(index) {
+
+    openModal(true, index)
+  }
+
+  function deleteItem(index) {
+    itens.splice(index, 1)
+    setItensBD()
+    loadItens()
+  }
+
+  function insertItem(item, index) {
+    let tr = document.createElement('tr')
+
+    tr.innerHTML = `
+    <td>${item.nome}</td>
+    <td>${item.email}</td>
+    <td>${item.senha}</td>
+    <td class="acao">
+      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+    </td>
+    <td class="acao">
+      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+    </td>
+  `
+    tbody.appendChild(tr)
+  }
+
+  btnSalvar.onclick = e => {
+
+    if (sNome.value == '' || sEmail.value == '' || sSenha.value == '') {
+      return
+    }
+
+    e.preventDefault();
+
+    if (id !== undefined) {
+      itens[id].nome = sNome.value
+      itens[id].email = sEmail.value
+      itens[id].senha = sSenha.value
+    } else {
+      itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'senha': sSenha.value })
+    }
+
+    setItensBD()
+
+    modal.classList.remove('active')
+    loadItens()
+    id = undefined
+  }
+
+  function loadItens() {
+    itens = getItensBD()
+    tbody.innerHTML = ''
+    itens.forEach((item, index) => {
+      insertItem(item, index)
+    })
+
+  }
+
+  const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
+  const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+
+  loadItens()
+
+</script>

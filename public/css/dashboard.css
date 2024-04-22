@@ -10,8 +10,9 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-  background: #dfe9f5;
+  background: #FF7E07;
 }
+
 .container{
   display: flex;
 }
@@ -76,6 +77,9 @@ a:hover{
   position: relative;
   padding: 20px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .main-top{
   display: flex;

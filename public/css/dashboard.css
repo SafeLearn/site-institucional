@@ -10,7 +10,8 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-  background: #FF7E07;
+  background: rgb(255, 126, 7);
+  /* background: rgb(255, 126, 7); */
 }
 
 .container{
@@ -78,7 +79,8 @@ a:hover{
   padding: 20px;
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
   justify-content: center;
 }
 .main-top{
@@ -107,3 +109,71 @@ a:hover{
   color: rgb(28, 98, 179);
 }
   
+.titulo h2{
+  margin-left: 2%;
+  font-size: medium;
+}
+
+.titulo p{
+  margin-left: 2.5%;
+  font-size: smaller;
+}
+
+.conteudo{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 20px;
+  width: 100%;
+  height: 80vh;
+}
+
+.conteudo .indicadores{
+  display: flex;
+  width: 100%;
+  height: 130px;
+  gap: 20px;
+}
+
+.indicadores .card{
+  background-color: white;
+    height: auto;
+    width: 25%;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.8%;
+}
+
+.card span{
+  display: flex;
+    align-self: center;
+    font-size: xx-large;
+    font-weight: 600;
+}
+
+.card p{
+  font-size: 15px;
+  font-weight: 600;
+  padding-left: 2%;
+}
+
+.card p:nth-of-type(2){
+    font-size: 10px;
+}
+
+.grafico{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 100%;
+  height: 50vh;
+  border-radius: 15px;
+}
+
+.grafico #chart_div{
+  width: 98%;
+  height: 300px;
+}

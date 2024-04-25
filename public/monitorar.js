@@ -6,10 +6,6 @@ const data = Array.from({ length: 30 })
      <p>Máquina sala informática</p>
      `);
 
-// for(let i = 0; i < 20; i++){
-//     data.push(``);
-// }
-
 // ===================================================================
 
 let perPage = 5;

@@ -173,7 +173,7 @@ a:hover{
   border-radius: 15px;
 }
 
-.grafico #chart_div{
+.grafico #linechart_material{
   width: 98%;
   height: 300px;
 }

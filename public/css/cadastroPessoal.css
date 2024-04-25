@@ -28,7 +28,7 @@ body * {
 }
 
 .login-esquerdo h1 {
-    color: #EECB5D;
+    color: #FF7E07;
     font-size: 3vw;
 }
 
@@ -51,7 +51,7 @@ body * {
     align-items: center;
     flex-direction: column;
     padding: 10px 35px;
-    background: #3486E6;
+    background: #0b5db9;
     border-radius: 20px;
     box-shadow: 0px 10px 40px #000000;
 }
@@ -71,7 +71,6 @@ body * {
     padding: 15px;
     background: transparent;
     outline: none;
-    color: #000000;
     font-size: 12pt;
     font-weight: 500;
     box-sizing: border-box;
@@ -79,21 +78,21 @@ body * {
 
 .campoTexto input {
     width: 100%;
+    color: white;
+    font-family: "El Messiri", sans-serif;
     border: none;
-    border-bottom: 2px solid #092b50;
-    padding: 15px;
+    border-bottom: 2px solid black;
+    padding: 11px;
     background: transparent;
-    color: #000000;
-    font-size: 12pt;
+    font-size: 14pt;
     outline: none;
     box-sizing: border-box;
 }
 
 .campoTexto label {
-    color: #092b50;
+    color: white;
     margin-bottom: -4%;
     margin-top: 1%;
-    font-weight: 1000;
     font-size: 14pt;
 }
 
@@ -109,7 +108,7 @@ body * {
     letter-spacing: 3px;
     color: #000000;
     cursor: pointer;
-    background: #EECB5D;
+    background: #FF7E07;
     box-shadow: 0px 10px 40px -12px #000000;
     -webkit-transition: ease-out 0.3s;
     -moz-transition: ease-out 0.3s;

@@ -1,10 +1,13 @@
-.containeruser {
+.main .containeruser {
     width: 50%;
     height: 80%;
     border-radius: 10px;
     background: white;
     align-self: center;
+    margin-top: auto;
+    margin-bottom: auto;
   }
+
   button{
     cursor: pointer;
   }

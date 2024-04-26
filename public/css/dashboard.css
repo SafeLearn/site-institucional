@@ -10,8 +10,8 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-  background: rgb(255, 126, 7);
-  /* background: rgb(255, 126, 7); */
+  /* background: #ff7e07; */
+  background: linear-gradient(170deg, #FEDD58, #FF7E07);
 }
 
 .container{

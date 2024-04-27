@@ -1,25 +1,25 @@
-/* pai */
 .graficos-wrapper {
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-direction: column; /*flexbox como coluna*/
+    align-items: center; 
 }
 
-/* graficos cpu e ram */
 .graficos-container {
-    width: 450px;
-    flex-direction: column;
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; /* conteiner 100% da tela */
+    max-width: 1200px;
     padding: 15px;
 }
 
-#grafico1, #grafico2 {
+#grafico1, #grafico3, #grafico4 {
     background-color: azure;
     margin-bottom: 25px;
     border-radius: 7px;
-    width: 400px;
+    width: calc(33.33% - 10px); 
 }
 
-/* graficos na direita */
+/* 
 .graficos-container2 {
     display: flex;
 }
@@ -31,12 +31,11 @@
     border-radius: 7px;
 }
 
-/* janela listta */
 .lista-janelas{
     flex-direction: column;
-}
+} 
 
-/*  */
+*/
 
 .main-top h1{
     margin-bottom: 12px;

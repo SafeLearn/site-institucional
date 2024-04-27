@@ -8,6 +8,7 @@ const data = Array.from({ length: 30 })
 
 // ===================================================================
 
+
 let perPage = 5;
 const state = {
     page: 1,

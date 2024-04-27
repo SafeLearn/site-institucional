@@ -26,12 +26,12 @@ function entrar(dadosLogin) {
     .then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(json => {
-            if (json && json.id) {
+            if (json && json.idUsuario) {
                 sessionStorage.USER_NAME = dadosLogin.loginUsuario;
-                sessionStorage.ID_USUARIO = json.id;
+                sessionStorage.ID_USUARIO = json.idUsuario;
 
                 setTimeout(function () {
-                    window.location = `/monitorar?id=${json.id}`; // A desenvolver/aprovar
+                    window.location = `/dashboard?id=${json.idUsuario}`;
                 }, 1000);
             } else {
                 alert("Erro: ID do usuário não encontrado na resposta do servidor.");

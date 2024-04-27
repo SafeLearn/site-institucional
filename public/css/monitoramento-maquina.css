@@ -6,19 +6,28 @@
 
 .graficos-container  {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-evenly; 
     width: 100%; /* conteiner 100% da tela */
     max-width: 1200px;
     padding: 15px;
     max-height: 230px;
 }
 
-#grafico1, #grafico3, #grafico4 {
-    background-color: azure;
+#grafico1, #grafico4 {
+    border: 1px solid #6e6e6e; 
+    background: linear-gradient(10deg, #FEDD58, #fffbf6);
     margin-bottom: 15px;
     border-radius: 7px;
-    width: calc(33.33% - 10px); 
+    width: calc(38.33% - 10px); 
 }
+
+#grafico3{
+    border: 1px solid #6e6e6e; 
+    background: linear-gradient(10deg, #FEDD58, #fffbf6);
+    margin-bottom: 15px;
+    border-radius: 7px;
+}
+
 
 .graficos-container2  {
     display: flex;
@@ -30,14 +39,12 @@
 }
 
 #grafico2, .janelas {
-    background-color: azure;
+    border: 1px solid #6e6e6e; 
+    background: linear-gradient(10deg, #FEDD58, #fffbf6);
     margin-bottom: 25px;
     border-radius: 7px;
-    width: calc(50% - 30px); 
+    width: calc(50% - 20px); 
 }
-
-
-
 
 
 .main-top h1{

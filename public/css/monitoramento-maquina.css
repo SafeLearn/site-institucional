@@ -1,18 +1,42 @@
+/* pai */
+.graficos-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
 
+/* graficos cpu e ram */
 .graficos-container {
     width: 470px;
-    display: flex;
     flex-direction: column;
+    padding: 15px;
 }
 
-#grafico1{
+#grafico1, #grafico2 {
     background-color: azure;
-    margin-bottom: 15px; 
-    border-radius: 8px;
+    margin-bottom: 25px;
+    border-radius: 7px;
+    width: 400px;
 }
 
-#grafico2{
-    background-color: azure;
+/* graficos na direita */
+.graficos-container2 {
+    display: flex;
+    justify-content: center;
+
+}
+
+#grafico3, #grafico4{
+    background-color: rgb(255, 226, 226);
+    width: 200px;
+    height: 250px;
+    margin-left: 10px;
+    border-radius: 7px;
+}
+
+/*  */
+
+.main-top h1{
+    margin-bottom: 12px;
 }
 
 

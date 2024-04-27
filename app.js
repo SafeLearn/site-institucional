@@ -3,7 +3,6 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const router = require("./src/routes/index");
 const conexao = require("./src/infra/conexao");
-const tabelas = require("./src/infra/tabelas");
 const app = express();
 const port = 3000;
 
@@ -14,7 +13,6 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 router(app, express);
-tabelas.init(conexao);
 
 const homeRoute = require("./src/routes/home");
 const cadastroRoute = require("./src/routes/cadastro");
@@ -47,6 +45,10 @@ app.get("/esqueceu-sua-senha", (req, res) => {
 app.get("/trocar-senha", (req, res) => {
     res.sendFile("trocarsenha.html", { root: "public" });    
 });
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile("dashboard.html", { root: "public" });
+})
 
 app.listen(port, (error) => {
     if(error) {

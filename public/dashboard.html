@@ -70,12 +70,10 @@
                     <div class="conteudo">
                         <div class="indicadores">
                             <div class="card">
-                                <p>Máquinas ligadas</p>
-                                <span>10</span>
-                                <p>Tempo médio de uso: 15 horas</p>
+                                
                             </div>
                             <div class="card">
-                                <p>Status dos componentes (Porcentagem dos componentes)</p>
+                                <p>Status dos componentes (Em porcentagem %)</p>
                                 <div class="titulo">
                                     <span>Máquina</span>
                                     <span>CPU</span>
@@ -112,61 +110,113 @@
 
 <script>
 
- /* function aleatorizarPorcentComponentes(){} */
-
     const components = [{
+        "MAQUINA":"01",
         "CPU":50,
         "RAM":40,
         "DISCO":10,
-        "BATERIA":90
+        "BATERIA":90,
+        "STATUS": "Ruim"
     }, {
+        "MAQUINA":"02",
         "CPU":50,
         "RAM":40,
         "DISCO":10,
-        "BATERIA":90
+        "BATERIA":90,
+        "STATUS": "Bom"
     },
     {
+        "MAQUINA":"03",
         "CPU":50,
         "RAM":40,
         "DISCO":10,
-        "BATERIA":90
+        "BATERIA":90,
+        "STATUS": "Alerta"
     },
     {
+        "MAQUINA":"04",
         "CPU":50,
         "RAM":40,
         "DISCO":10,
-        "BATERIA":90
+        "BATERIA":90,
+        "STATUS": "Ruim"
     },{
+        "MAQUINA":"05",
         "CPU":50,
         "RAM":40,
         "DISCO":10,
-        "BATERIA":90
+        "BATERIA":90,
+        "STATUS": "Bom"
     }]
 
-    const data = Array.from({ length: 5}).map((_,i)=> `
-    <span>Máquina 0${i+1}</span>
-    <span>${components.CPU[i]}</span>
-    <span>${components.RAM[i]}</span>
-    <span>${components.DISCO[i]}</span>
-    <span>${components.BATERIA[i]}</span>`);
+    const order = [];
 
-    const lista_maquinas = document.getElementsByClassName('lista-maquinas');
+    function ultimaOcorrencia(lista, item){
+        for(let i = lista.length-1; i>=0; i--){
+            if(lista[i] && lista[i].STATUS === item){
+                return i;
+            }
+        }
+        return -1;
+    }
 
-    const list = {
-        create(item) {
-            const div = document.createElement('div');
-            
-            div.classList.add('item-maquina');
-            div.innerHTML = item
-
-            lista_maquinas.appendChild(div);
-        },
-
-        update() {
-            lista_maquinas.innerHTML = "";
-            
+    function verificaEOrdenaPorStatusItem(){
+        let posicaoRuim = 0;
+        let posicaoAlerta = 0;
+        let posicaoBom = 0;
+    
+        for(let i = 0; i < components.length; i++){
+            let corStatus;
+            const status = components[i].STATUS;
+    
+            switch(status) {
+                case "Ruim":
+                    corStatus = "red";
+                    order.splice(posicaoRuim, 0, { ...components[i], corStatus });
+                    posicaoRuim++;
+                    posicaoAlerta++;
+                    posicaoBom++;
+                    break;
+                case "Alerta":
+                    corStatus = "yellow";
+                    order.splice(posicaoAlerta, 0, { ...components[i], corStatus });
+                    posicaoAlerta++;
+                    posicaoBom++;
+                    break;
+                case "Bom":
+                    corStatus = "green";
+                    order.splice(posicaoBom, 0, { ...components[i], corStatus });
+                    posicaoBom++;
+                    break;
+                default:
+                    corStatus = "none";
+            }
         }
     }
+
+    const lista_maquinas = document.querySelector('.lista-maquinas');
+
+    function createItem(item, i) {
+        const div = document.createElement('div');
+        div.classList.add('item-maquina');
+        div.innerHTML = `
+            <span>Máquina ${item.MAQUINA}</span>
+            <span>${item.CPU}%</span>
+            <span>${item.RAM}%</span>
+            <span>${item.DISCO}%</span>
+            <span>${item.BATERIA}%</span>
+        `;
+        div.style.borderBottom = `6px solid ${item.corStatus}`;
+        lista_maquinas.appendChild(div);
+    }
+
+    function updateList() {
+        lista_maquinas.innerHTML = "";
+        order.forEach(createItem);
+    }
+
+    verificaEOrdenaPorStatusItem();
+    updateList();
 
     
 </script>

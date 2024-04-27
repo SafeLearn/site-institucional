@@ -19,6 +19,7 @@
     margin-bottom: 15px;
     border-radius: 7px;
     width: calc(38.33% - 10px); 
+    padding: 5px;
 }
 
 #grafico3{
@@ -38,13 +39,63 @@
     max-height: 430px;
 }
 
-#grafico2, .janelas {
+#grafico2, .janela-container {
     border: 1px solid #6e6e6e; 
     background: linear-gradient(10deg, #FEDD58, #fffbf6);
     margin-bottom: 25px;
     border-radius: 7px;
     width: calc(50% - 20px); 
 }
+
+.janela-container {
+    max-height: 240px; 
+    overflow-y: auto; /*barra de rolagem*/
+}
+
+.janelas ul {
+    padding: 0; 
+    margin: 0; 
+    overflow-y: auto; 
+}
+
+.janelas h3{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.janelas{
+    padding:10px;
+}
+
+.janela-container::-webkit-scrollbar {
+    background-color: #ffe8d2; 
+    width: 10px; 
+}
+
+.janela-container::-webkit-scrollbar-thumb {
+    background-color: #ffc400; 
+    border-radius: 2px;
+}
+
+.janelas ul li:nth-child(even) {
+    text-indent: 20px;
+    border-radius: 2px;
+    background-color: #ffdfa2; 
+}
+
+.janelas ul li:nth-child(odd) {
+    text-indent: 20px;
+    border-radius: 2px;
+    background-color: #fff7cd;
+}
+
+.janelas ul li {
+    border: 1px solid #6e6e6e; 
+    margin: 0.5px;
+}
+
+
+
 
 
 .main-top h1{

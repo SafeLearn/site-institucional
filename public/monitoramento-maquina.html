@@ -63,7 +63,7 @@
                 
             </div>
 
-            <!-- <div class="graficos-container2">    
+            <div class="graficos-container2">    
                 <div id="grafico2">
                     <canvas id="grafico2Canvas"></canvas>
                 </div>
@@ -75,7 +75,7 @@
                         <li>janela</li>
                     </ul>
                 </div>
-            </div> -->
+            </div>
 
 
 
@@ -169,13 +169,7 @@ const dataGrafico3 = {
         options: options
     });
 
-    //gráfico2
-    var ctx2 = document.getElementById('grafico2Canvas').getContext('2d');
-    var grafico2 = new Chart(ctx2, {
-        type: 'line',
-        data: dataGrafico2,
-        options: options
-    });
+
     // gráfico 3
     var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
     var grafico3 = new Chart(ctx3, {
@@ -190,6 +184,14 @@ const dataGrafico3 = {
     type: 'bar',
     data: dataGrafico4,
     options: options
+    });
+
+        //gráfico2
+    var ctx2 = document.getElementById('grafico2Canvas').getContext('2d');
+    var grafico2 = new Chart(ctx2, {
+        type: 'line',
+        data: dataGrafico2,
+        options: options
     });
 
     seta_main.addEventListener("click", ()=>{

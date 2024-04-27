@@ -75,6 +75,9 @@ const controls = {
 const list = {
     create(item) {
         const div = document.createElement('div');
+        div.addEventListener("click", () =>
+            window.location.href = "monitoramento-maquina.html"
+        )
         div.classList.add('item-lista');
         div.innerHTML = item
 

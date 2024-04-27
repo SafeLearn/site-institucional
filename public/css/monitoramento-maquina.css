@@ -1,3 +1,4 @@
+
 .graficos-container {
     width: 470px;
     display: flex;
@@ -14,3 +15,38 @@
     background-color: azure;
 }
 
+
+.main-top {
+    img:nth-child(1) {
+      position: absolute;
+      width: 30px;
+      left: 30px;
+      margin: 10px 30px;
+      cursor: pointer;
+    }
+  
+    #seta_main:hover {
+      filter: brightness(0) saturate(100%) invert(64%) sepia(1%) saturate(2832%) hue-rotate(32deg) brightness(86%) contrast(89%);
+      transition: filter 0.5s;
+    }
+  
+    h1:nth-child(2){
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    i:nth-child(3) {
+      position: absolute;
+      right: 20px;
+      font-size: 20px;
+      margin: 10px 30px;
+      color: rgb(19, 19, 19);
+      cursor: pointer;
+    }
+  
+    i:nth-child(3):hover{
+      color: rgb(110, 109, 109);
+      transition: color 0.5s;
+    }
+    
+  }

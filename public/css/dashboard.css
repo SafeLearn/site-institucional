@@ -10,8 +10,8 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-  background: rgb(255, 126, 7);
-  /* background: rgb(255, 126, 7); */
+  /* background: #ff7e07; */
+  background: linear-gradient(170deg, #FEDD58, #FF7E07);
 }
 
 .container{
@@ -87,13 +87,21 @@ a:hover{
   display: flex;
   width: 100%;
 }
+
 .main-top i{
-  position: absolute;
-  right: 0;
-  margin: 10px 30px;
-  color: rgb(110, 109, 109);
-  cursor: pointer;
+    position: absolute;
+    right: 30px;
+    margin: 10px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgb(19, 19, 19);
 }
+
+.main-top i:hover{
+  color: rgb(110, 109, 109);
+  transition: color 0.5s;
+}
+
 .main-skills{
   display: flex;
   margin-top: 20px;
@@ -155,13 +163,13 @@ a:hover{
 
 .indicadores .card{
   background-color: white;
-    height: auto;
-    width: 25%;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0.8%;
+  height: 170px;
+  width: 50%;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.8%;
+  gap: 8px;
 }
 
 .card span{
@@ -172,13 +180,27 @@ a:hover{
 }
 
 .card p{
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   padding-left: 2%;
 }
 
-.card p:nth-of-type(2){
-    font-size: 10px;
+.card .titulo{
+  display: flex;
+  width: 100%;
+  padding-bottom: 5px;
+  border-bottom: 1px solid  rgba(110, 109, 109, 0.479);
+  color: rgba(110, 109, 109, 0.849);
+}
+
+.card .titulo span{
+  font-size: 10px;
+  padding: 0 20px;
+}
+
+.card .titulo span:nth-child(1){
+    width: 50%;
+    justify-content: center;
 }
 
 .grafico{
@@ -187,11 +209,11 @@ a:hover{
   justify-content: center;
   background-color: white;
   width: 100%;
-  height: 50vh;
+  height: 45vh;
   border-radius: 15px;
 }
 
 .grafico #linechart_material{
   width: 98%;
-  height: 300px;
+  height: auto;
 }

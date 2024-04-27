@@ -75,9 +75,18 @@
                                 <p>Tempo médio de uso: 15 horas</p>
                             </div>
                             <div class="card">
-                                <p>Máquinas com risco de danos</p>
-                                <span>5</span>
-                                <p>*Aparecem em 2 ou mais gráficos</p>
+                                <p>Status dos componentes (Porcentagem dos componentes)</p>
+                                <div class="titulo">
+                                    <span>Máquina</span>
+                                    <span>CPU</span>
+                                    <span>RAM</span>
+                                    <span>DISCO</span>
+                                    <span>BATERIA</span>
+                                </div>
+                                <div class="lista-maquinas">
+                                    
+                                </div>
+                                
                             </div>
                             <!-- <div class="card">
                                 <p>Máquinas com vida útil abaixo do recomendado:</p>
@@ -100,3 +109,64 @@
 </html>
 
 <script src="dashboardGrafico.js"></script>
+
+<script>
+
+ /* function aleatorizarPorcentComponentes(){} */
+
+    const components = [{
+        "CPU":50,
+        "RAM":40,
+        "DISCO":10,
+        "BATERIA":90
+    }, {
+        "CPU":50,
+        "RAM":40,
+        "DISCO":10,
+        "BATERIA":90
+    },
+    {
+        "CPU":50,
+        "RAM":40,
+        "DISCO":10,
+        "BATERIA":90
+    },
+    {
+        "CPU":50,
+        "RAM":40,
+        "DISCO":10,
+        "BATERIA":90
+    },{
+        "CPU":50,
+        "RAM":40,
+        "DISCO":10,
+        "BATERIA":90
+    }]
+
+    const data = Array.from({ length: 5}).map((_,i)=> `
+    <span>Máquina 0${i+1}</span>
+    <span>${components.CPU[i]}</span>
+    <span>${components.RAM[i]}</span>
+    <span>${components.DISCO[i]}</span>
+    <span>${components.BATERIA[i]}</span>`);
+
+    const lista_maquinas = document.getElementsByClassName('lista-maquinas');
+
+    const list = {
+        create(item) {
+            const div = document.createElement('div');
+            
+            div.classList.add('item-maquina');
+            div.innerHTML = item
+
+            lista_maquinas.appendChild(div);
+        },
+
+        update() {
+            lista_maquinas.innerHTML = "";
+            
+        }
+    }
+
+    
+</script>

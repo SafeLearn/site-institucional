@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/dashboard.css">
     <link rel="stylesheet" href="./css/monitoramento-maquina.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="shortcut icon" href="./imagens/logoSafePrint.png">
     <title>SafeLearn -- Dashboard</title>
 </head>
 <body>
@@ -41,7 +43,8 @@
 
         <section class="main">
             <div class="main-top">
-                <h1>Monitoramento</h1>
+                <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="" id="seta_main">
+                <h1>Visualização da Máquina - 0221</h1>
                 <i class="fas fa-user-cog"></i>
             </div>
 
@@ -53,6 +56,10 @@
                     <canvas id="grafico2Canvas"></canvas>
                 </div>
             </div>
+            
+
+            
+
         </section>
 
     </div>
@@ -108,4 +115,8 @@
         data: dataGrafico2,
         options: options
     });
+
+    seta_main.addEventListener("click", ()=>{
+        window.location.href = "monitorar.html";
+    })
 </script>

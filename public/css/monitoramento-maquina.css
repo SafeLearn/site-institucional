@@ -2,11 +2,12 @@
 .graficos-wrapper {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 /* graficos cpu e ram */
 .graficos-container {
-    width: 470px;
+    width: 450px;
     flex-direction: column;
     padding: 15px;
 }
@@ -21,16 +22,18 @@
 /* graficos na direita */
 .graficos-container2 {
     display: flex;
-    justify-content: center;
-
 }
 
 #grafico3, #grafico4{
-    background-color: rgb(255, 226, 226);
-    width: 200px;
-    height: 250px;
+    background-color: rgb(255, 255, 255);
+    height: 210px;
     margin-left: 10px;
     border-radius: 7px;
+}
+
+/* janela listta */
+.lista-janelas{
+    flex-direction: column;
 }
 
 /*  */

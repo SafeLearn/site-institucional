@@ -1,0 +1,16 @@
+.graficos-container {
+    width: 470px;
+    display: flex;
+    flex-direction: column;
+}
+
+#grafico1{
+    background-color: azure;
+    margin-bottom: 15px; 
+    border-radius: 8px;
+}
+
+#grafico2{
+    background-color: azure;
+}
+

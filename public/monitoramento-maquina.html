@@ -45,14 +45,67 @@
                 <i class="fas fa-user-cog"></i>
             </div>
 
-            <div class="titulo">
-                <h2>Visualização das Máquinas</h2>
-                <p>Aqui você visualizará todas as máquinas que tem cadastradas</p>
+            <div class="graficos-container">
+                <div id="grafico1">
+                    <canvas id="grafico1Canvas"></canvas>
+                </div>
+                <div id="grafico2">
+                    <canvas id="grafico2Canvas"></canvas>
+                </div>
             </div>
-
-            
-
         </section>
+
     </div>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    //dados para os gráficos
+    const dataGrafico1 = {
+        labels: ['data', 'data', 'data', 'data', 'data'],
+        datasets: [{
+            label: 'CPU',
+            data: [12, 19, 3, 5, 2],
+            borderColor: 'blue',
+            fill: false
+        }]
+    };
+
+    const dataGrafico2 = {
+        labels: ['data', 'data', 'data', 'data', 'data'],
+        datasets: [{
+            label: 'Memória ram',
+            data: [8, 10, 6, 11, 7],
+            borderColor: 'red',
+            fill: false
+        }]
+    };
+
+    //opções para os gráficos
+    const options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    //gráfico1
+    var ctx1 = document.getElementById('grafico1Canvas').getContext('2d');
+    var grafico1 = new Chart(ctx1, {
+        type: 'line',
+        data: dataGrafico1,
+        options: options
+    });
+
+    //gráfico2
+    var ctx2 = document.getElementById('grafico2Canvas').getContext('2d');
+    var grafico2 = new Chart(ctx2, {
+        type: 'line',
+        data: dataGrafico2,
+        options: options
+    });
+</script>

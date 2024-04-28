@@ -152,24 +152,39 @@ a:hover{
     padding-top: 20px;
     width: 100%;
     height: 80vh;
+    gap: 2px;
 }
 
 .conteudo .indicadores{
   display: flex;
     width: 100%;
     height: 50%;
-    gap: 20px;
+    gap: 10px;
+    justify-content: space-between;
 }
 
 .indicadores .card{
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   height: 200px;
-  width: 55%;
-  border-radius: 16px;
+  width: 50%;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 0.8%;
   gap: 8px;
+}
+
+.indicadores .card:nth-child(1){
+  width: 50%;
+  justify-content: center;
+}
+
+.indicadores .card:nth-child(1) .titulo{
+  display: flex;
+  justify-content: space-between;
+  padding-right: 15px;
+  color: black;
+  font-weight: 600;
 }
 
 .card span{
@@ -207,6 +222,58 @@ a:hover{
     justify-content: center;
 }
 
+.card .titulo .barra-status{
+  width: 30%;
+  height: 10px;
+  background-color: green;
+  border-radius: 50px;
+  align-self: center;
+}
+
+.card .lista-overview{
+  display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: 150px;
+    width: 100%;
+    gap: 5px;
+}
+
+.lista-overview .item-lista{
+  align-self: normal;
+  align-items: center;
+  height: 43px;
+  /* justify-content: space-between; */
+  /* background-color: rgba(110, 109, 109, 0.315); */
+  background-color: rgba(110, 109, 109, 0.123);
+  border-radius: 0 15px;
+  padding: 0 10px;
+}
+
+.item-lista p{
+  display: flex;
+  width: 40px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-lista p:nth-child(1){
+  display: flex;
+  width: 70%;
+  align-self: center;
+  justify-content: normal;
+}
+
+.item-lista p:nth-child(2){
+  background-color: white;
+  border-radius: 50px;
+  padding: 0;  
+  margin: 0 20px 0 0;
+  width: 30%;
+}
+
+
 .card .lista-maquinas{
     display: flex;
     flex-direction: column;
@@ -228,21 +295,35 @@ a:hover{
     min-height: 50px;
     padding: 5px;
     border-radius: 10px 10px 5px 5px;
-    background-color: #fedd589c;
-    /* border-bottom: 4px solid green; */
+    /* background-color: #fedd589c; */
+    background-color: rgba(110, 109, 109, 0.123);
 }
 
-.grafico{
+.graficos{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
+  align-items: end;
+  /* justify-content: center; */
+  /* background-color: white; */
   width: 100%;
-  height: 45vh;
-  border-radius: 15px;
+  height: 50vh;
+  gap: 5px;
 }
 
-.grafico #linechart_material{
-  width: 98%;
-  height: auto;
+.graficos .card-grafico{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  width: 60%;
+  height: 260px;
+}
+
+.graficos .card-grafico:nth-child(1){
+  width: 40%;
+  justify-content: center;
+}
+
+.card-grafico #chart_div{
+  width: 100%;
 }

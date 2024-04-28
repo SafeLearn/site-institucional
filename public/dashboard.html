@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/dashboard.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="dashboardGrafico.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     
     <title>SafeLearn -- Home</title>
@@ -70,10 +70,27 @@
                     <div class="conteudo">
                         <div class="indicadores">
                             <div class="card">
-                                
+                                <div class="titulo">
+                                    <p>Overview</p>
+                                    <div class="barra-status"></div>
+                                </div>
+                                <div class="lista-overview">
+                                    <span class="item-lista">
+                                        <p>Máquinas Ligadas: </p>
+                                        <p>10</p>
+                                    </span>
+                                    <span class="item-lista">
+                                        <p>Máquinas Ligadas: </p>
+                                        <p>10</p>
+                                    </span>
+                                    <span class="item-lista">
+                                        <p>Máquinas Ligadas: </p>
+                                        <p>10</p>
+                                    </span>
+                                </div>
                             </div>
                             <div class="card">
-                                <p>Status dos componentes (Em porcentagem %)</p>
+                                <p>Status dos componentes por computador(%)</p>
                                 <div class="titulo">
                                     <span>Máquina</span>
                                     <span>CPU</span>
@@ -92,8 +109,13 @@
                                 <p>Recomendado: 40%</p>
                             </div> -->
                         </div>
-                        <div class="grafico">
-                            <div id="linechart_material"></div>
+                        <div class="graficos">
+                            <div class="card-grafico">
+                                <div id="chart" style="width: 400px; height: 250px;"></div>
+                            </div>
+                            <div class="card-grafico">
+                                <div id="chart_div"></div>
+                            </div>
                         </div>
                         <!-- <div class="graficos"></div> -->
                     </div>
@@ -107,6 +129,7 @@
 </html>
 
 <script src="dashboardGrafico.js"></script>
+
 
 <script>
 

@@ -60,8 +60,13 @@
                 </div>
                 <div id="grafico4">
                     <canvas id="grafico4Canvas"></canvas>
+                    <!-- <p>Status: Conectado a energia</p> -->
                 </div>
-                
+                <!-- <div id="sistema">
+                    <H6>Informações do sistema</H6>
+                    <p>Tempo de atividade:<br> 1 hora e 30 minutos</p>
+                    <p>Sistema operacional:<br> Windows</p>
+                </div> -->
             </div>
 
             <div class="graficos-container2">    
@@ -150,10 +155,10 @@ const dataGrafico3 = {
 
     // Dados para o gráfico 4
     const dataGrafico4 = {
-    labels: ['data A', 'data B', 'data C', 'data D'],
+    labels: ['Carga disponivel'],
     datasets: [{
-        label: 'Uso de CPU por processo',
-        data: [15, 20, 15, 25], 
+        label: 'Uso de bateria',
+        data: [90], 
         backgroundColor: [
             'rgba(254, 221, 88, 0.5)',
             'rgba(255, 126, 7, 0.5)'  

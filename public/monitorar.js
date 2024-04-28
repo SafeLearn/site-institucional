@@ -2,7 +2,7 @@ const data = Array.from({ length: 30 })
 .map((_,i) => `
      <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">
      <div class="descricao">
-     <p>IP: ${i+1}</p>
+     <p>Código Máquina: ${i+1}</p>
      <p>Máquina sala informática</p>
      `);
 

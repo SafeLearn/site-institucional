@@ -21,7 +21,7 @@ function drawBasic() {
         bar: {groupWidth : "95%",
         backgroundColor: 'silver'},
         hAxis: {
-          title: 'Porcentagem de acessos',
+          title: 'Quantidade de acessos',
           minValue: 0
         },
         vAxis: {

@@ -15,7 +15,7 @@
 
 #grafico1, #grafico4 {
     border: 1px solid #6e6e6e; 
-    background: linear-gradient(10deg, #FEDD58, #fffbf6);
+    background: linear-gradient(10deg, #fcf2cc, #fff6ec, #ffe5ad);
     margin-bottom: 15px;
     border-radius: 7px;
     width: calc(38.33% - 10px); 
@@ -24,7 +24,7 @@
 
 #grafico3{
     border: 1px solid #6e6e6e; 
-    background: linear-gradient(10deg, #FEDD58, #fffbf6);
+    background: linear-gradient(10deg, #fcf2cc, #fffbf6, #ffe5ad);
     margin-bottom: 15px;
     border-radius: 7px;
 }
@@ -41,7 +41,7 @@
 
 #grafico2, .janela-container {
     border: 1px solid #6e6e6e; 
-    background: linear-gradient(10deg, #FEDD58, #fffbf6);
+    background: linear-gradient(10deg, #fcf2cc, #fffbf6, #ffe5ad);
     margin-bottom: 25px;
     border-radius: 7px;
     width: calc(50% - 20px); 

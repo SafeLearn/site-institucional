@@ -107,22 +107,57 @@ a:hover{
   margin-top: 20px;
 }
 .help_desk{
-  display: flex; 
+  display: flex;
   justify-content: center;
   padding-top: 10px;
   height: 70vh;
-  width: 50%;
+  width: 40%;
+}
+
+.help_desk iframe{
+  width: 100%;
+  border-radius: 10px 10px 0 0;
 }
 .contato{
-  margin-top: 5%;
-  margin-left: 20%;
+  margin-top: auto;
+  margin-bottom: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 60%;
+  width: 80%;
   height: 70vh;
-  border-radius: 15px;
+  border-radius: 10px;
+  gap: 20px;
+  align-self: center;
+}
+
+.contato .parte-contato{
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  width: 50%;
+  gap: 10px;
+}
+
+.parte-contato h1{
+  height: 50px;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.parte-contato span{
+  height: 50px;
+}
+
+.parte-contato span:nth-child(5){
+  margin-top: 10px;
+}
+
+.parte-contato span img{
+  align-self: center;
+  width: 20px;
+  margin-right: 10px;
 }
 
 .html{

@@ -73,7 +73,7 @@
     overflow-y: auto; 
 }
 
-.janelas h3{
+.janelas h4{
     text-align: center;
     margin-bottom: 10px;
 }
@@ -107,6 +107,10 @@
 .janelas ul li {
     border: 1px solid #6e6e6e; 
     margin: 0.6px;
+}
+
+.janelas li{
+    font-size: 13px;
 }
 
 .main-top h1{
@@ -145,6 +149,11 @@
     i:nth-child(3):hover{
       color: rgb(110, 109, 109);
       transition: color 0.5s;
+    }
+
+    h6, .fa-regular .fa-clock{
+        position: absolute;
+        margin-left: 760px;
     }
     
   }

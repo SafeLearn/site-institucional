@@ -8,6 +8,8 @@
     display: flex;
     justify-content: space-evenly; 
     width: 100%; /* conteiner 100% da tela */
+    
+    min-height: 50%;
     max-width: 1200px;
     padding: 15px;
     max-height: 230px;
@@ -18,9 +20,20 @@
     background: linear-gradient(10deg, #fcf2cc, #fff6ec, #ffe5ad);
     margin-bottom: 15px;
     border-radius: 7px;
-    width: calc(38.33% - 10px); 
+    width: calc(39.33% - 15px); 
     padding: 5px;
 }
+
+#grafico4,  #grafico1, #grafico3{
+    max-height:500px;
+    overflow-y: auto;
+}
+
+#grafico4 p, #grafico2 p,  #grafico1 p, #grafico3 P {
+    font-size: 12px;
+    text-align: center;
+}
+
 
 
 #grafico3{
@@ -38,6 +51,7 @@
     max-width: 1350px;
     padding: 15px;
     max-height: 430px;
+    margin-top: -25px;
 }
 
 #grafico2, .janela-container {

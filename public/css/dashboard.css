@@ -169,6 +169,10 @@ a:hover{
 .js{
   color: rgb(28, 98, 179);
 }
+
+.card{
+  box-shadow: 1px 1px 5px 0px rgba(110,110,110,1);
+}
   
 .titulo h2{
   margin-left: 2%;
@@ -207,6 +211,7 @@ a:hover{
   flex-direction: column;
   padding: 0.8%;
   gap: 8px;
+
 }
 
 .indicadores .card:nth-child(1){
@@ -283,6 +288,7 @@ a:hover{
   background-color: rgba(110, 109, 109, 0.123);
   border-radius: 0 15px;
   padding: 0 10px;
+  box-shadow: 1px 1px 3px 0px rgba(110,110,110,1);
 }
 
 .item-lista p{
@@ -332,6 +338,7 @@ a:hover{
     border-radius: 10px 10px 5px 5px;
     /* background-color: #fedd589c; */
     background-color: rgba(110, 109, 109, 0.123);
+    /* box-shadow: 1px 1px 5px 0px rgba(110,110,110,1); */
 }
 
 .graficos{
@@ -352,6 +359,7 @@ a:hover{
   border-radius: 10px;
   width: 60%;
   height: 260px;
+  box-shadow: 1px 1px 5px 0px rgba(110,110,110,1);  
 }
 
 .graficos .card-grafico:nth-child(1){

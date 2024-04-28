@@ -106,7 +106,7 @@
         labels: ['data', 'data', 'data', 'data', 'data'],
         datasets: [{
             label: 'CPU',
-            data: [12, 19, 3, 5, 2],
+            data: [12, 93, 39, 50, 20],
             borderColor: 'orange', 
             backgroundColor: [
             'rgba(254, 221, 88, 0.5)',
@@ -120,7 +120,7 @@
         labels: ['data', 'data', 'data', 'data', 'data'],
         datasets: [{
             label: 'Memória ram',
-            data: [8, 10, 6, 11, 7],
+            data: [25, 35, 60, 92, 7],
             borderColor: 'orange', 
             backgroundColor: [
             'rgba(254, 221, 88, 0.5)',
@@ -164,32 +164,69 @@ const dataGrafico3 = {
     };
 
 
-    //opções para os gráficos
-    const options = {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    };
+    const options1 = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                stepSize: 20,
+                max: 100, 
+            }
+        }]
+    }
+};
+
+const options2 = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                max: 100, 
+            }
+        }]
+    }
+};
+
+const options3 = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                max: 100, 
+            }
+        }]
+    }
+};
+
+const options4 = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                max: 100, 
+            }
+        }]
+    }
+};
+
+
+
 
     //gráfico1
     var ctx1 = document.getElementById('grafico1Canvas').getContext('2d');
     var grafico1 = new Chart(ctx1, {
         type: 'line',
         data: dataGrafico1,
-        options: options
+        options: options1
     });
 
 
     // gráfico 3
     var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
     var grafico3 = new Chart(ctx3, {
-    type: 'doughnut',
+    type: 'pie',
     data: dataGrafico3,
-    options: options
+    options: options3
     });
 
     //gráfico 4
@@ -197,7 +234,7 @@ const dataGrafico3 = {
     var grafico4 = new Chart(ctx4, {
     type: 'bar',
     data: dataGrafico4,
-    options: options
+    options: options4
     });
 
         //gráfico2
@@ -205,7 +242,7 @@ const dataGrafico3 = {
     var grafico2 = new Chart(ctx2, {
         type: 'line',
         data: dataGrafico2,
-        options: options
+        options: options2
     });
 
     seta_main.addEventListener("click", ()=>{

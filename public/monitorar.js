@@ -152,7 +152,25 @@ function update() {
     buttons.update();
 }
 
+/*function search(){
+    const searchTerm = document.getElementById("procurar-maquina").value.toLowerCase();
+    listaElement.innerHTML = "";
+
+    data.forEach(htmlString => {
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = htmlString;
+
+        const descricao = tempElement.querySelector('.descricao').textContent.toLowerCase(); 
+        if (descricao.includes(searchTerm)) { 
+            list.create(htmlString); 
+        }
+    });
+}
+
+let listaElement;*/
+
 function init() {
+    /*listaElement = html.get('.lista');*/
     update();
     controls.createListeners();
 }

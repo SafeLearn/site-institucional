@@ -308,6 +308,7 @@ body::-webkit-scrollbar-track-piece {
 
     
 .col button {
+    display: none;
         width: 180px;
         color: #000;
         font-size: 20px;

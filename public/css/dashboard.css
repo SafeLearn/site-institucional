@@ -185,7 +185,7 @@ a:hover{
 }
 
 .conteudo{
-  display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-top: 20px;
@@ -242,7 +242,7 @@ a:hover{
 
 .card .titulo{
   display: flex;
-  width: 100%;
+  width: 97%;
   padding-bottom: 5px;
   border-bottom: 1px solid  rgba(110, 109, 109, 0.479);
   color: rgba(110, 109, 109, 0.849);
@@ -276,7 +276,7 @@ a:hover{
     justify-content: flex-start;
     max-height: 150px;
     width: 100%;
-    gap: 5px;
+    gap: 8px;
 }
 
 .lista-overview .item-lista{
@@ -326,13 +326,20 @@ a:hover{
 }
 
 .card .lista-maquinas::-webkit-scrollbar {
-  width: 1;
+  background-color: #ffe8d2; 
+  width: 5px;
+  border-radius: 10px;
+}
+
+.card .lista-maquinas::-webkit-scrollbar {
+  background-color: #ffc400; 
+  border-radius: 20px;
 }
 
 .card .lista-maquinas .item-maquina{
     display: flex;
     flex: 1;
-    width: 100%;
+    width: 99%;
     min-height: 50px;
     padding: 5px;
     border-radius: 10px 10px 5px 5px;

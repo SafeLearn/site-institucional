@@ -47,23 +47,29 @@
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="" id="seta_main">
                 <h1>Visualização da Máquina - 0221</h1>
                 <i class="fas fa-user-cog"></i>
-                    <h6>Tempo de atividade <br>------------------<br> 2 horas e 35 minutos </h6>
             </div>
 
             <div class="graficos-wrapper">
 
             <div class="graficos-container">
                 <div id="grafico1">
-                    <canvas id="grafico1Canvas"></canvas>
-                    <P>Total de frêquencia: 2.00 GHz</P>
+                    <span class="titulo">Uso de CPU<p>Total de frêquencia: 2.00 GHz</p></span>
+                    <canvas id="grafico1Canvas" style="height: 220px;"></canvas>
+                    
                 </div>
                 <div id="grafico3">
-                    <canvas id="grafico3Canvas"></canvas>
+                    <span class="titulo">Uso de Disco</span>
+                    <canvas id="grafico3Canvas" style="height: 100px;"></canvas>
                     <p>Total disco: 128GB</p>
                 </div>
                 <div id="grafico4">
-                    <canvas id="grafico4Canvas"></canvas>
-                    <p>Status: Conectado a energia</p>
+                    <h1>Informações da máquina:</h1>
+                    <div class="lista-info">
+                        <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35 minutos</p></span>
+                        <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p> </span>
+                        <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p></span>
+                        <span><img src="imagens/icons-dash/it.svg">Sistema Operacional: <p>Windows</p></span>
+                    </div>
                 </div>
                 <!-- <div id="sistema">
                     <H6>Informações do sistema</H6>
@@ -72,28 +78,28 @@
                 </div> -->
             </div>
 
-            <div class="graficos-container2">    
+            <div class="graficos-container">    
                 <div id="grafico2">
-                    <canvas id="grafico2Canvas"></canvas>
-                    <p>Mémoria total: 8 GB</p>
+                    <span class="titulo">Uso de Memória RAM<p>Mémoria total: 8 GB</p></span>
+                    <canvas id="grafico2Canvas" style="height: 220px;"></canvas>
                 </div>
 
                 <div class="janela-container">
                     <div class="janelas">
-                    <h4>Janelas em aberto      <i class="fa-solid fa-computer"></i></h4>
+                    <h4><i class="fa-solid fa-computer"></i>Janelas em aberto</h4>
                     <ul>
-                        <li>Título: chrome</li>
-                        <li>Título: word</li>
-                        <li>Título: excel</li>
-                        <li>Título: photoshop</li>
-                        <li>Título: powerpoint</li>
-                        <li>Título: vscode</li>
-                        <li>Título: chrome</li>
-                        <li>Título: word</li>
-                        <li>Título: excel</li>
-                        <li>Título: photoshop</li>
-                        <li>Título: powerpoint</li>
-                        <li>Título: vscode</li>                        
+                        <li>Título: Google Chrome</li>
+                        <li>Título: Microsoft Word</li>
+                        <li>Título: Microsoft Excel</li>
+                        <li>Título: Photoshop</li>
+                        <li>Título: Microsoft Powerpoint</li>
+                        <li>Título: Visual Studio Code</li>
+                        <li>Título: Google Chrome</li>
+                        <li>Título: Microsoft Word</li>
+                        <li>Título: Microsoft Excel</li>
+                        <li>Título: Photoshop</li>
+                        <li>Título: Microsoft Powerpoint</li>
+                        <li>Título: Visual Studio Code</li>                      
                     </ul>
                    </div>
                 </div>
@@ -112,28 +118,28 @@
 <script>
     //dados para os gráficos
     const dataGrafico1 = {
-        labels: ['data', 'data', 'data', 'data', 'data'],
+        labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
-            label: 'Processador (CPU)',
+            label: 'Porcentagem de uso (CPU)',
             data: [12, 93, 39, 50, 20],
-            borderColor: 'orange', 
+            borderColor: 'rgb(255, 204, 108)', 
             backgroundColor: [
-            'rgba(254, 221, 88, 0.5)',
-            'rgba(255, 126, 7, 0.5)'  
+            'rgb(255, 204, 108)',
+            'rgb(255, 204, 108)'
                  ],
             fill: false
         }]
     };
 
     const dataGrafico2 = {
-        labels: ['data', 'data', 'data', 'data', 'data'],
+        labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
-            label: 'Memória ram',
+            label: 'Porcentagem de uso (RAM)',
             data: [25, 35, 60, 92, 7],
-            borderColor: 'orange', 
+            borderColor: 'rgb(255, 204, 108)', 
             backgroundColor: [
-            'rgba(254, 221, 88, 0.5)',
-            'rgba(255, 126, 7, 0.5)'  
+            'rgb(255, 204, 108)',
+            'rgb(255, 204, 108)'
                  ],
             fill: false
         }]
@@ -146,31 +152,17 @@ const dataGrafico3 = {
         label: 'Disco',
         data: [70, 30], 
         backgroundColor: [
-            'rgba(254, 221, 88, 0.5)',
-            'rgba(255, 126, 7, 0.5)'  
+            'rgb(255, 0, 0, 0.623)',
+            'rgba(115, 255, 0, 0.623);'  
                  ],
                  backgroundColor: [
-            'rgba(254, 221, 88, 0.5)',
-            'rgba(255, 126, 7, 0.5)'  
+                 'rgb(255, 0, 0, 0.623)',
+                 'rgb(115, 255, 0, 0.623)' 
                  ],
         borderWidth: 1
     }]
 };
 
-    // Dados para o gráfico 4
-    const dataGrafico4 = {
-    labels: ['Carga disponivel'],
-    datasets: [{
-        label: 'Uso de bateria',
-        data: [90], 
-        backgroundColor: [
-            'rgba(254, 221, 88, 0.5)',
-            'rgba(255, 126, 7, 0.5)'  
-                 ],
-        borderColor: 'rgba(75, 192, 192, 1)', 
-        borderWidth: 1
-    }]
-    };
 
 
     const options1 = {
@@ -207,17 +199,6 @@ const options3 = {
     }
 };
 
-const options4 = {
-    scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-                max: 100, 
-            }
-        }]
-    }
-};
-
 
 
 
@@ -238,13 +219,6 @@ const options4 = {
     options: options3
     });
 
-    //gráfico 4
-    var ctx4 = document.getElementById('grafico4Canvas').getContext('2d');
-    var grafico4 = new Chart(ctx4, {
-    type: 'bar',
-    data: dataGrafico4,
-    options: options4
-    });
 
         //gráfico2
     var ctx2 = document.getElementById('grafico2Canvas').getContext('2d');

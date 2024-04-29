@@ -299,21 +299,24 @@ a:hover{
   justify-content: center;
 }
 
-.lista-maquinas .item-lista p:nth-child(1){
+.lista-overview .item-lista p:nth-child(1){
   display: flex;
   width: 70%;
   align-self: center;
   justify-content: normal;
 }
 
-.lista-maquinas .item-lista p:nth-child(2){
+.lista-overview .item-lista p:nth-child(2){
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   border-radius: 50px;
   padding: 0;  
   margin: 0 20px 0 0;
-  width: 30%;
+  height: 30px;
+  width: 20%;
 }
-
 
 .card .lista-maquinas{
     display: flex;

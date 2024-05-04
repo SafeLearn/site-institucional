@@ -73,20 +73,23 @@
                             <div class="card">
                                 <div class="titulo">
                                     <p>Visão Geral</p>
-                                    <div class="barra-status"></div>
+                                    
                                 </div>
                                 <div class="lista-overview">
                                     <span class="item-lista">
                                         <p>Máquinas Ligadas: </p>
                                         <p>10</p>
+                                        <div class="barra-status"></div>
                                     </span>
                                     <span class="item-lista">
                                         <p>Máquinas em risco: </p>
                                         <p>5</p>
+                                        <div class="barra-status"></div>
                                     </span>
                                     <span class="item-lista">
-                                        <p>Máquinas sem bateria: </p>
+                                        <p>Máquinas com pouca bateria: </p>
                                         <p>2</p>
+                                        <div class="barra-status"></div>
                                     </span>
                                 </div>
                             </div>
@@ -185,9 +188,9 @@
     }
 
     function verificaEOrdenaPorStatusItem(){
-        let posicaoRuim = 0;
-        let posicaoAlerta = 0;
-        let posicaoBom = 0;
+        //let posicaoRuim = 0;
+        //let posicaoAlerta = 0;
+        //let posicaoBom = 0;
     
         for(let i = 0; i < components.length; i++){
             let corStatus;
@@ -196,21 +199,21 @@
             switch(status) {
                 case "Ruim":
                     corStatus = "red";
-                    order.splice(posicaoRuim, 0, { ...components[i], corStatus });
-                    posicaoRuim++;
-                    posicaoAlerta++;
-                    posicaoBom++;
+                    order.splice(i, 0, { ...components[i], corStatus });
+                    //posicaoRuim++;
+                    //posicaoAlerta++;
+                    //posicaoBom++;
                     break;
                 case "Alerta":
                     corStatus = "yellow";
-                    order.splice(posicaoAlerta, 0, { ...components[i], corStatus });
-                    posicaoAlerta++;
-                    posicaoBom++;
+                    order.splice(i, 0, { ...components[i], corStatus });
+                    //posicaoAlerta++;
+                    //posicaoBom++;
                     break;
                 case "Bom":
                     corStatus = "green";
-                    order.splice(posicaoBom, 0, { ...components[i], corStatus });
-                    posicaoBom++;
+                    order.splice(i, 0, { ...components[i], corStatus });
+                    //posicaoBom++;
                     break;
                 default:
                     corStatus = "none";

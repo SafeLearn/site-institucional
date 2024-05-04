@@ -66,7 +66,9 @@ nav .fas{
   margin-left: 10px;
 }
 a:hover{
-  background: #eee;
+  background: linear-gradient(240deg, #FEDD58, #FF7E07);
+  border-radius: 50px 0 0 50px;
+  color: #fff;
 }
 .logout{
   position: absolute;
@@ -262,14 +264,6 @@ a:hover{
     justify-content: center;
 }
 
-.card .titulo .barra-status{
-  width: 30%;
-  height: 10px;
-  background-color: green;
-  border-radius: 50px;
-  align-self: center;
-}
-
 .card .lista-overview{
   display: flex;
     flex-direction: column;
@@ -289,6 +283,15 @@ a:hover{
   border-radius: 0 15px;
   padding: 0 10px;
   box-shadow: 1px 1px 3px 0px rgba(110,110,110,1);
+  cursor: pointer;
+}
+
+.card .lista-overview .item-lista .barra-status{
+  width: 15%;
+  height: 10px;
+  background-color: green;
+  border-radius: 50px;
+  align-self: center;
 }
 
 .lista-maquinas .item-lista p{

@@ -16,12 +16,12 @@ function drawBasic() {
       ]);
 
       var options = {
-        title: 'Janelas do navegador mais acessadas (Ultima semana)',
+        title: 'Janelas do sistema com maior consumo (Ultima semana)',
         chartArea: {width: '92%', height: '250px'},
         bar: {groupWidth : "95%",
         backgroundColor: 'silver'},
         hAxis: {
-          title: 'Quantidade de acessos',
+          title: 'Quantidade de consumo',
           minValue: 0
         },
         vAxis: {
@@ -43,12 +43,12 @@ google.charts.load('current', {'packages':['corechart']});
       function drawVisualization() {
         // Some raw data (not necessarily accurate)
         var data = google.visualization.arrayToDataTable([
-          ['Dia da Semana', 'RAM', 'CPU', 'DISCO', 'Recomendado'],
-          ['Segunda-Feira', 31.5, 25, 17.5, 50],
-          ['Terça-Feira', 51.5, 25, 17.5, 50],
-          ['Quarta-Feira', 80, 56, 15, 50],
-          ['Quinta-Feira', 88.5, 23, 12.5, 50],
-          ['Sexta-Feira', 10, 20, 10, 50]
+          ['Dia da Semana', 'RAM', 'CPU', 'DISCO'],
+          ['Segunda-Feira', 31.5, 25, 17.5],
+          ['Terça-Feira', 51.5, 25, 17.5],
+          ['Quarta-Feira', 80, 56, 15],
+          ['Quinta-Feira', 88.5, 23, 12.5],
+          ['Sexta-Feira', 10, 20, 10]
         ]);
 
         var options = {

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="shortcut icon" href="./imagens/logoSafePrint.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
     <title>SafeLearn -- Dashboard</title>
 </head>
 <body>
@@ -63,7 +65,7 @@
                 </div>
                 <div id="grafico3">
                     <span class="titulo">Uso de Disco</span>
-                    <canvas id="grafico3Canvas" style="height: 100px;"></canvas>
+                    <div id="piechart_3d" style="height: 200px; width: 200px;"></div>
                     <p>Total disco: 128GB</p>
                 </div>
                 <div id="grafico4">
@@ -150,22 +152,22 @@
     };
 
    // Dados para o gráfico 3
-const dataGrafico3 = {
-    labels: ['Disco ocupado', 'Disco livre'],
-    datasets: [{
-        label: 'Disco',
-        data: [70, 30], 
-        backgroundColor: [
-            'rgb(255, 0, 0, 0.623)',
-            'rgba(115, 255, 0, 0.623);'  
-                 ],
-                 backgroundColor: [
-                 'rgb(255, 0, 0, 0.623)',
-                 'rgb(115, 255, 0, 0.623)' 
-                 ],
-        borderWidth: 1
-    }]
-};
+//const dataGrafico3 = {
+//    labels: ['Disco ocupado', 'Disco livre'],
+//    datasets: [{
+//        label: 'Disco',
+//        data: [70, 30], 
+//        backgroundColor: [
+//            'rgb(255, 0, 0, 0.623)',
+//            'rgba(115, 255, 0, 0.623);'  
+//                 ],
+//                 backgroundColor: [
+//                 'rgb(255, 0, 0, 0.623)',
+//                 'rgb(115, 255, 0, 0.623)' 
+//                 ],
+//        borderWidth: 1
+//    }]
+//};
 
 
 
@@ -192,16 +194,16 @@ const options2 = {
     }
 };
 
-const options3 = {
-    scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-                max: 100, 
-            }
-        }]
-    }
-};
+//const options3 = {
+//    scales: {
+//        yAxes: [{
+//            ticks: {
+//                beginAtZero: true,
+//                max: 100, 
+//            }
+//        }]
+//    }
+//};
 
 
 
@@ -216,12 +218,12 @@ const options3 = {
 
 
     // gráfico 3
-    var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
-    var grafico3 = new Chart(ctx3, {
-    type: 'pie',
-    data: dataGrafico3,
-    options: options3
-    });
+    //var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
+    //var grafico3 = new Chart(ctx3, {
+    //type: 'pie',
+    //data: dataGrafico3,
+    //options: options3
+    //});
 
 
         //gráfico2
@@ -235,4 +237,24 @@ const options3 = {
     seta_main.addEventListener("click", ()=>{
         window.location.href = "monitorar.html";
     })
+</script>
+
+<script>
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Disco', 'Porcentagem Ocupação', {role: 'annotation'}],
+          ['Ocupado',     70, '70%'],
+          ['Livre',      30, '30%']
+        ]);
+
+        var options = {
+        legend: {position: 'bottom', maxLines: 3},
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
 </script>

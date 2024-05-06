@@ -116,7 +116,7 @@
     border-radius: 7px;
     width: 61%;
     max-height: 255px; 
-    overflow-y: auto; /*barra de rolagem*/
+    overflow-y: scroll; /*barra de rolagem*/
     box-shadow: 1px 1px 3px 0px rgba(110,110,110,1);
 }
 
@@ -128,6 +128,12 @@
 
 .janelas h4{
     text-align: center;
+    margin: 2px, 2px;
+    padding: 5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
     margin-bottom: 10px;
 }
 

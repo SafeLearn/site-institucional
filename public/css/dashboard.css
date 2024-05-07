@@ -285,6 +285,11 @@ a:hover{
   box-shadow: 1px 1px 3px 0px rgba(110,110,110,1);
   cursor: pointer;
 }
+.lista-overview .item-lista .fa-eye {
+  font-size: 0.5em; 
+  margin-left: 8px;
+}
+
 
 .card .lista-overview .item-lista .barra-status{
   width: 15%;

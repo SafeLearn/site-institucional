@@ -345,6 +345,36 @@ a:hover{
   font-size: 12px;
 }
 
+/* indicadores visao geral */
+.indicadores-cores {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.indicadores-cores p{
+  margin-left: -5px;
+}
+
+.indicador-verde, .indicador-amarelo, .indicador-vermelho {
+  width: 15px; 
+  height: 10px; 
+  border-radius: 50%;
+}
+
+.indicador-verde {
+  background-color: green; 
+}
+
+.indicador-amarelo {
+  background-color: yellow; 
+}
+
+.indicador-vermelho {
+  background-color: red; 
+}
+
+
 .card .lista-maquinas{
     display: flex;
     flex-direction: column;

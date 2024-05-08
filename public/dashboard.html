@@ -107,19 +107,19 @@
                         <p>Máquinas Ligadas:</p>
                         <p>10</p>
                         <div class="barra-status"></div>
-                        <i class="fa-regular fa-eye" data-modal-id="modal1"></i>
+                        <i class="fa-regular fa-eye" onclick="openModal('modal1')" data-modal-id="modal1"></i>
                       </span>
                       <span class="item-lista">
                         <p>Máquinas em risco:</p>
                         <p>5</p>
                         <div class="barra-status"></div>
-                        <i class="fa-regular fa-eye"></i>
+                        <i class="fa-regular fa-eye" onclick="openModal('modal2')" data-modal-id="modal2"></i>
                       </span>
                       <span class="item-lista">
                         <p>Máquinas com pouca bateria:</p>
                         <p>2</p>
                         <div class="barra-status"></div>
-                        <i class="fa-regular fa-eye"></i>
+                        <i class="fa-regular fa-eye" onclick="openModal('modal3')" data-modal-id="modal3"></i>
                       </span>
                     </div>
                   </div>
@@ -161,11 +161,33 @@
                     <li>Máquina</li>
                     <li>Máquina</li>
                     <li>Máquina</li>
+              </div>
+            </div>
+
+            <div id="modal2" class="modal">
+                      <div class="modal-content">
+                      <span class="fechar-modal">&times;</span>
+                      <h2>Lista de Máquinas em risco</h2>
+                        <ul>
+                          <li>Máquina</li>
+                          <li>Máquina</li>
+                          <li>Máquina</li>
+                          <li>Máquina</li>
+                    </div>
+               </div>
+
+               <div id="modal3" class="modal">
+                <div class="modal-content">
+                  <span class="fechar-modal">&times;</span>
+                  <h2>Lista de Máquinas com pouca bateria</h2>
+                  <ul>
                     <li>Máquina</li>
                     <li>Máquina</li>
                     <li>Máquina</li>
                     <li>Máquina</li>
               </div>
+            </div>
+
 
             </section>
           </div>
@@ -292,21 +314,27 @@
 
 
 //   modal
+function openModal(modalId) {
+    // Ocultar todos os modais
+    var modais = document.querySelectorAll('.modal');
+    modais.forEach(function(modal) {
+      modal.style.display = 'none';
+    });
 
-const iconsEye = document.querySelectorAll(".fa-eye");
-
-
-iconsEye.forEach(function(icon) {
-  icon.addEventListener("click", function() {
-
-    const modalId = this.dataset.modalId;
-
-    //  modal correspondente
-    const modal = document.getElementById(modalId);
+    // Exibir o modal correspondente
+    var modal = document.getElementById(modalId);
     if (modal) {
-      modal.style.display = "block";
+      modal.style.display = 'block';
     }
-  });
-});
+  }
+
+  // Função para fechar todos os modais
+  function closeModal() {
+    var modais = document.querySelectorAll('.modal');
+    modais.forEach(function(modal) {
+      modal.style.display = 'none';
+    });
+  }
+
 
 </script>

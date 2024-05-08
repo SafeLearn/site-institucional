@@ -107,7 +107,7 @@
                         <p>Máquinas Ligadas:</p>
                         <p>10</p>
                         <div class="barra-status"></div>
-                        <i class="fa-regular fa-eye"></i>
+                        <i class="fa-regular fa-eye" data-modal-id="modal1"></i>
                       </span>
                       <span class="item-lista">
                         <p>Máquinas em risco:</p>
@@ -152,7 +152,7 @@
               </div>
 
               <!-- modal de visão geral-->
-              <div id="modal" class="modal">
+              <div id="modal1" class="modal">
                 <div class="modal-content">
                   <span class="fechar-modal">&times;</span>
                   <h2>Lista de Máquinas Ligadas</h2>
@@ -292,15 +292,21 @@
 
 
 //   modal
-  // exibir o modal
-  document.querySelector(".fa-eye").addEventListener("click", function () {
-    document.getElementById("modal").style.display = "block";
-  });
 
-  // botão de fechar, ocultar o modal
-  document
-    .querySelector(".fechar-modal")
-    .addEventListener("click", function () {
-      document.getElementById("modal").style.display = "none";
-    });
+const iconsEye = document.querySelectorAll(".fa-eye");
+
+
+iconsEye.forEach(function(icon) {
+  icon.addEventListener("click", function() {
+
+    const modalId = this.dataset.modalId;
+
+    //  modal correspondente
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = "block";
+    }
+  });
+});
+
 </script>

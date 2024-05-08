@@ -154,7 +154,7 @@
               <!-- modal de visão geral-->
               <div id="modal1" class="modal">
                 <div class="modal-content">
-                  <span class="fechar-modal">&times;</span>
+                  <span class="fechar-modal" onclick="closeModal('modal1')">&times;</span>
                   <h2>Lista de Máquinas Ligadas</h2>
                   <ul>
                     <li>Máquina</li>
@@ -166,8 +166,8 @@
 
             <div id="modal2" class="modal">
                       <div class="modal-content">
-                      <span class="fechar-modal">&times;</span>
-                      <h2>Lista de Máquinas em risco</h2>
+                        <span class="fechar-modal" onclick="closeModal('modal2')">&times;</span>
+                        <h2>Lista de Máquinas em risco</h2>
                         <ul>
                           <li>Máquina</li>
                           <li>Máquina</li>
@@ -178,7 +178,7 @@
 
                <div id="modal3" class="modal">
                 <div class="modal-content">
-                  <span class="fechar-modal">&times;</span>
+                  <span class="fechar-modal" onclick="closeModal('modal3')">&times;</span>
                   <h2>Lista de Máquinas com pouca bateria</h2>
                   <ul>
                     <li>Máquina</li>
@@ -329,11 +329,11 @@ function openModal(modalId) {
   }
 
   // Função para fechar todos os modais
-  function closeModal() {
-    var modais = document.querySelectorAll('.modal');
-    modais.forEach(function(modal) {
+  function closeModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
       modal.style.display = 'none';
-    });
+    }
   }
 
 

@@ -1,9 +1,11 @@
-const conexao = require("../infra/conexao");
 class loginModel {
     buscar(dadosLogin) {
-        const sql = `SELECT idUsuario, userName, senhaUsuario FROM usuario WHERE userName = ? AND senhaUsuario = ?`;
+        const sql = `SELECT idUsuario, userName, senhaUsuario FROM usuario WHERE userName = @userName AND senhaUsuario = @senhaUsuario`;
         return new Promise((resolve, reject) => {
-            conexao.query(sql, [dadosLogin.loginUsuario, dadosLogin.loginSenha], (error, resposta) => {
+            conexao.query(sql, {
+                userName: dadosLogin.loginUsuario,
+                senhaUsuario: dadosLogin.loginSenha
+            }, (error, resposta) => {
                 if(error) {
                     reject(error);
                 } else {

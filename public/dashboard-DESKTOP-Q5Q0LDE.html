@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -48,7 +48,7 @@
                     <span class="nav-item">Home</span>
                   </a>
                 </li>
-                <li class="criarUsuarioNavegador">
+                <li>
                   <a href="./criaruser.html">
                     <i class="fas fa-user"></i>
                     <span class="nav-item">Usuários</span>
@@ -181,7 +181,7 @@
                   <span class="fechar-modal" onclick="closeModal('modal3')">&times;</span>
                   <h2>Lista de Máquinas com pouca bateria</h2>
                   <ul>
-                    <li >Máquina</li>
+                    <li>Máquina</li>
                     <li>Máquina</li>
                     <li>Máquina</li>
                     <li>Máquina</li>
@@ -198,16 +198,6 @@
 </html>
 
 <script src="dashboardGrafico.js"></script>
-
-<script>
-  let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
-  let nivelAcesso = sessionStorage.NIVEL_ACESSO;
-
-  if(nivelAcesso == "Baixo" || nivelAcesso == "Médio"){
-    botaoUsuario.style.display = 'none';
-  }
-
-</script>
 
 <script>
   const components = [
@@ -305,7 +295,7 @@
     div.classList.add("item-maquina");
     div.innerHTML = `
             <span>Máquina ${item.MAQUINA}</span>
-            <span style="animation: piscar 1s infinite;">${item.CPU}%</span>
+            <span>${item.CPU}%</span>
             <span>${item.RAM}%</span>
             <span>${item.DISCO}%</span>
             <span>${item.BATERIA}%</span>

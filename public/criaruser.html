@@ -78,7 +78,7 @@
                   <tr>
                     <th>Nome</th>
                     <th>Email</th>
-                    <th>Senha</th>
+                    <th>Nível</th>
                     <th class="acao">Editar</th>
                     <th class="acao">Excluir</th>
                   </tr>
@@ -89,16 +89,22 @@
             </div>
 
             <div class="modal-container">
-              <div class="modal">
+              <div class="modalUser">
                 <form>
                   <label for="m-nome">Nome</label>
-                  <input id="m-nome" type="text" required />
+                  <input id="m-nome" type="text" placeholder="Digite seu nome" required />
 
                   <label for="m-email">Email</label>
-                  <input id="m-email" type="text" required />
+                  <input id="m-email" type="text" placeholder="Digite seu email" required />
 
-                  <label for="m-senha">Senha</label>
-                  <input id="m-senha" type="password" required />
+                  <label for="m-nivel">Nível</label>
+                  <select name="m-nivel" id="" required>
+                    <option value="">Selecione o tipo de nível</option>
+                    <option value="Alto">Administrador</option>
+                    <option value="Médio">Executador</option>
+                    <option value="Baixo">Visualizador</option>
+                  </select>
+                
                   <button id="btnSalvar">Salvar</button>
                 </form>
               </div>
@@ -121,14 +127,16 @@
   const tbody = document.querySelector('tbody')
   const sNome = document.querySelector('#m-nome')
   const sEmail = document.querySelector('#m-email')
-  const sSenha = document.querySelector('#m-senha')
+  const sNivel = document.querySelector('#m-nivel')
   const btnSalvar = document.querySelector('#btnSalvar')
+  const modal2 = document.querySelector('.modalUser')
 
   let itens
   let id
 
   function openModal(edit = false, index = 0) {
     modal.classList.add('active')
+    modal2.style.display = 'flex';
 
     modal.onclick = e => {
       if (e.target.className.indexOf('modal-container') !== -1) {
@@ -139,12 +147,12 @@
     if (edit) {
       sNome.value = itens[index].nome
       sEmail.value = itens[index].email
-      sSenha.value = itens[index].senha
+      sNivel.value = itens[index].nivel
       id = index
     } else {
       sNome.value = ''
       sEmail.value = ''
-      sSenha.value = ''
+      sNivel.value = ''
     }
 
   }
@@ -166,7 +174,7 @@
     tr.innerHTML = `
     <td>${item.nome}</td>
     <td>${item.email}</td>
-    <td>${item.senha}</td>
+    <td>${item.nivel}</td>
     <td class="acao">
       <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
     </td>
@@ -179,7 +187,7 @@
 
   btnSalvar.onclick = e => {
 
-    if (sNome.value == '' || sEmail.value == '' || sSenha.value == '') {
+    if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
       return
     }
 
@@ -188,9 +196,9 @@
     if (id !== undefined) {
       itens[id].nome = sNome.value
       itens[id].email = sEmail.value
-      itens[id].senha = sSenha.value
+      itens[id].nivel = sNivel.value
     } else {
-      itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'senha': sSenha.value })
+      itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'nivel': sNivel.value })
     }
 
     setItensBD()

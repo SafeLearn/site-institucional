@@ -122,51 +122,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-
-    //LOGICA DE INDICADORES CPU
-    let dadosCPU = [12, 93, 39, 50, 20];
-    let borderColor = 'rgb(0, 128, 0)';
-    let maiorValorCPU = 0;
-
-    for (let i = 0; i < dadosCPU.length; i++){
-       if(dadosCPU[i] > maiorValorCPU){
-        maiorValorCPU = dadosCPU[i];
-       }
-    }
-
-    if(maiorValorCPU >= 80){
-        borderColor = 'rgb(255, 0, 0)';
-    }else if(maiorValorCPU >= 50){
-        borderColor = 'rgb(255, 255, 0)';
-    }
-
-
-    //LOGICA INDICADORES DE RAM
-    let dadosRAM = [25, 35, 60, 92, 7];
-    let borderColorRAM = 'rgb(0, 128, 0)';
-    let maiorValorRAM = 0;
-
-    for (let i = 0; i < dadosRAM.length; i++){
-        if(dadosRAM[i] > maiorValorRAM){
-            maiorValorRAM = dadosRAM[i];
-        }
-     }
- 
-     if(maiorValorRAM >= 80){
-        borderColorRAM = 'rgb(255, 0, 0)';
-     }else if(maiorValorRAM >= 50){
-        borderColorRAM = 'rgb(255, 255, 0)';
-     }
-    
     //dados para os gráficos
     const dataGrafico1 = {
         labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
             label: 'Porcentagem de uso (CPU)',
-            data: dadosCPU,
-            borderColor: borderColor, 
+            data: [12, 93, 39, 50, 20],
+            borderColor: 'rgb(255, 204, 108)', 
             backgroundColor: [
-            borderColor],
+            'rgb(255, 204, 108)',
+            'rgb(255, 204, 108)'
+                 ],
             fill: false
         }]
     };
@@ -175,9 +141,12 @@
         labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
             label: 'Porcentagem de uso (RAM)',
-            data: dadosRAM,
-            borderColor: borderColorRAM, 
-            backgroundColor: [borderColorRAM],
+            data: [25, 35, 60, 92, 7],
+            borderColor: 'rgb(255, 204, 108)', 
+            backgroundColor: [
+            'rgb(255, 204, 108)',
+            'rgb(255, 204, 108)'
+                 ],
             fill: false
         }]
     };

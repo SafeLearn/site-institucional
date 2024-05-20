@@ -29,7 +29,9 @@ function entrar(dadosLogin) {
             if (json && json.idUsuario) {
                 sessionStorage.USER_NAME = dadosLogin.loginUsuario;
                 sessionStorage.ID_USUARIO = json.idUsuario;
+                sessionStorage.NIVEL_ACESSO = json.nivelDeAcesso;
 
+                console.log("ESTOU NO LOGIN.JS - DADOS DO USUARIO: "+sessionStorage);
                 setTimeout(function () {
                     window.location = `/dashboard?id=${json.idUsuario}`;
                 }, 1000);

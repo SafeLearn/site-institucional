@@ -160,24 +160,20 @@
 
     function desligar(chamada){
         let title;
-        let text;
         let title2;
         let text2;
 
         
         if(chamada == 1){
             title = "Tem certeza que deseja desligar a máquina 0221?"
-            text = "A máquina será desligada!";
             title2 = "Desligando...";
             text2 = "A máquina está sendo desligada!";
         }else if (chamada == 2){
             title = "Tem certeza que deseja reiniciar a máquina 0221?"
-            text = "A máquina será reiniciada!";
             title2 = "Reiniciando...";
             text2 = "A máquina está sendo reiniciada!";
         }else if(chamada == 3){
             title = "Tem certeza que deseja suspender a máquina 0221?"
-            text = "A máquina será suspendida!";
             title2 = "Suspendendo...";
             text2 = "A máquina está sendo suspendida!";
         }
@@ -188,7 +184,7 @@
           });
           swalWithBootstrapButtons.fire({
             title: title,
-            text: text,
+            icon: "warning",
             backdrop: `
               rgba(0,0,0,0.4)
             `,
@@ -203,10 +199,15 @@
                 text: text2,
                 icon: "success"
               });
+              desligarMaquina(2);
             }
           });
     }
 
+
+    function desligarMaquina(idMaquina){
+        console.log("DESLIGANDO A MAQUINA: " + idMaquina);
+    }
   
 </script>
 

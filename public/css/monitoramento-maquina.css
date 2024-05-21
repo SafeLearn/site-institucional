@@ -1,4 +1,4 @@
-.container li:nth-child(6){
+.container #ativador{
   position: relative;
   color: rgb(85, 83, 83);
   font-size: 14px;
@@ -8,7 +8,7 @@
   cursor: pointer;
 }
 
-.container li:nth-child(6):hover{
+.container #ativador:hover{
   background: linear-gradient(240deg, #FEDD58, #FF7E07);
   border-radius: 50px 0 0 50px;
   color: #fff;

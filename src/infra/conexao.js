@@ -1,10 +1,28 @@
-const mysql = require("mysql2");
+const sql = require('mssql');
 
-const conexao = mysql.createConnection({
-    host: "localhost",
+const config = {
+    server: "ec2-52-73-82-233.compute-1.amazonaws.com",
     database: "safelearn",
-    user: "root",
-    password: "senha"
-});
+    user: "sa",
+    password: "senha",
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true,
+        trustServerCertificate: true
+    }
+};
 
-module.exports = conexao;
+async function connect() {
+    try {
+        await sql.connect(config);
+        console.log("Conexão com SQL Server estabelecida com sucesso!");
+    } catch (err) {
+        console.error("Erro ao conectar ao SQL Server: ", err);
+    }
+}
+
+module.exports = { sql, connect };

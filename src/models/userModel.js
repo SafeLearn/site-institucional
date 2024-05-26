@@ -1,7 +1,8 @@
 const conexao = require("../infra/conexao");
+
 class userModel {
     buscar() {
-        const sql = "SELECT * FROM teste;";
+        const sql = "SELECT * FROM usuario;";
         return new Promise((resolve, reject) => {
             conexao.query(sql, {}, (error, resposta) => {
                 if(error) {
@@ -16,8 +17,8 @@ class userModel {
 
     criar(novoUsuario) {
         console.log(novoUsuario);
-        const sql = "INSERT INTO teste (nome) VALUES (?)";
-        const values = [novoUsuario.nome];
+        const sql = "INSERT INTO usuario (nome) VALUES (@nome)";
+        const values = { nome: novoUsuario.nome };
         return new Promise((resolve, reject) => {
             conexao.query(sql, values, (error, resposta) => {
                 if(error) {
@@ -31,9 +32,10 @@ class userModel {
     }
 
     atualizar(usuarioAtualizado, id) {
-        const sql = "UPDATE teste SET ? WHERE id = ?";
+        const sql = "UPDATE usuario SET nome = @nome WHERE idUsuario = @id";
+        const values = { nome: usuarioAtualizado.nome, id: id };
         return new Promise((resolve, reject) => {
-            conexao.query(sql, [usuarioAtualizado, id], (error, resposta) => {
+            conexao.query(sql, values, (error, resposta) => {
                 if(error) {
                     console.log("Erro ao atualizar usuário");
                     reject(error);
@@ -45,9 +47,10 @@ class userModel {
     }
 
     deletar(id) {
-        const sql = "DELETE FROM teste WHERE id = ?";
+        const sql = "DELETE FROM usuario WHERE idUsuario = @id";
+        const values = { id: id };
         return new Promise((resolve, reject) => {
-            conexao.query(sql, id, (error, resposta) => {
+            conexao.query(sql, values, (error, resposta) => {
                 if(error) {
                     console.log("Erro ao deletar usuário");
                     reject(error);

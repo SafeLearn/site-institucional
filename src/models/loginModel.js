@@ -1,22 +1,26 @@
-const conexao = require("../infra/conexao");
-class loginModel {
+const { sql } = require("../infra/conexao");
+
+class LoginModel {
     buscar(dadosLogin) {
-        const sql = `SELECT idUsuario, userName, senhaUsuario, nivelDeAcesso FROM usuario
-        RIGHT JOIN nivelDeAcesso ON usuario.fkNivelDeAcesso = niveldeacesso.idNivelDeAcesso WHERE userName = ? AND senhaUsuario = ?`;
+        const sqlQuery = `SELECT idUsuario, userName, senhaUsuario FROM usuario WHERE userName = @userName AND senhaUsuario = @senhaUsuario;`;
+
         return new Promise((resolve, reject) => {
-            conexao.query(sql, [dadosLogin.loginUsuario, dadosLogin.loginSenha], (error, resposta) => {
-                if(error) {
-                    reject(error);
+            sql.connect().then(pool => {
+                return pool.request()
+                    .input('userName', dadosLogin.loginUsuario)
+                    .input('senhaUsuario', dadosLogin.loginSenha)
+                    .query(sqlQuery);
+            }).then(result => {
+                if (result.recordset.length > 0) {
+                    resolve(result.recordset[0]);
                 } else {
-                    if (resposta.length > 0) {
-                        resolve(resposta[0]);
-                    } else {
-                        reject(new Error("Usuário não encontrado ou senha inválida"));
-                    }
+                    reject(new Error("Usuário não encontrado ou senha inválida"));
                 }
-            });  
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 }
 
-module.exports = new loginModel();
+module.exports = new LoginModel();

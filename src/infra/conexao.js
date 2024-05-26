@@ -1,28 +1,28 @@
-const events = require('events');
-events.EventEmitter.defaultMaxListeners = 20;
+const sql = require('mssql');
 
-const sql = require("mssql");
-
-const conexao = {
-    user: "root",
-    password: "senha",
-    server: "localhost",
+const config = {
+    server: "ec2-52-73-82-233.compute-1.amazonaws.com",
     database: "safelearn",
+    user: "sa",
+    password: "senha",
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
     options: {
-        encrypt: false,
-        trustServerCertificate: false  
+        encrypt: true,
+        trustServerCertificate: true
     }
 };
 
-async function conectarBanco() {
+async function connect() {
     try {
-        await sql.connect(conexao);
-        console.log('Conexão bem-sucedida ao SQL Server');
+        await sql.connect(config);
+        console.log("Conexão com SQL Server estabelecida com sucesso!");
     } catch (err) {
-        console.error('Erro ao conectar ao banco de dados: ', err);
+        console.error("Erro ao conectar ao SQL Server: ", err);
     }
 }
 
-conectarBanco();
-
-module.exports = conexao;
+module.exports = { sql, connect };

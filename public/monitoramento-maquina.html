@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="./css/dashboard.css">
     <link rel="stylesheet" href="./css/monitoramento-maquina.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel="shortcut icon" href="./imagens/logoSafePrint.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>SafeLearn -- Dashboard</title>
 </head>
 <body>
@@ -24,7 +26,7 @@
                         <i class="fas fa-home"></i>
                         <span class="nav-item">Home</span>
                     </a></li>
-                <li><a href="./criaruser.html">
+                <li class="criarUsuarioNavegador"><a href="./criaruser.html">
                         <i class="fas fa-user"></i>
                         <span class="nav-item">Usuários</span>
                     </a></li>
@@ -37,10 +39,16 @@
                         <i class="fas fa-question-circle"></i>
                         <span class="nav-item">Suporte</span>
                     </a></li>
-                <li><a href="./">
-                        <i class="fas fa-question-circle"></i>
-                        <span class="nav-item">Desligar Máquina</span>
-                    </a></li>
+                <li id="ativador">
+                    <i class="fas fa-solid fa-power-off"></i>
+                    <span class="nav-item">Desligar Máquina</span>
+                    <div class="listaOpcoes">
+                        <span onclick="desligar(1)">Desligar</span>
+                        <span onclick="desligar(2)">Reiniciar</span>
+                        <span onclick="desligar(3)">Suspender</span>
+                    </div>
+                </li>
+                
                 <li><a href="./home.html" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Sair</span>
@@ -122,17 +130,133 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
+    let botaoDesligar = document.querySelector('#ativador');
+    let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
+    let nivelAcesso = sessionStorage.NIVEL_ACESSO;
+
+    if(nivelAcesso == "Baixo"){
+        botaoDesligar.style.display = 'none';
+        botaoUsuario.style.display = 'none';
+    }else if(nivelAcesso == "Médio"){
+        botaoUsuario.style.display = 'none';
+    }
+
+
+    const listaOpcoes = document.querySelector('.listaOpcoes');
+    const ativador = document.querySelector('#ativador');
+
+    function toggleListaOpcoes(){
+        const isActive = ativador.classList.contains('active');
+        ativador.classList.toggle('active');
+        listaOpcoes.style.display = isActive ? 'none' : 'flex';
+
+    }
+
+    ativador.addEventListener('click', toggleListaOpcoes);
+
+    const alertButton = document.getElementById('deligar');
+      
+
+    function desligar(chamada){
+        let title;
+        let title2;
+        let text2;
+
+        
+        if(chamada == 1){
+            title = "Tem certeza que deseja desligar a máquina 0221?"
+            title2 = "Desligando...";
+            text2 = "A máquina está sendo desligada!";
+        }else if (chamada == 2){
+            title = "Tem certeza que deseja reiniciar a máquina 0221?"
+            title2 = "Reiniciando...";
+            text2 = "A máquina está sendo reiniciada!";
+        }else if(chamada == 3){
+            title = "Tem certeza que deseja suspender a máquina 0221?"
+            title2 = "Suspendendo...";
+            text2 = "A máquina está sendo suspendida!";
+        }
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            
+            buttonsStyling: true
+          });
+          swalWithBootstrapButtons.fire({
+            title: title,
+            icon: "warning",
+            backdrop: `
+              rgba(0,0,0,0.4)
+            `,
+            showCancelButton: true,
+            confirmButtonText: "Sim, tenho certeza!",
+            cancelButtonText: "Não, cancela!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              swalWithBootstrapButtons.fire({
+                title: title2,
+                text: text2,
+                icon: "success"
+              });
+              desligarMaquina(2);
+            }
+          });
+    }
+
+
+    function desligarMaquina(idMaquina){
+        console.log("DESLIGANDO A MAQUINA: " + idMaquina);
+    }
+  
+</script>
+
+<script>
+
+    //LOGICA DE INDICADORES CPU
+    let dadosCPU = [12, 93, 39, 50, 20];
+    let borderColor = 'rgb(0, 128, 0)';
+    let maiorValorCPU = 0;
+
+    for (let i = 0; i < dadosCPU.length; i++){
+       if(dadosCPU[i] > maiorValorCPU){
+        maiorValorCPU = dadosCPU[i];
+       }
+    }
+
+    if(maiorValorCPU >= 80){
+        borderColor = 'rgb(255, 0, 0)';
+    }else if(maiorValorCPU >= 50){
+        borderColor = 'rgb(255, 255, 0)';
+    }
+
+
+    //LOGICA INDICADORES DE RAM
+    let dadosRAM = [25, 35, 60, 92, 7];
+    let borderColorRAM = 'rgb(0, 128, 0)';
+    let maiorValorRAM = 0;
+
+    for (let i = 0; i < dadosRAM.length; i++){
+        if(dadosRAM[i] > maiorValorRAM){
+            maiorValorRAM = dadosRAM[i];
+        }
+     }
+ 
+     if(maiorValorRAM >= 80){
+        borderColorRAM = 'rgb(255, 0, 0)';
+     }else if(maiorValorRAM >= 50){
+        borderColorRAM = 'rgb(255, 255, 0)';
+     }
+    
     //dados para os gráficos
     const dataGrafico1 = {
         labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
             label: 'Porcentagem de uso (CPU)',
-            data: [12, 93, 39, 50, 20],
-            borderColor: 'rgb(255, 204, 108)', 
+            data: dadosCPU,
+            borderColor: borderColor, 
             backgroundColor: [
-            'rgb(255, 204, 108)',
-            'rgb(255, 204, 108)'
-                 ],
+            borderColor],
             fill: false
         }]
     };
@@ -141,12 +265,9 @@
         labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
             label: 'Porcentagem de uso (RAM)',
-            data: [25, 35, 60, 92, 7],
-            borderColor: 'rgb(255, 204, 108)', 
-            backgroundColor: [
-            'rgb(255, 204, 108)',
-            'rgb(255, 204, 108)'
-                 ],
+            data: dadosRAM,
+            borderColor: borderColorRAM, 
+            backgroundColor: [borderColorRAM],
             fill: false
         }]
     };

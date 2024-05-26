@@ -6,6 +6,7 @@ router.post("/logar", async (req, res) => {
     try {
         const dadosLogin = req.body;
         const dadosLoginCriado = await loginController.buscar(dadosLogin);
+
         res.status(201).json(dadosLoginCriado);
     } catch (error) {
         res.status(400).json({ message: error.message });

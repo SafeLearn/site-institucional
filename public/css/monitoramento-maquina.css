@@ -1,3 +1,96 @@
+.container #ativador{
+  position: relative;
+  color: rgb(85, 83, 83);
+  font-size: 14px;
+  display: table;
+  width: 280px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.container #ativador:hover{
+  background: linear-gradient(240deg, #FEDD58, #FF7E07);
+  border-radius: 50px 0 0 50px;
+  color: #fff;
+}
+
+.active{
+    display: none;
+   background: linear-gradient(240deg, #FEDD58, #FF7E07);
+   border-radius: 50px 0 0 50px;
+    color: #fff !important;
+}
+
+.listaOpcoes{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 120px;
+    padding: 10px;
+    gap: 5px;
+}
+
+.listaOpcoes span{
+    display: flex;
+    width: 80%;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.listaOpcoes span::before, 
+.listaOpcoes span::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 0;
+    background: white;
+    transition: width 0.5s ease;
+    bottom: 0;
+}
+
+.listaOpcoes span::before {
+    top: 0;
+    left: 50%;
+}
+
+.listaOpcoes span::after {
+    bottom: 0;
+    right: 50%;
+}
+
+.listaOpcoes span:hover::before {
+    width: 100%;
+    left: 0;
+    color: rgb(85, 83, 83) !important;
+}
+
+.listaOpcoes span:hover::after {
+    width: 100%;
+    right: 0;
+    color: rgb(85, 83, 83); 
+}
+
+  
+.active .listaOpcoes {
+   animation: listaOpcoes .4s;
+}
+  
+ @keyframes listaOpcoes {
+   from {
+     opacity: 0;
+     transform: translate3d(0, -60px, 0);
+   }
+   to {
+     opacity: 1;
+     transform: translate3d(0, 0, 0);
+   }
+ }
+
 .graficos-wrapper {
     display: flex;
     flex-direction: column;

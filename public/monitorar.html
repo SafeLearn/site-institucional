@@ -34,7 +34,7 @@
                                 <i class="fas fa-home"></i>
                                 <span class="nav-item">Home</span>
                             </a></li>
-                        <li><a href="./criaruser.html">
+                        <li class="criarUsuarioNavegador"><a href="./criaruser.html">
                                 <i class="fas fa-user"></i>
                                 <span class="nav-item">Usuários</span>
                             </a></li>
@@ -98,3 +98,12 @@
 </html>
 
 <script src="monitorar.js"></script>
+
+<script>
+  let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
+  let nivelAcesso = sessionStorage.NIVEL_ACESSO;
+
+  if(nivelAcesso == "Baixo" || nivelAcesso == "Médio"){
+    botaoUsuario.style.display = 'none';
+  }
+</script>

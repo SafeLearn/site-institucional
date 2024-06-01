@@ -8,221 +8,215 @@
   <link rel="stylesheet" href="./css/user.css">
   <link rel="shortcut icon" href="./imagens/logoSafePrint.png">
   <title>SafeLearn -- Dashboard</title>
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <span style="font-family: verdana, geneva, sans-serif;">
-    <!DOCTYPE html>
-    <html lang="en">
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+            <img src="./imagens/logoSafePrint.png" alt="">
+            <span class="nav-item">DashBoard</span>
+          </a></li>
+        <li><a href="./dashboard.html">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Home</span>
+          </a></li>
+        <li><a href="./criaruser.html">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">Usuários</span>
+          </a></li>
 
-    <head>
-      <meta charset="UTF-8" />
-      <title>Dashboard</title>
-      <link rel="stylesheet" href="style.css" />
-      <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    </head>
+        <li><a href="./monitorar.html">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Monitoramento</span>
+          </a></li>
+        <li><a href="./suporte.html">
+            <i class="fas fa-question-circle"></i>
+            <span class="nav-item">Suporte</span>
+          </a></li>
+        <li><a href="./home.html" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Sair</span>
+          </a></li>
+      </ul>
+    </nav>
 
-    <body>
-      <div class="container">
-        <nav>
-          <ul>
-            <li><a href="#" class="logo">
-                <img src="./imagens/logoSafePrint.png" alt="">
-                <span class="nav-item">DashBoard</span>
-              </a></li>
-            <li><a href="./dashboard.html">
-                <i class="fas fa-home"></i>
-                <span class="nav-item">Home</span>
-              </a></li>
-            <li><a href="./criaruser.html">
-                <i class="fas fa-user"></i>
-                <span class="nav-item">Usuários</span>
-              </a></li>
+    <section class="main">
 
-            <li><a href="./monitorar.html">
-                <i class="fas fa-chart-bar"></i>
-                <span class="nav-item">Monitoramento</span>
-              </a></li>
-            <li><a href="./suporte.html">
-                <i class="fas fa-question-circle"></i>
-                <span class="nav-item">Suporte</span>
-              </a></li>
-            <li><a href="./home.html" class="logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="nav-item">Sair</span>
-              </a></li>
-          </ul>
-        </nav>
-          
-        <section class="main">
-
-          <div class="main-top">
-            <h2>Usuários</h2>
-        
-            <i class="fas fa-user-cog"></i>
+      <div class="main-top">
+        <h2>Usuários</h2>
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <div class="titulo">
+        <h2>Painel de Cadastro</h2>
+        <p>Registre novos usuários para acesso à interface principal</p>
+      </div>
+      <div class="containeruser">
+        <div class="header">
+          <span>Cadastro de Usuários</span>
+          <button onclick="openModal()" id="new">Incluir</button>
         </div>
-        <div class="titulo">
-          <h2>Painel de Cadastro</h2>
-          <p>Registre novos usuários para acesso à interface principal</p>
-      </div>
-          <div class="containeruser">
-            <div class="header">
-              <span>Cadastro de Usuários</span>
-              <button onclick="openModal()" id="new">Incluir</i></button>
-            </div>
 
-            <div class="divTable">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Nível</th>
-                    <th class="acao">Editar</th>
-                    <th class="acao">Excluir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
+        <div class="divTable">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Nível</th>
+                <th class="acao">Editar</th>
+                <th class="acao">Excluir</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
 
-            <div class="modal-container">
-              <div class="modalUser">
-                <form>
-                  <label for="m-nome">Nome</label>
-                  <input id="m-nome" type="text" placeholder="Digite o nome" required />
+        <div class="modal-container">
+          <div class="modalUser">
+            <form>
+              <label for="m-nome">Nome</label>
+              <input id="m-nome" type="text" placeholder="Digite o nome" required />
 
-                  <label for="m-email">Email</label>
-                  <input id="m-email" type="text" placeholder="Digite o email" required />
+              <label for="m-email">Email</label>
+              <input id="m-email" type="text" placeholder="Digite o email" required />
 
-                  <label for="m-senha">Senha</label>
-                  <input id="m-senha" type="text" placeholder="Digite a senha" required />
+              <label for="m-senha">Senha</label>
+              <input id="m-senha" type="password" placeholder="Digite a senha" required />
+              
+              <label for="m-nome-inst">Nome da Instituição</label>
+              <input id="m-nome-inst" type="text" placeholder="Digite o nome da instituição" required />
+              
+              <label for="m-cnpj">CNPJ da Instituição</label>
+              <input id="m-cnpj" type="text" placeholder="Digite o CNPJ da instituição" required />
 
-                  <label for="m-nivel">Nível</label>
-                  <select name="m-nivel" id="" required>
-                    <option value="">Selecione o tipo de nível</option>
-                    <option value="Alto">Administrador</option>
-                    <option value="Médio">Executador</option>
-                    <option value="Baixo">Visualizador</option>
-                  </select>
-                
-                  <button id="btnSalvar">Salvar</button>
-                </form>
-              </div>
-            </div>
+              <label for="m-email-inst">Email da Instituição</label>
+              <input id="m-email-inst" type="email" placeholder="Digite o email da instituição" required />
 
+              <label for="m-nivel">Nível</label>
+              <select name="m-nivel" id="m-nivel" required>
+                <option value="">Selecione o tipo de nível</option>
+                <option value="Alto">Administrador</option>
+                <option value="Médio">Executador</option>
+                <option value="Baixo">Visualizador</option>
+              </select>
+
+              <button type="button" id="btnSalvar">Salvar</button>
+            </form>
           </div>
-        </section>
-
+        </div>
 
       </div>
-    </body>
+    </section>
 
-    </html>
-  </span>
+  </div>
+
+  <script>
+    const modal = document.querySelector('.modal-container')
+    const tbody = document.querySelector('tbody')
+    const sNome = document.querySelector('#m-nome')
+    const sEmail = document.querySelector('#m-email')
+    const sNivel = document.querySelector('#m-nivel')
+    const btnSalvar = document.querySelector('#btnSalvar')
+    const modal2 = document.querySelector('.modalUser')
+
+    let itens
+    let id
+
+    function openModal(edit = false, index = 0) {
+      modal.classList.add('active')
+      modal2.style.display = 'flex';
+
+      modal.onclick = e => {
+        if (e.target.className.indexOf('modal-container') !== -1) {
+          modal.classList.remove('active')
+        }
+      }
+
+      if (edit) {
+        sNome.value = itens[index].nome
+        sEmail.value = itens[index].email
+        sNivel.value = itens[index].nivel
+        id = index
+      } else {
+        sNome.value = ''
+        sEmail.value = ''
+        sNivel.value = ''
+      }
+
+    }
+
+    function editItem(index) {
+      openModal(true, index)
+    }
+
+    function deleteItem(index) {
+      itens.splice(index, 1)
+      setItensBD()
+      loadItens()
+    }
+
+    function insertItem(item, index) {
+      let tr = document.createElement('tr')
+
+      tr.innerHTML = `
+        <td>${item.nome}</td>
+        <td>${item.email}</td>
+        <td>${item.nivel}</td>
+        <td class="acao">
+          <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+        </td>
+        <td class="acao">
+          <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+        </td>
+      `
+      tbody.appendChild(tr)
+    }
+
+    btnSalvar.onclick = e => {
+
+      if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+        return
+      }
+
+      e.preventDefault();
+
+      if (id !== undefined) {
+        itens[id].nome = sNome.value
+        itens[id].email = sEmail.value
+        itens[id].nivel = sNivel.value
+      } else {
+        itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'nivel': sNivel.value })
+      }
+
+      setItensBD()
+
+      modal.classList.remove('active')
+      loadItens()
+      id = undefined
+    }
+
+    function loadItens() {
+      itens = getItensBD()
+      tbody.innerHTML = ''
+      itens.forEach((item, index) => {
+        insertItem(item, index)
+      })
+
+    }
+
+    const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
+   const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+
+loadItens()
+
+</script>
 </body>
 
 </html>
-<script>
-  const modal = document.querySelector('.modal-container')
-  const tbody = document.querySelector('tbody')
-  const sNome = document.querySelector('#m-nome')
-  const sEmail = document.querySelector('#m-email')
-  const sNivel = document.querySelector('#m-nivel')
-  const btnSalvar = document.querySelector('#btnSalvar')
-  const modal2 = document.querySelector('.modalUser')
 
-  let itens
-  let id
-
-  function openModal(edit = false, index = 0) {
-    modal.classList.add('active')
-    modal2.style.display = 'flex';
-
-    modal.onclick = e => {
-      if (e.target.className.indexOf('modal-container') !== -1) {
-        modal.classList.remove('active')
-      }
-    }
-
-    if (edit) {
-      sNome.value = itens[index].nome
-      sEmail.value = itens[index].email
-      sNivel.value = itens[index].nivel
-      id = index
-    } else {
-      sNome.value = ''
-      sEmail.value = ''
-      sNivel.value = ''
-    }
-
-  }
-
-  function editItem(index) {
-
-    openModal(true, index)
-  }
-
-  function deleteItem(index) {
-    itens.splice(index, 1)
-    setItensBD()
-    loadItens()
-  }
-
-  function insertItem(item, index) {
-    let tr = document.createElement('tr')
-
-    tr.innerHTML = `
-    <td>${item.nome}</td>
-    <td>${item.email}</td>
-    <td>${item.nivel}</td>
-    <td class="acao">
-      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
-    </td>
-    <td class="acao">
-      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
-    </td>
-  `
-    tbody.appendChild(tr)
-  }
-
-  btnSalvar.onclick = e => {
-
-    if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
-      return
-    }
-
-    e.preventDefault();
-
-    if (id !== undefined) {
-      itens[id].nome = sNome.value
-      itens[id].email = sEmail.value
-      itens[id].nivel = sNivel.value
-    } else {
-      itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'nivel': sNivel.value })
-    }
-
-    setItensBD()
-
-    modal.classList.remove('active')
-    loadItens()
-    id = undefined
-  }
-
-  function loadItens() {
-    itens = getItensBD()
-    tbody.innerHTML = ''
-    itens.forEach((item, index) => {
-      insertItem(item, index)
-    })
-
-  }
-
-  const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-  const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
-
-  loadItens()
-
-</script>

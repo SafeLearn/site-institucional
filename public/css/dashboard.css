@@ -297,7 +297,7 @@ a:hover{
 
 
 
-.card .lista-overview .item-lista .barra-status{
+.card .lista-overview .item-lista #barra-status{
   width: 15%;
   height: 10px;
   background-color: green;
@@ -487,8 +487,25 @@ a:hover{
   cursor: pointer;
 }
 
-.modal-content h2{
-  padding-left: 5%;
+.modal-content .titulo{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+}
+
+.modal-content .titulo h2{
+  font-size: 22px
+}
+
+.modal-content .titulo p{
+  font-size: 18px;
+  font-weight: bold;
+  background-color: green;
+  border-radius: 10px;
+  width: 50%;
+  text-align: center;
 }
 
 .modal-content ul{

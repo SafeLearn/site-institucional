@@ -1,5 +1,3 @@
-// const { json } = require("body-parser");
-
 function criarCard(maquina) {
     return `
         <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">

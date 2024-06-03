@@ -2,15 +2,14 @@ const { Router } = require("express");
 const router = Router();
 const maquinaController = require("../controllers/maquinaController");
 
-router.get("buscar/:idInstituicao", async (req, res) => {
+router.get("/buscar/:idInstituicao", async (req, res) => {
+    console.log('Rota chamada com idInstituicao:', req.params.idInstituicao);
     try {
         const idInstituicao = req.params.idInstituicao;
         const maquinas = await maquinaController.buscarMaquinasPorInstituicao(idInstituicao);
 
-        res.status(201).json(maquinas);
-        console.log("TO AQUI")
+        res.status(200).json(maquinas);
     }catch (error) {
-        console.log("ERRO AQUI")
         res.status(400).json({ message: error.message });
         console.error(error.message);
     }

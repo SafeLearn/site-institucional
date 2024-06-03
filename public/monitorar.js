@@ -4,7 +4,7 @@ function criarCard(maquina) {
     return `
         <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">
         <div class="descricao">
-        <p>Código Máquina: ${maquina.id}</p>
+        <p>Código Máquina: ${maquina.idProcessador}</p>
         <p>Nome máquina: ${maquina.nome}</p>
     `
 }

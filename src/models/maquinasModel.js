@@ -2,7 +2,7 @@ const { sql } = require("../infra/conexao");
 
 class maquinasModel {
     buscarMaquinasPorInstituicao(idInstituicao) {
-        const query = `SELECT idProcessador, nome, sistemaOperacional, status FROM maquina WHERE fkInstituicao = @idInstiruicao;`;
+        const query = `SELECT idProcessador, nome, sistemaOperacional, status FROM maquina WHERE fkInstituicao = @idInstituicao;`;
 
         return new Promise((resolve, reject) => {
             sql.connect().then(pool => {

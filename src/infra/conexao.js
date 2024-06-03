@@ -1,10 +1,10 @@
 const sql = require('mssql');
 
 const config = {
-    server: "ec2-52-73-82-233.compute-1.amazonaws.com",
+    server: "safelearn-server.database.windows.net",
     database: "safelearn",
-    user: "sa",
-    password: "senha",
+    user: "user",
+    password: "senha123.",
     pool: {
         max: 10,
         min: 0,

@@ -83,7 +83,7 @@
               </div>
 
               <div class="titulo">
-                <h2>Bem-Vindo(a) de volta Oswaldo Dantes</h2>
+                <h2 id="saudacoes"></h2>
                 <p>Esses são os dados mais recentes de suas máquinas</p>
               </div>
 
@@ -203,12 +203,15 @@
 <script src="dashboardGrafico.js"></script>
 
 <script>
+  let saudacoes = document.getElementById("saudacoes");
   let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
   let nivelAcesso = sessionStorage.NIVEL_ACESSO;
 
   if(nivelAcesso == "Baixo" || nivelAcesso == "Médio"){
     botaoUsuario.style.display = 'none';
   }
+
+  saudacoes.innerHTML = `Bem-Vindo(a) de volta ${sessionStorage.USER_NAME}`;
 
 </script>
 

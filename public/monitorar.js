@@ -1,19 +1,20 @@
-const data = Array.from({ length: 30 })
-.map((_,i) => `
-     <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">
-     <div class="descricao">
-     <p>Código Máquina: ${i+1}</p>
-     <p>Máquina sala informática</p>
-     `);
+// const { json } = require("body-parser");
 
-// ===================================================================
+function criarCard(maquina) {
+    return `
+        <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">
+        <div class="descricao">
+        <p>Código Máquina: ${maquina.id}</p>
+        <p>Nome máquina: ${maquina.nome}</p>
+    `
+}
 
-
+let data = [];
 let perPage = 5;
 const state = {
     page: 1,
     perPage,
-    totalPage:Math.ceil(data.length / perPage),
+    totalPage: 1,
     maxVisibleButtons: 5
 }
 
@@ -29,8 +30,9 @@ const controls = {
 
         const lastPage = state.page > state.totalPage
         if (lastPage) {
-            state.page--
+            state.page--;
         }
+        update();
     },
     prev() {
         state.page--;
@@ -38,6 +40,7 @@ const controls = {
         if (state.page < 1) {
             state.page++;
         }
+        update();
     },
     goTo(page) {
         if(page < 1){
@@ -49,26 +52,23 @@ const controls = {
         if (page > state.totalPage) {
             state.page = state.totalPage
         }
+        update();
     },
     createListeners(){
         html.get('.comeco').addEventListener('click', ()=> {
             controls.goTo(1);
-            update();
         });
 
         html.get('.ultimo').addEventListener('click', ()=> {
             controls.goTo(state.totalPage);
-            update();
         });
 
         html.get('.proximo').addEventListener('click', ()=> {
             controls.next();
-            update();
         });
 
         html.get('.volta').addEventListener('click', ()=> {
             controls.prev();
-            update();
         });
     }
 }
@@ -78,9 +78,9 @@ const list = {
         const div = document.createElement('div');
         div.addEventListener("click", () =>
             window.location.href = "monitoramento-maquina.html"
-        )
+        );
         div.classList.add('item-lista');
-        div.innerHTML = item
+        div.innerHTML = item;
 
         html.get('.lista').appendChild(div)
     },
@@ -92,15 +92,13 @@ const list = {
         let end = start + state.perPage;
         
         const paginatedItems = data.slice(start, end);
-
-        paginatedItems.forEach(list.create)
+        paginatedItems.forEach((maquina) => list.create(criarCard(maquina)));
     }
 }
 
 const buttons = {
     create(numeros){
         const button = document.createElement('div');
-
         button.innerHTML = numeros;
 
         if(state.page == numeros){
@@ -109,16 +107,14 @@ const buttons = {
 
         button.addEventListener('click', (event) => {
             const page = event.target.innerText;
-
             controls.goTo(page);
-            update()
-        })
+        });
 
         html.get('.paginacao .numeros').appendChild(button)
     },
     update() {
         html.get('.paginacao .numeros').innerHTML = "";
-        const {maxLeft, maxRigth} = buttons.calculateMaxVisible()
+        const {maxLeft, maxRigth} = buttons.calculateMaxVisible();
 
         for(let page = maxLeft; page <= maxRigth; page++){
             buttons.create(page);
@@ -170,9 +166,21 @@ function update() {
 let listaElement;*/
 
 function init() {
-    /*listaElement = html.get('.lista');*/
-    update();
-    controls.createListeners();
+    fetch(`/maquina/buscar/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
+        if(!resposta.ok){
+            throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
+        }
+        return resposta.json();
+    }).then(json => {
+        console.log("Dados recebidos: ", json);
+        data = json;
+        state.totalPage = Math.ceil(data.length / state.perPage);
+        update();
+        controls.createListeners(); 
+    })
+    .catch(error => {
+        console.error("Erro ao buscar dados:", error);
+    });
 }
 
-init()
+init();

@@ -30,6 +30,7 @@ function entrar(dadosLogin) {
                 sessionStorage.USER_NAME = dadosLogin.loginUsuario;
                 sessionStorage.ID_USUARIO = json.idUsuario;
                 sessionStorage.NIVEL_ACESSO = json.nivelDeAcesso;
+                sessionStorage.ID_INSTITUICAO = json.fkinstituicao;
 
                 console.log("ESTOU NO LOGIN.JS - DADOS DO USUARIO: "+sessionStorage);
                 setTimeout(function () {

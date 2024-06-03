@@ -22,12 +22,14 @@ const cadastroRoute = require("./src/routes/cadastro");
 const loginRoute = require("./src/routes/login");
 const atualizarRoute = require("./src/routes/atualizar");
 const deletarRoute = require("./src/routes/deletar");
+const maquinaRoute = require("./src/routes/maquina");
 
 app.use("/", homeRoute);
 app.use("/cadastro", cadastroRoute);
 app.use("/login", loginRoute);
 app.use("/atualizar", atualizarRoute);
 app.use("/deletar", deletarRoute);
+app.use("/maquina", maquinaRoute);
 
 app.get("/cadastrar-me", (req, res) => {
     res.sendFile("cadastroPessoal.html", { root: "public" });
@@ -51,7 +53,7 @@ app.get("/trocar-senha", (req, res) => {
 
 app.get("/dashboard", (req, res) => {
     res.sendFile("dashboard.html", { root: "public" });
-})
+});
 
 connect().then(() => {
     app.listen(port, (error) => {

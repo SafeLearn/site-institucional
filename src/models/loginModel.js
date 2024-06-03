@@ -2,7 +2,9 @@ const { sql } = require("../infra/conexao");
 
 class LoginModel {
     buscar(dadosLogin) {
-        const sqlQuery = `SELECT idUsuario, userName, senhaUsuario FROM usuario WHERE userName = @userName AND senhaUsuario = @senhaUsuario;`;
+        const sqlQuery = `SELECT idUsuario, userName, senhaUsuario, nivelDeAcesso, fkinstituicao FROM usuario 
+            INNER JOIN nivelDeAcesso ON fkNivelDeAcesso = idNivelDeAcesso
+                WHERE userName = @userName AND senhaUsuario = @senhaUsuario;`;
 
         return new Promise((resolve, reject) => {
             sql.connect().then(pool => {

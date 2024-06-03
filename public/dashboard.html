@@ -88,19 +88,19 @@
               <span class="item-lista">
                 <p>Máquinas Ligadas:</p>
                 <p id="maquinas_ligadas"></p>
-                <div id="barra-status"></div>
+                <div id="barra-status" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal1')" data-modal-id="modal1"></i>
               </span>
               <span class="item-lista">
                 <p>Máquinas em risco:</p>
-                <p>5</p>
-                <div id="barra-status"></div>
+                <p id="maquinas_risco">5</p>
+                <div id="barra-status-risco" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal2')" data-modal-id="modal2"></i>
               </span>
               <span class="item-lista">
                 <p>Máquinas com pouca bateria:</p>
-                <p>2</p>
-                <div id="barra-status"></div>
+                <p id="maquinas_pouca_bateria"></p>
+                <div id="barra_status_bateria" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal3')" data-modal-id="modal3"></i>
               </span>
             </div>
@@ -148,7 +148,10 @@
       <div id="modal2" class="modal">
         <div class="modal-content">
           <span class="fechar-modal" onclick="closeModal('modal2')">&times;</span>
-          <h2>Lista de Máquinas em risco</h2>
+          <div class="titulo">
+            <h2>Lista de Máquinas em Risco: </h2>
+            <p id="qtd_maquinas_risco"></p>
+          </div>
           <ul>
             <li>Máquina</li>
             <li>Máquina</li>
@@ -160,12 +163,12 @@
       <div id="modal3" class="modal">
         <div class="modal-content">
           <span class="fechar-modal" onclick="closeModal('modal3')">&times;</span>
-          <h2>Lista de Máquinas com pouca bateria</h2>
-          <ul>
-            <li>Máquina</li>
-            <li>Máquina</li>
-            <li>Máquina</li>
-            <li>Máquina</li>
+          <div class="titulo">
+            <h2>Lista de Máquinas com pouca bateria: </h2>
+            <p id="qtd_maquinas_bateria"></p>
+          </div>
+          <ul id="lista_maquinas_bateria">
+          </ul>
         </div>
       </div>
 
@@ -193,6 +196,8 @@
 
 <script>
 
+  
+
   function visaoGeral() {
     const maquinas_ligadas = document.getElementById("maquinas_ligadas");
     const lista_maquinas_ligadas = document.getElementById("lista_maquinas_ligadas");
@@ -200,7 +205,9 @@
     const barra_status = document.getElementById("barra-status");
 
     let data = [];
+    let qtd_Maquinas_Total = 0;
 
+    //Máquinas ligadas
     fetch(`/maquina/buscar/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
       if (!resposta.ok) {
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
@@ -208,8 +215,8 @@
       return resposta.json();
     }).then(json => {
 
-      //Máquinas ligadas
       console.log("Dados recebidos: ", json);
+      qtd_Maquinas_Total = json.length;
 
       json.forEach(item => {
         if (item.status === 0) {
@@ -218,14 +225,16 @@
         }
       });
 
+      if(data.length <=0){
+        lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
+      }
+
       maquinas_ligadas.innerHTML = data.length;
       console.log("Lista de itens com status 0:", data);
 
-      const totalItens = json.length;
-      const totalLigadas = data.length;
-      const porcet = (totalLigadas / totalItens) * 100;
+      const porcet = calcularPorcent(qtd_Maquinas_Total, data);
 
-      qtd_maquinas.innerHTML = `${totalLigadas}/${totalItens} cadastradas`;
+      qtd_maquinas.innerHTML = `${data.length}/${json.length} cadastradas`;
 
       if(porcet <= 20){
         barra_status.style.backgroundColor = "red";
@@ -243,10 +252,70 @@
       console.error("Error ao buscar dados:", error);
     });
 
-    
     //Máquinas em Risco
 
-    
+    //Máquina e Bateria
+    const maquinas_pouca_bateria = document.getElementById("maquinas_pouca_bateria");
+    const lista_maquinas_bateria = document.getElementById("lista_maquinas_bateria");
+    const qtd_maquinas_bateria = document.getElementById("qtd_maquinas_bateria");
+    const barra_status_bateria = document.getElementById("barra_status_bateria");
+
+    let mq_pouca_bateria = [];
+
+    fetch(`/maquina/buscarBateria/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
+      if (!resposta.ok) {
+        throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
+      }
+      return resposta.json();
+    }).then(json => {
+
+      console.log("Dados recebidos: ", json);
+
+      json.forEach(item => {
+        if (item.valorCaptura <= 30) {
+          mq_pouca_bateria.push(item);
+          lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
+        }
+      });
+
+      if(mq_pouca_bateria.length <=0){
+        lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
+      }
+
+      maquinas_pouca_bateria.innerHTML = mq_pouca_bateria.length;
+      
+      const porcet = calcularPorcent(qtd_Maquinas_Total, mq_pouca_bateria);
+      qtd_maquinas_bateria.innerHTML = `${mq_pouca_bateria.length}/${qtd_Maquinas_Total} cadastradas`;
+
+      if(porcet <= 20){
+        barra_status_bateria.style.backgroundColor = "red";
+        qtd_maquinas_bateria.style.backgroundColor = "red";
+      }else if(porcet <= 50){
+        barra_status_bateria.style.backgroundColor = "yellow";
+        qtd_maquinas_bateria.style.backgroundColor = "yellow";
+      }else{
+        barra_status_bateria.style.backgroundColor = "green";
+        qtd_maquinas_bateria.style.backgroundColor = "green";
+      }
+
+
+    }).catch(error => {
+      console.error("Error ao buscar dados:", error);
+    });
+
+
+    function calcularPorcent(totalMaquina, listaSeparada){
+      const totalSeparada = listaSeparada.length;
+      let porcentagem = 0;
+
+      if(listaSeparada.length <= 0){
+        porcentagem = 100;
+      }else{
+        porcentagem = (totalSeparada / totalMaquina) * 100;
+      }
+       
+      return porcentagem;
+    }
   }
   const components = [
     {

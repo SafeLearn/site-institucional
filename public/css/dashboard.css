@@ -297,7 +297,7 @@ a:hover{
 
 
 
-.card .lista-overview .item-lista #barra-status{
+.card .lista-overview .item-lista .barra-status{
   width: 15%;
   height: 10px;
   background-color: green;

@@ -6,10 +6,12 @@ class maquinaController {
     }
 
     async buscarBateriaMaquina(idInstituicao){
-        return await maquinasModel.buscarBateriaMaquina(idInstituicao); //MUDAR LOGICA PARA RECEBER COMPONENTE PASSADO POR PARAMETRO???????
+        return await maquinasModel.buscarBateriaMaquina(idInstituicao);
     }
 
-    
+    async porcentagemComponentes (idInstituicao){
+        return await maquinasModel.porcentagemComponentes(idInstituicao)
+    }
 }
 
 module.exports = new maquinaController;

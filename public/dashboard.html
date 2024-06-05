@@ -14,7 +14,7 @@
   <title>SafeLearn -- Dashboard</title>
 </head>
 
-<body onload="visaoGeral()">
+<body onload="visaoGeral(), statusComponentes()">
   <div class="container">
     <nav>
       <ul>
@@ -93,8 +93,8 @@
               </span>
               <span class="item-lista">
                 <p>Máquinas em risco:</p>
-                <p id="maquinas_risco">5</p>
-                <div id="barra-status-risco" class="barra-status"></div>
+                <p id="maquinas_risco"></p>
+                <div id="barra_status_risco" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal2')" data-modal-id="modal2"></i>
               </span>
               <span class="item-lista">
@@ -152,11 +152,8 @@
             <h2>Lista de Máquinas em Risco: </h2>
             <p id="qtd_maquinas_risco"></p>
           </div>
-          <ul>
-            <li>Máquina</li>
-            <li>Máquina</li>
-            <li>Máquina</li>
-            <li>Máquina</li>
+          <ul id="lista_maquinas_risco">
+            
         </div>
       </div>
 
@@ -195,8 +192,21 @@
 </script>
 
 <script>
+  let qtd_Maquinas_Total = 0;
 
-  
+
+  function calcularPorcent(totalMaquina, listaSeparada){
+    const totalSeparada = listaSeparada.length;
+    let porcentagem = 0;
+
+    if(listaSeparada.length <= 0){
+      porcentagem = 100;
+    }else{
+      porcentagem = (totalSeparada / totalMaquina) * 100;
+    }
+     
+    return porcentagem;
+  }
 
   function visaoGeral() {
     const maquinas_ligadas = document.getElementById("maquinas_ligadas");
@@ -205,7 +215,7 @@
     const barra_status = document.getElementById("barra-status");
 
     let data = [];
-    let qtd_Maquinas_Total = 0;
+   
 
     //Máquinas ligadas
     fetch(`/maquina/buscar/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
@@ -216,7 +226,7 @@
     }).then(json => {
 
       console.log("Dados recebidos: ", json);
-      qtd_Maquinas_Total = json.length;
+      qtd_Maquinas_Total += json.length;
 
       json.forEach(item => {
         if (item.status === 0) {
@@ -251,8 +261,6 @@
     }).catch(error => {
       console.error("Error ao buscar dados:", error);
     });
-
-    //Máquinas em Risco
 
     //Máquina e Bateria
     const maquinas_pouca_bateria = document.getElementById("maquinas_pouca_bateria");
@@ -302,102 +310,101 @@
     }).catch(error => {
       console.error("Error ao buscar dados:", error);
     });
-
-
-    function calcularPorcent(totalMaquina, listaSeparada){
-      const totalSeparada = listaSeparada.length;
-      let porcentagem = 0;
-
-      if(listaSeparada.length <= 0){
-        porcentagem = 100;
-      }else{
-        porcentagem = (totalSeparada / totalMaquina) * 100;
-      }
-       
-      return porcentagem;
-    }
   }
-  const components = [
-    {
-      MAQUINA: "01",
-      CPU: 90,
-      RAM: 80,
-      DISCO: 70,
-      BATERIA: 30,
-      STATUS: "Ruim",
-    },
-    {
-      MAQUINA: "02",
-      CPU: 30,
-      RAM: 40,
-      DISCO: 10,
-      BATERIA: 70,
-      STATUS: "Bom",
-    },
-    {
-      MAQUINA: "03",
-      CPU: 60,
-      RAM: 40,
-      DISCO: 10,
-      BATERIA: 10,
-      STATUS: "Alerta",
-    },
-    {
-      MAQUINA: "04",
-      CPU: 90,
-      RAM: 65,
-      DISCO: 10,
-      BATERIA: 90,
-      STATUS: "Ruim",
-    },
-    {
-      MAQUINA: "05",
-      CPU: 10,
-      RAM: 40,
-      DISCO: 10,
-      BATERIA: 100,
-      STATUS: "Bom",
-    },
-  ];
+
+  function statusComponentes(){
+    fetch(`/maquina/porcentagem/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
+      if(!resposta.ok){
+        throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
+      }
+      return resposta.json();
+    }).then(json => {
+      console.log("Dados recebidos: ", json);
+
+      let components = json;
+
+      components.forEach(item => {
+        let bom = 0;
+        let alerta = 0;
+        let critico = 0;
+
+        if(item.CPU >= 80){
+          alerta ++;
+        }else if(item.CPU >= 90){
+          critico ++;
+        }else if(item.CPU == null){
+          critico ++;
+        }else{
+          bom ++;
+        }
+
+        if(item.RAM >= 70){
+          alerta ++;
+        }else if(item.RAM >= 80){
+          critico ++;
+        }else if(item.RAM == null){
+          critico ++;
+        }else{
+          bom ++;
+        }
+
+        if(item.DISCO >= 70){
+          alerta ++;
+        }else if(item.DISCO >= 80){
+          critico ++;
+        }else if(item.DISCO == null){
+          critico ++;
+        }else{
+          bom ++;
+        }
+
+        if(item.BATERIA <= 15){
+          critico ++;
+        }else if(item.BATERIA <= 60){
+          alerta ++;
+        }else if(item.BATERIA == null){
+          critico ++;
+        }else{
+          bom ++;
+        }
+
+        let status;
+
+        if(bom >= alerta && bom >= critico){
+          status = "Bom";
+        }else if(alerta >= bom && alerta >= critico){
+          status = "Alerta";
+        }else{
+          status = "Critico"
+        }
+
+        item.STATUS = status
+
+        console.log(item) 
+      });
 
   const order = [];
-
-  function ultimaOcorrencia(lista, item) {
-    for (let i = lista.length - 1; i >= 0; i--) {
-      if (lista[i] && lista[i].STATUS === item) {
-        return i;
-      }
-    }
-    return -1;
-  }
+  let maquinasCriticas = [];
 
   function verificaEOrdenaPorStatusItem() {
-    //let posicaoRuim = 0;
-    //let posicaoAlerta = 0;
-    //let posicaoBom = 0;
 
     for (let i = 0; i < components.length; i++) {
       let corStatus;
       const status = components[i].STATUS;
 
       switch (status) {
-        case "Ruim":
+        case "Critico":
           corStatus = "red";
           order.splice(i, 0, { ...components[i], corStatus });
-          //posicaoRuim++;
-          //posicaoAlerta++;
-          //posicaoBom++;
+          maquinasCriticas.push(components[i]);
           break;
         case "Alerta":
           corStatus = "yellow";
           order.splice(i, 0, { ...components[i], corStatus });
-          //posicaoAlerta++;
-          //posicaoBom++;
           break;
         case "Bom":
           corStatus = "green";
           order.splice(i, 0, { ...components[i], corStatus });
-          //posicaoBom++;
           break;
         default:
           corStatus = "none";
@@ -410,12 +417,13 @@
   function createItem(item, i) {
     const div = document.createElement("div");
     div.classList.add("item-maquina");
+
     div.innerHTML = `
-            <span>Máquina ${item.MAQUINA}</span>
-            <span style="animation: piscar 1s infinite;">${item.CPU}%</span>
-            <span>${item.RAM}%</span>
-            <span>${item.DISCO}%</span>
-            <span>${item.BATERIA}%</span>
+            <span>${item.Maquina}</span>
+            <span>${item.CPU == null ? "-" : item.CPU}%</span>
+            <span>${item.RAM == null ? "-" : item.RAM}%</span>
+            <span>${item.DISCO == null ? "-" : item.DISCO}%</span>
+            <span>${item.BATERIA == null ? "-" : (item.BATERIA).toFixed(1)}%</span>
         `;
     div.style.borderBottom = `6px solid ${item.corStatus}`;
     lista_maquinas.appendChild(div);
@@ -426,8 +434,46 @@
     order.forEach(createItem);
   }
 
+  function updateMaquinasRisco(){
+    const maquinas_risco = document.getElementById("maquinas_risco");
+    const barra_status_risco = document.getElementById("barra_status_risco");
+    const qtd_maquinas_risco = document.getElementById("qtd_maquinas_risco");
+    const lista_maquinas_risco = document.getElementById("lista_maquinas_risco");
+
+    const porcet = calcularPorcent(qtd_Maquinas_Total, maquinasCriticas);
+
+    console.log("porcentagem ", porcet)
+
+    if(porcet >= 80){
+      barra_status_risco.style.backgroundColor = "red";
+      qtd_maquinas_risco.style.backgroundColor = "red";
+    }else if(porcet >= 50){
+      barra_status_risco.style.backgroundColor = "yellow";
+      qtd_maquinas_risco.style.backgroundColor = "yellow";
+    }else{
+      barra_status_risco.style.backgroundColor = "green";
+      qtd_maquinas_risco.style.backgroundColor = "green";
+    }
+
+    maquinasCriticas.forEach(item =>{
+      lista_maquinas_risco.innerHTML += `<li>Máquina: ${item.Maquina}</li>`;
+    })
+
+    if(lista_maquinas_risco.length <=0){
+      lista_maquinas_risco.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
+    }
+
+    maquinas_risco.innerHTML = maquinasCriticas.length;
+    qtd_maquinas_risco.innerHTML = `${maquinasCriticas.length}/${components.length} cadastradas`;
+
+  }
+
   verificaEOrdenaPorStatusItem();
   updateList();
+  updateMaquinasRisco();
+    });
+  }
+  
 
 
   //   modal

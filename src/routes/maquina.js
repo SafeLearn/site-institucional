@@ -27,4 +27,16 @@ router.get("/buscarBateria/:idInstituicao", async (req, res) => {
     }
 })
 
+router.get("/porcentagem/:idInstituicao", async (req, res) => {
+    try{
+        const idInstituicao = req.params.idInstituicao;
+        const maquinasComponente = await maquinaController.porcentagemComponentes(idInstituicao);
+
+        res.status(200).json(maquinasComponente);
+    }catch(error){
+        res.status(400).json({message: error.message});
+        console.error(error.message);
+    }
+})
+
 module.exports = router;

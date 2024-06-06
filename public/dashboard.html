@@ -328,7 +328,6 @@
     fetch(`/maquina/porcentagem/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
       if(!resposta.ok){
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
-        
       }
       return resposta.json();
     }).then(json => {

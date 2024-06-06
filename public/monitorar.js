@@ -3,8 +3,7 @@ function criarCard(maquina) {
         <img src="./imagens/icons-dash/icons8-imac-96.png" alt="">
         <div class="descricao">
         <p>Código Máquina: ${maquina.idProcessador}</p>
-        <p>Nome máquina: ${maquina.nome}</p>
-    `
+        <p>Nome máquina: ${maquina.nome}</p>`
 }
 
 let data = [];
@@ -72,11 +71,12 @@ const controls = {
 }
 
 const list = {
-    create(item) {
+    create(item, idProcessador) {
         const div = document.createElement('div');
         div.addEventListener("click", () =>
-            window.location.href = "monitoramento-maquina.html"
+            window.location.href = `monitoramento-maquina.html?${idProcessador}`
         );
+        console.log(item);
         div.classList.add('item-lista');
         div.innerHTML = item;
 
@@ -90,7 +90,7 @@ const list = {
         let end = start + state.perPage;
         
         const paginatedItems = data.slice(start, end);
-        paginatedItems.forEach((maquina) => list.create(criarCard(maquina)));
+        paginatedItems.forEach((maquina) => list.create(criarCard(maquina), maquina.idProcessador));
     }
 }
 

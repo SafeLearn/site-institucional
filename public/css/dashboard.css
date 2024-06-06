@@ -52,6 +52,13 @@ a{
   width: 280px;
   padding: 10px;
 }
+
+#active{
+  background: linear-gradient(240deg, #FEDD58, #FF7E07);
+  border-radius: 50px 0 0 50px;
+  color: #fff;
+}
+
 nav .fas{
   position: relative;
   width: 70px;
@@ -311,6 +318,12 @@ a:hover{
   height: 30px;
   align-items: center;
   justify-content: center;
+}
+
+.lista-maquinas .msg_nenhum_dado{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lista-overview .item-lista p:nth-child(1){

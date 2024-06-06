@@ -56,9 +56,9 @@ class maquinasModel {
         )
         SELECT 
             m.idProcessador AS Maquina,
-            MAX(CASE WHEN c.nomeComponente = 'CPU' THEN (u.valorCaptura / c.especificacaoComponente) * 100 ELSE NULL END) AS CPU,
-            MAX(CASE WHEN c.nomeComponente = 'RAM' THEN (u.valorCaptura / c.especificacaoComponente) * 100 ELSE NULL END) AS RAM,
-            MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN (u.valorCaptura / c.especificacaoComponente) * 100 ELSE NULL END) AS DISCO,
+            MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
+            MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
+            MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
             MAX(CASE WHEN c.nomeComponente = 'BATERIA' THEN u.valorCaptura ELSE NULL END) AS BATERIA
         FROM 
             maquina m

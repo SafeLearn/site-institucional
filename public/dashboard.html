@@ -25,7 +25,7 @@
           </a>
         </li>
         <li>
-          <a href="./dashboard.html">
+          <a href="./dashboard.html" id="active">
             <i class="fas fa-home"></i>
             <span class="nav-item">Home</span>
           </a>
@@ -87,19 +87,19 @@
             <div class="lista-overview">
               <span class="item-lista">
                 <p>Máquinas Ligadas:</p>
-                <p id="maquinas_ligadas"></p>
+                <p id="maquinas_ligadas">-</p>
                 <div id="barra-status" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal1')" data-modal-id="modal1"></i>
               </span>
               <span class="item-lista">
                 <p>Máquinas em risco:</p>
-                <p id="maquinas_risco"></p>
+                <p id="maquinas_risco">-</p>
                 <div id="barra_status_risco" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal2')" data-modal-id="modal2"></i>
               </span>
               <span class="item-lista">
                 <p>Máquinas com pouca bateria:</p>
-                <p id="maquinas_pouca_bateria"></p>
+                <p id="maquinas_pouca_bateria">-</p>
                 <div id="barra_status_bateria" class="barra-status"></div>
                 <i class="fa-regular fa-eye" onclick="openModal('modal3')" data-modal-id="modal3"></i>
               </span>
@@ -114,7 +114,11 @@
               <span>DISCO</span>
               <span>BATERIA</span>
             </div>
-            <div class="lista-maquinas"></div>
+            <div class="lista-maquinas">
+              <div class="msg_nenhum_dado">
+                <p>Nenhum dado encontrado!</p>
+              </div>
+            </div>
           </div>
           <!-- <div class="card">
                                 <p>Máquinas com vida útil abaixo do recomendado:</p>
@@ -123,7 +127,7 @@
                             </div> -->
         </div>
         <div class="graficos">
-          <div class="card-grafico">
+          <div class="card-grafico" id="card_grafico">
             <div id="chart" style="width: 400px; height: 250px"></div>
           </div>
           <div class="card-grafico">
@@ -194,13 +198,18 @@
 <script>
   let qtd_Maquinas_Total = 0;
 
+  function dadosNaoEncontrados(nomeElemento) {
+    nomeElemento.innerHTML = `<div>
+    <p>Nenhum dado encontrado!</p>
+  </div>`;
+}
 
   function calcularPorcent(totalMaquina, listaSeparada){
     const totalSeparada = listaSeparada.length;
     let porcentagem = 0;
 
-    if(listaSeparada.length <= 0){
-      porcentagem = 100;
+    if(totalMaquina === 0){
+      porcentagem = 0;
     }else{
       porcentagem = (totalSeparada / totalMaquina) * 100;
     }
@@ -260,6 +269,7 @@
 
     }).catch(error => {
       console.error("Error ao buscar dados:", error);
+      
     });
 
     //Máquina e Bateria
@@ -313,15 +323,26 @@
   }
 
   function statusComponentes(){
+    const lista_maquinas = document.querySelector(".lista-maquinas");
+
     fetch(`/maquina/porcentagem/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
       if(!resposta.ok){
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
+        
       }
       return resposta.json();
     }).then(json => {
       console.log("Dados recebidos: ", json);
 
       let components = json;
+
+      // Verifica se o JSON está vazio
+      if (components.length === 0) {
+        const div = document.createElement("div");
+        div.innerHTML = `<p>Nenhum dado encontrado!</p>`;
+        lista_maquinas.appendChild(div);
+        return;
+      }
 
       components.forEach(item => {
         let bom = 0;
@@ -378,6 +399,14 @@
           status = "Critico"
         }
 
+        if(critico >=2 || critico == 4){
+          status = "Critico"
+        }else if(bom == 4){
+          status = "Bom"
+        }else{
+          status = "Alerta"
+        }
+
         item.STATUS = status
 
         console.log(item) 
@@ -412,17 +441,15 @@
     }
   }
 
-  const lista_maquinas = document.querySelector(".lista-maquinas");
-
-  function createItem(item, i) {
+  function createItem(item) {
     const div = document.createElement("div");
     div.classList.add("item-maquina");
 
     div.innerHTML = `
             <span>${item.Maquina}</span>
-            <span>${item.CPU == null ? "-" : item.CPU}%</span>
-            <span>${item.RAM == null ? "-" : item.RAM}%</span>
-            <span>${item.DISCO == null ? "-" : item.DISCO}%</span>
+            <span>${item.CPU == null ? "-" : (item.CPU).toFixed(1)}%</span>
+            <span>${item.RAM == null ? "-" : (item.RAM).toFixed(1)}%</span>
+            <span>${item.DISCO == null ? "-" : (item.DISCO).toFixed(1)}%</span>
             <span>${item.BATERIA == null ? "-" : (item.BATERIA).toFixed(1)}%</span>
         `;
     div.style.borderBottom = `6px solid ${item.corStatus}`;

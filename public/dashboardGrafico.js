@@ -14,7 +14,11 @@ function JanelasComMaiorConsumo() {
           drawBasic(response);
         });
       }else{
-        console.error("Nenhum dado encontrado ou erro na API")
+        console.error("Nenhum dado encontrado ou erro na API");
+
+        const card_grafico = document.getElementById("card_grafico");
+
+        dadosNaoEncontrados(card_grafico);
       }
     })
     .catch((error) => {
@@ -28,6 +32,12 @@ google.charts.setOnLoadCallback(initialize);
 
 function initialize() {
   JanelasComMaiorConsumo();
+}
+
+function dadosNaoEncontrados(nomeElemento) {
+    nomeElemento.innerHTML = `<div>
+    <p>Nenhum dado encontrado!</p>
+  </div>`;
 }
 
 

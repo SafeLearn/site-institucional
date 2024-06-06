@@ -25,13 +25,38 @@ function JanelasComMaiorConsumo() {
       console.error(`Erro na obtenção de dados p/ gráfico: ${error.message}`);
     });
 }
+
+function mediaDeUsoComponentes() {
+  fetch(`/maquina/mediaComponentes/${sessionStorage.ID_INSTITUICAO}`)
+    .then((resposta) => {
+      if(resposta.ok){
+        resposta.json().then((response) => {
+          console.log(`Dados recebidos: ${JSON.stringify(response)}`);
+
+          drawVisualization(response);
+
+        });
+      }else{
+        console.error("Nenhum dado encontrado ou erro na API");
+
+        const grafico_media = document.getElementById("grafico_media");
+
+        dadosNaoEncontrados(grafico_media);
+      }
+    })
+    .catch((error) => {
+      console.error(`Erro na obtenção de dados p/ gráfico: ${error.message}`);
+    });
+}
 /*=============================*/
 
 google.charts.load("current", { packages: ["corechart", "bar"] });
+google.charts.load("current", { packages: ["corechart"] });
 google.charts.setOnLoadCallback(initialize);
 
 function initialize() {
   JanelasComMaiorConsumo();
+  mediaDeUsoComponentes();
 }
 
 function dadosNaoEncontrados(nomeElemento) {
@@ -79,22 +104,25 @@ function drawBasic(resposta) {
 /*=============================*/
 /*GRÁFICO DE MEDIA DE USO DE COMPONENTES*/
 
-google.charts.load("current", { packages: ["corechart"] });
-google.charts.setOnLoadCallback(drawVisualization);
+function drawVisualization(resposta) {
+  
+  console.log("Iniciando plotagem do grafico")
+  console.log(resposta)
 
-function drawVisualization() {
-  // Some raw data (not necessarily accurate)
-  var data = google.visualization.arrayToDataTable([
-    ["Dia da Semana", "RAM", "CPU", "DISCO"],
-    ["Segunda-Feira", 31.5, 25, 17.5],
-    ["Terça-Feira", 51.5, 25, 17.5],
-    ["Quarta-Feira", 80, 56, 15],
-    ["Quinta-Feira", 88.5, 23, 12.5],
-    ["Sexta-Feira", 10, 20, 10],
-  ]);
+  var dataArray = [];
+  dataArray.push(["Dia da Semana", "RAM", "CPU", "DISCO"]);
+  console.log(dataArray)
+
+  resposta.forEach(item => {
+    dataArray.push([item.DiaSemana, item.MediaRAM == null ? 0 : parseFloat(item.MediaRAM),
+       item.MediaCPU == null ? 0 : parseFloat(item.MediaCPU),
+       item.MediaDISCO == null ? 0 : parseFloat(item.MediaDISCO)]);
+  });
+
+  var data = google.visualization.arrayToDataTable(dataArray);
 
   var options = {
-    title: "Média de uso dos componentes por processo (%)",
+    title: "Média de uso dos componentes(%)",
     subtitle: "(em Porcentagem %)",
     vAxis: { title: "Média de uso" },
     hAxis: { title: "Dia da Semana" },
@@ -108,5 +136,3 @@ function drawVisualization() {
   );
   chart.draw(data, options);
 }
-
-JanelasComMaiorConsumo();

@@ -39,4 +39,16 @@ router.get("/porcentagem/:idInstituicao", async (req, res) => {
     }
 })
 
+router.get("/mediaComponentes/:idInstituicao", async (req, res) => {
+    try{
+        const idInstituicao = req.params.idInstituicao;
+        const mediaComponentes = await maquinaController.mediaDeUsoComponentes(idInstituicao);
+
+        res.status(200).json(mediaComponentes);
+    }catch(error){
+        res.status(400).json({message: error.message});
+        console.error(error.message);
+    }
+})
+
 module.exports = router;

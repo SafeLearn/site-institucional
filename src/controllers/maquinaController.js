@@ -12,6 +12,10 @@ class maquinaController {
     async porcentagemComponentes (idInstituicao){
         return await maquinasModel.porcentagemComponentes(idInstituicao)
     }
+
+    async mediaDeUsoComponentes (idInstituicao){
+        return await maquinasModel.mediaDeUsoComponentes(idInstituicao)
+    }
 }
 
 module.exports = new maquinaController;

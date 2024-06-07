@@ -123,19 +123,19 @@
   font-size: 12px;
 }
 
-#grafico2 p,  #grafico1 p, #grafico3 p {
+.grafico2 p,  .grafico1 p, .grafico3 p {
     font-size: 10px;
     text-align: justify;
     margin-top: 3px;
     margin-left: 60px;
 }
 
-#grafico3 p{
+.grafico3 p{
     margin-left: 55px;
     font-weight: 600;
 }
 
-#grafico4, #grafico1, #grafico3, #grafico2{
+.grafico4, .grafico1, .grafico3, .grafico2{
     background-color: white;
     max-height: 255px;
     height: 300px;
@@ -144,19 +144,19 @@
     box-shadow: 1px 1px 3px 0px rgba(110,110,110,1);
 }
 
-#grafico1, #grafico4, #grafico2 {
+.grafico1, .grafico4, .grafico2 {
     width: calc(39.33% - 15px);
 }
 
 
-#grafico4{
+.grafico4{
     display: flex;
     flex-direction: column;
     padding: 10px;
     width: calc(42% - 15px);
 }
 
-#grafico4 > h1{
+.grafico4 > h1{
   display: flex;
   width: 100%;
   padding-bottom: 5px;
@@ -165,7 +165,7 @@
   text-indent: 10px;
 }
 
-#grafico4 .lista-info{
+.grafico4 .lista-info{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -176,7 +176,7 @@
     margin-bottom: auto;
 }
 
-#grafico4 span{
+.grafico4 span{
     display: flex;
     align-items: center;
     height: 43px;
@@ -189,16 +189,16 @@
     font-weight: 600;
 }
 
-#grafico4 span p{
+.grafico4 span p{
     font-weight: 100;
 }
 
-#grafico4 span img{
+.grafico4 span img{
     width: 20px;
 }
 
-#grafico4 span:nth-child(2) img,
-#grafico4 span:nth-child(3) img{
+.grafico4 span:nth-child(2) img,
+.grafico4 span:nth-child(3) img{
     filter: brightness(0) saturate(100%) invert(88%) sepia(60%) saturate(1724%) hue-rotate(49deg) brightness(100%) contrast(105%);
     transition: filter 0.5s;
 }

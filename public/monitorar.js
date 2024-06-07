@@ -74,7 +74,7 @@ const list = {
     create(item, idProcessador) {
         const div = document.createElement('div');
         div.addEventListener("click", () =>
-            window.location.href = `monitoramento-maquina.html?${idProcessador}`
+            window.location.href = `monitoramento-maquina.html?id=${idProcessador}`
         );
         console.log(item);
         div.classList.add('item-lista');

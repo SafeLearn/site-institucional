@@ -16,6 +16,12 @@ class maquinaController {
     async mediaDeUsoComponentes (idInstituicao){
         return await maquinasModel.mediaDeUsoComponentes(idInstituicao)
     }
+
+    // MAQUINAS ESPECIFICAS
+
+    async usoDeComponente (idProcessador, nomeComponente) {
+        return await maquinasModel.usoDeComponente(idProcessador, nomeComponente)
+    }
 }
 
 module.exports = new maquinaController;

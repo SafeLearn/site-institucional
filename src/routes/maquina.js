@@ -51,4 +51,17 @@ router.get("/mediaComponentes/:idInstituicao", async (req, res) => {
     }
 })
 
+router.get("/usoDeComponente/:idProcessador/:nomeComponente", async (req, res) => {
+    try{
+        const idProcessador = req.params.idProcessador;
+        const nomeComponente = req.params.nomeComponente;
+        const usoDeComponente = await maquinaController.usoDeComponente(idProcessador, nomeComponente);
+
+        res.status(200).json(usoDeComponente);
+    }catch(error){
+        res.status(400).json({message: error.message});
+        console.error(error.message);
+    }
+})
+
 module.exports = router;

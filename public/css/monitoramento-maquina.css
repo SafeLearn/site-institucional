@@ -329,16 +329,18 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    /* Modal content */
-    .modal-content {
+  
+    .modal-content-d {
       background-color: #fefefe;
-      margin: 15% auto;
+      margin: 10% auto;
       padding: 20px;
       border: 1px solid #888;
       width: 80%;
-      max-width: 300px; /* Adjust the width as needed */
+      max-width: 300px; 
       z-index: 1001;
       text-align: center;
+      border-radius: 8px;
+      height: 250px;
     }
 
     /* Close button */
@@ -356,9 +358,15 @@
       cursor: pointer;
     }
 
-    /* Additional styles for the list */
-    .listaOpcoes span {
-      display: block;
-      margin: 10px 0;
+    .itens-modal-desligar {
+      display: flex;
+      flex-direction: column;
       cursor: pointer;
+      align-items: center; 
+    }
+
+    .itens-modal-desligar span{
+      justify-content: center;
+      padding: 15px;
+      margin-top: 10px;
     }

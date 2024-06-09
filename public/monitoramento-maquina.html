@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,42 +15,33 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>SafeLearn -- Dashboard</title>
 </head>
+
 <body>
     <div class="container">
-      <nav>
-        <ul>
-          <li>
-            <a href="#" class="logo">
-              <img src="./imagens/logoSafePrint.png" alt="" />
-              <span class="nav-item">DashBoard</span>
-            </a>
-          </li>
-          <li>
-            <a href="./dashboard.html">
-              <i class="fas fa-home"></i>
-              <span class="nav-item">Home</span>
-            </a>
-          </li>
-          <li class="criarUsuarioNavegador">
-            <a href="./criaruser.html">
-              <i class="fas fa-user"></i>
-              <span class="nav-item">Usuários</span>
-            </a>
-          </li>
+        <nav>
+            <ul>
+                <li><a href="#" class="logo">
+                        <img src="./imagens/logoSafePrint.png" alt="">
+                        <span class="nav-item">DashBoard</span>
+                    </a></li>
+                <li><a href="./dashboard.html">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-item">Home</span>
+                    </a></li>
+                <li class="criarUsuarioNavegador"><a href="./criaruser.html">
+                        <i class="fas fa-user"></i>
+                        <span class="nav-item">Usuários</span>
+                    </a></li>
 
-          <li>
-            <a href="./monitorar.html" id="active">
-              <i class="fas fa-chart-bar"></i>
-              <span class="nav-item">Monitoramento</span>
-            </a>
-          </li>
-          <li>
-            <a href="./suporte.html">
-              <i class="fas fa-question-circle"></i>
-              <span class="nav-item">Suporte</span>
-            </a>
-          </li>
-          <!-- <li id="ativador">
+                <li><a href="./monitorar.html" id="active">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-item">Monitoramento</span>
+                    </a></li>
+                <li><a href="./suporte.html">
+                        <i class="fas fa-question-circle"></i>
+                        <span class="nav-item">Suporte</span>
+                    </a></li>
+                <li id="ativador">
                     <i class="fas fa-solid fa-power-off"></i>
                     <span class="nav-item">Desligar Máquina</span>
                     <div class="listaOpcoes">
@@ -58,7 +50,7 @@
                         <span onclick="desligar(3)">Suspender</span>
                     </div>
                 </li>
-                
+
                 <li><a href="./home.html" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Sair</span>
@@ -66,136 +58,133 @@
             </ul>
         </nav>
 
-      <section class="main">
-        <div class="main-top">
-          <img
-            src="./imagens/icons-dash/arrow-left-svgrepo-com.svg"
-            alt=""
-            id="seta_main"
-          />
-          <h1>Visualização da Máquina - 0221</h1>
-          <!-- icon de reiniciar/desligar -->
-          <i class="fa-solid fa-power-off" id="userIcon"></i>
-        </div>
+        <section class="main">
+            <div class="main-top">
+                <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="" id="seta_main">
+                <h1>Visualização da Máquina - 0221</h1>
+                <i class="fas fa-user-cog"></i>
+            </div>
 
             <div class="graficos-wrapper">
 
-            <div class="graficos-container">
-                <div id="grafico1">
-                    <span class="titulo">Uso de CPU<p>Total de frêquencia: 2.00 GHz</p></span>
-                    <canvas id="grafico1Canvas" style="height: 220px;"></canvas>
+                <div class="graficos-container" id="graficos_container">
                     
-                </div>
-                <div id="grafico3">
-                    <span class="titulo">Uso de Disco</span>
-                    <div id="piechart_3d" style="height: 200px; width: 200px;"></div>
-                    <p>Total disco: 128GB</p>
-                </div>
-                <div id="grafico4">
-                    <h1>Informações da máquina:</h1>
-                    <div class="lista-info">
-                        <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35 minutos</p></span>
-                        <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p> </span>
-                        <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p></span>
-                        <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span>
+                    <div id="grafico3">
+                        <span class="titulo">Uso de Disco</span>
+                        <div id="piechart_3d" style="height: 200px; width: 200px;"></div>
+                        <p>Total disco: 128GB</p>
                     </div>
-                </div>
-                <!-- <div id="sistema">
+                    <div id="grafico4">
+                        <h1>Informações da máquina:</h1>
+                        <div class="lista-info">
+                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35
+                                    minutos</p></span>
+                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p>
+                            </span>
+                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p>
+                                </span>
+                            <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span>
+                        </div>
+                    </div>
+                    <!-- <div id="sistema">
                     <H6>Informações do sistema</H6>
                     <p>Tempo de atividade:<br> 1 hora e 30 minutos</p>
                     <p>Sistema operacional:<br> Windows</p>
                 </div> -->
-            </div>
-
-            <div class="graficos-container">    
-                <div id="grafico2">
-                    <span class="titulo">Uso de Memória RAM<p>Mémoria total: 8 GB</p></span>
-                    <canvas id="grafico2Canvas" style="height: 220px;"></canvas>
                 </div>
 
-                <div class="janela-container">
-                    <div class="janelas">
-                    <h4><i class="fa-solid fa-computer"></i>Janelas em aberto</h4>
-                    <ul>
-                        <li>Título: Google Chrome</li>
-                        <li>Título: Microsoft Word</li>
-                        <li>Título: Microsoft Excel</li>
-                        <li>Título: Photoshop</li>
-                        <li>Título: Microsoft Powerpoint</li>
-                        <li>Título: Visual Studio Code</li>
-                        <li>Título: Google Chrome</li>
-                        <li>Título: Microsoft Word</li>
-                        <li>Título: Microsoft Excel</li>
-                        <li>Título: Photoshop</li>
-                        <li>Título: Microsoft Powerpoint</li>
-                        <li>Título: Visual Studio Code</li>                      
-                    </ul>
-                   </div>
+                <div class="graficos-container">
+                    <div id="grafico2">
+                        <span class="titulo">Uso de Memória RAM<p>Mémoria total: 8 GB</p></span>
+                        <canvas id="grafico2Canvas" style="height: 220px;"></canvas>
+                    </div>
+
+                    <div class="janela-container">
+                        <div class="janelas">
+                            <h4><i class="fa-solid fa-computer"></i>Janelas em aberto</h4>
+                            <ul>
+                                <li>Título: Google Chrome</li>
+                                <li>Título: Microsoft Word</li>
+                                <li>Título: Microsoft Excel</li>
+                                <li>Título: Photoshop</li>
+                                <li>Título: Microsoft Powerpoint</li>
+                                <li>Título: Visual Studio Code</li>
+                                <li>Título: Google Chrome</li>
+                                <li>Título: Microsoft Word</li>
+                                <li>Título: Microsoft Excel</li>
+                                <li>Título: Photoshop</li>
+                                <li>Título: Microsoft Powerpoint</li>
+                                <li>Título: Visual Studio Code</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
-
-        </div>
 
         </section>
 
     </div>
 </body>
+
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  let botaoDesligar = document.querySelector("#ativador");
-  let botaoUsuario = document.querySelector(".criarUsuarioNavegador");
-  let nivelAcesso = sessionStorage.NIVEL_ACESSO;
 
-    if(nivelAcesso == "Baixo"){
+    let botaoDesligar = document.querySelector('#ativador');
+    let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
+    let nivelAcesso = sessionStorage.NIVEL_ACESSO;
+
+    if (nivelAcesso == "Baixo") {
         botaoDesligar.style.display = 'none';
         botaoUsuario.style.display = 'none';
-    }else if(nivelAcesso == "Médio"){
+    } else if (nivelAcesso == "Médio") {
         botaoUsuario.style.display = 'none';
     }
 
-  const listaOpcoes = document.querySelector(".listaOpcoes");
-  const ativador = document.querySelector("#ativador");
 
-    function toggleListaOpcoes(){
+    const listaOpcoes = document.querySelector('.listaOpcoes');
+    const ativador = document.querySelector('#ativador');
+
+    function toggleListaOpcoes() {
         const isActive = ativador.classList.contains('active');
         ativador.classList.toggle('active');
         listaOpcoes.style.display = isActive ? 'none' : 'flex';
 
     }
 
-  ativador.addEventListener("click", toggleListaOpcoes);
+    ativador.addEventListener('click', toggleListaOpcoes);
 
     const alertButton = document.getElementById('deligar');
-      
 
-    function desligar(chamada){
+
+    function desligar(chamada) {
         let title;
         let title2;
         let text2;
 
-        
-        if(chamada == 1){
+
+        if (chamada == 1) {
             title = "Tem certeza que deseja desligar a máquina 0221?"
             title2 = "Desligando...";
             text2 = "A máquina está sendo desligada!";
-        }else if (chamada == 2){
+        } else if (chamada == 2) {
             title = "Tem certeza que deseja reiniciar a máquina 0221?"
             title2 = "Reiniciando...";
             text2 = "A máquina está sendo reiniciada!";
-        }else if(chamada == 3){
+        } else if (chamada == 3) {
             title = "Tem certeza que deseja suspender a máquina 0221?"
             title2 = "Suspendendo...";
             text2 = "A máquina está sendo suspendida!";
         }
 
         const swalWithBootstrapButtons = Swal.mixin({
-            
+
             buttonsStyling: true
-          });
-          swalWithBootstrapButtons.fire({
+        });
+        swalWithBootstrapButtons.fire({
             title: title,
             icon: "warning",
             backdrop: `
@@ -205,161 +194,266 @@
             confirmButtonText: "Sim, tenho certeza!",
             cancelButtonText: "Não, cancela!",
             reverseButtons: true
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              swalWithBootstrapButtons.fire({
-                title: title2,
-                text: text2,
-                icon: "success"
-              });
-              desligarMaquina(2);
+                swalWithBootstrapButtons.fire({
+                    title: title2,
+                    text: text2,
+                    icon: "success"
+                });
+                desligarMaquina(2);
             }
-          });
+        });
     }
 
 
-    function desligarMaquina(idMaquina){
+    function desligarMaquina(idMaquina) {
         console.log("DESLIGANDO A MAQUINA: " + idMaquina);
     }
-  
+
 </script>
 
 <script>
 
-    //LOGICA DE INDICADORES CPU
-    let dadosCPU = [12, 93, 39, 50, 20];
-    let borderColor = 'rgb(0, 128, 0)';
-    let maiorValorCPU = 0;
+    let proximaAtualizacao;
 
-    for (let i = 0; i < dadosCPU.length; i++){
-       if(dadosCPU[i] > maiorValorCPU){
-        maiorValorCPU = dadosCPU[i];
-       }
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+    
+        if (id) {
+            obterDadosDeCPU(id);
+        } else {
+            console.log("ID não encontrado na URL");
+        }
+    };
+    
+    function dadosNaoEncontrados(nomeElemento) {
+        nomeElemento.innerHTML = `<div>
+        <p>Nenhum dado encontrado!</p>
+      </div>`;
     }
-
-    if(maiorValorCPU >= 80){
-        borderColor = 'rgb(255, 0, 0)';
-    }else if(maiorValorCPU >= 50){
-        borderColor = 'rgb(255, 255, 0)';
+    
+    function exibirGraficos(idProcessador, especificacao) {
+        const container_grafico = document.getElementById("graficos_container");
+    
+        container_grafico.innerHTML = `<div id="grafico${idProcessador}" class="grafico1">
+                        <span class="titulo">Uso de CPU<p>Total de frequência: ${especificacao} GHz</p></span>
+                        <canvas id="grafico${idProcessador}Canvas" style="height: 220px;"></canvas>
+                    </div>`;
     }
+    
+    function obterDadosDeCPU(id) {
+        if (proximaAtualizacao != undefined) {
+            clearTimeout(proximaAtualizacao);
+        }
+    
+        const idProcessador = id;
+        fetch(`/maquina/usoDeComponente/${idProcessador}/CPU`, { cache: 'no-store' }).then((resposta) => {
+            if (resposta.ok) {
+                resposta.json().then((response) => {
+                    console.log(`Dados recebidos: ${JSON.stringify(response)}`);
+    
+                    exibirGraficos(idProcessador, response.especificacaoComponente);
+                    plotarDadosCPU(response, idProcessador);
+                });
+            } else {
+                console.error("Nenhum dado encontrado ou erro na API");
+    
+                const grafico1 = document.getElementById("grafico1");
+    
+                dadosNaoEncontrados(grafico1);
+            }
+        }).catch((error) => {
+            console.error(`Erro na obtenção de dados para o gráfico: ${error.message}`);
+        });
+    }
+    
+    function plotarDadosCPU(dados, idProcessador) {
+        console.log("Iniciando plotagem da CPU...");
+    
+        let labels = [];
+        let valores = [];
+        let maiorValorCPU = 0;
 
+        console.log(dados)
+    
+        for (let i = 0; i < dados.length; i++) {
+            let registro = dados[i];
+            labels.push(registro.momento);
+            valores.push(registro.valorCaptura);
+    
+            if (registro.valorCaptura > maiorValorCPU) {
+                maiorValorCPU = registro.valorCaptura;
+            }
+        }
+    
+        let borderColor = 'rgb(0, 128, 0)';
+        if (maiorValorCPU >= 80) {
+            borderColor = 'rgb(255, 0, 0)';
+        } else if (maiorValorCPU >= 50) {
+            borderColor = 'rgb(255, 255, 0)';
+        }
+    
+        let dataGrafico1 = {
+            labels: labels,
+            datasets: [{
+                label: 'Porcentagem de uso (CPU)',
+                data: valores,
+                borderColor: borderColor,
+                backgroundColor: [borderColor],
+                fill: false
+            }]
+        };
+    
+        const options1 = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 20,
+                        max: 100,
+                    }
+                }]
+            }
+        };
+    
+        const config = {
+            type: 'line',
+            data: dataGrafico1,
+            options: options1
+        };
+    
+        let ctx1 = document.getElementById(`grafico${idProcessador}Canvas`).getContext('2d');
+        let grafico1 = new Chart(ctx1, config);
+    
+        setTimeout(() => atualizarGraficoCPU(idProcessador, dataGrafico1, grafico1), 2000);
+    }
+    
+    function atualizarGraficoCPU(idProcessador, dados, chart) {
+        fetch(`/maquina/tempo-real/${idProcessador}/CPU`, { cache: 'no-store' }).then((response) => {
+            if (response.ok) {
+                response.json().then((novoRegistro) => {
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico:`);
+                    console.log(dados);
+    
+                    if (novoRegistro.length > 0 && novoRegistro[0].momento !== dados.labels[dados.labels.length - 1]) {
+                        dados.labels.shift();
+                        dados.labels.push(novoRegistro[0].momento);
+    
+                        dados.datasets[0].data.shift();
+                        dados.datasets[0].data.push(novoRegistro[0].valorCaptura);
+    
+                        chart.update();
+                    }
+    
+                    proximaAtualizacao = setTimeout(() => atualizarGraficoCPU(idProcessador, dados, chart), 2000);
+                });
+            } else {
+                console.error("Nenhum dado encontrado ou erro na API");
+    
+                const grafico1 = document.getElementById("grafico1");
+    
+                dadosNaoEncontrados(grafico1);
+    
+                proximaAtualizacao = setTimeout(() => atualizarGraficoCPU(idProcessador, dados, chart), 2000);
+            }
+        }).catch((error) => {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+    }
+    
+    //LOGICA INDICADORES DE RAM
+    let dadosRAM = [25, 35, 60, 92, 7];
+    let borderColorRAM = 'rgb(0, 128, 0)';
+    let maiorValorRAM = 0;
 
-  //LOGICA INDICADORES DE RAM
-  let dadosRAM = [25, 35, 60, 92, 7];
-  let borderColorRAM = "rgb(0, 128, 0)";
-  let maiorValorRAM = 0;
-
-    for (let i = 0; i < dadosRAM.length; i++){
-        if(dadosRAM[i] > maiorValorRAM){
+    for (let i = 0; i < dadosRAM.length; i++) {
+        if (dadosRAM[i] > maiorValorRAM) {
             maiorValorRAM = dadosRAM[i];
         }
-     }
- 
-     if(maiorValorRAM >= 80){
+    }
+
+    if (maiorValorRAM >= 80) {
         borderColorRAM = 'rgb(255, 0, 0)';
-     }else if(maiorValorRAM >= 50){
+    } else if (maiorValorRAM >= 50) {
         borderColorRAM = 'rgb(255, 255, 0)';
-     }
+    }
+
     
-    //dados para os gráficos
-    const dataGrafico1 = {
-        labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
-        datasets: [{
-            label: 'Porcentagem de uso (CPU)',
-            data: dadosCPU,
-            borderColor: borderColor, 
-            backgroundColor: [
-            borderColor],
-            fill: false
-        }]
-    };
 
     const dataGrafico2 = {
         labels: ['10:00', '12:00', '14:00', '16:00', '18:00'],
         datasets: [{
             label: 'Porcentagem de uso (RAM)',
             data: dadosRAM,
-            borderColor: borderColorRAM, 
+            borderColor: borderColorRAM,
             backgroundColor: [borderColorRAM],
             fill: false
         }]
     };
 
-   // Dados para o gráfico 3
-//const dataGrafico3 = {
-//    labels: ['Disco ocupado', 'Disco livre'],
-//    datasets: [{
-//        label: 'Disco',
-//        data: [70, 30], 
-//        backgroundColor: [
-//            'rgb(255, 0, 0, 0.623)',
-//            'rgba(115, 255, 0, 0.623);'  
-//                 ],
-//                 backgroundColor: [
-//                 'rgb(255, 0, 0, 0.623)',
-//                 'rgb(115, 255, 0, 0.623)' 
-//                 ],
-//        borderWidth: 1
-//    }]
-//};
+    // Dados para o gráfico 3
+    //const dataGrafico3 = {
+    //    labels: ['Disco ocupado', 'Disco livre'],
+    //    datasets: [{
+    //        label: 'Disco',
+    //        data: [70, 30], 
+    //        backgroundColor: [
+    //            'rgb(255, 0, 0, 0.623)',
+    //            'rgba(115, 255, 0, 0.623);'  
+    //                 ],
+    //                 backgroundColor: [
+    //                 'rgb(255, 0, 0, 0.623)',
+    //                 'rgb(115, 255, 0, 0.623)' 
+    //                 ],
+    //        borderWidth: 1
+    //    }]
+    //};
 
 
 
-    const options1 = {
-    scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-                stepSize: 20,
-                max: 100, 
-            }
-        }]
-    }
-};
+   
 
-const options2 = {
-    scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-                max: 100, 
-            }
-        }]
-    }
-};
+    const options2 = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    max: 100,
+                }
+            }]
+        }
+    };
 
-//const options3 = {
-//    scales: {
-//        yAxes: [{
-//            ticks: {
-//                beginAtZero: true,
-//                max: 100, 
-//            }
-//        }]
-//    }
-//};
+    //const options3 = {
+    //    scales: {
+    //        yAxes: [{
+    //            ticks: {
+    //                beginAtZero: true,
+    //                max: 100, 
+    //            }
+    //        }]
+    //    }
+    //};
 
 
 
 
-    //gráfico1
-    var ctx1 = document.getElementById('grafico1Canvas').getContext('2d');
-    var grafico1 = new Chart(ctx1, {
-        type: 'line',
-        data: dataGrafico1,
-        options: options1
-    });
+    
 
 
-  // gráfico 3
-  //var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
-  //var grafico3 = new Chart(ctx3, {
-  //type: 'pie',
-  //data: dataGrafico3,
-  //options: options3
-  //});
+    // gráfico 3
+    //var ctx3 = document.getElementById('grafico3Canvas').getContext('2d');
+    //var grafico3 = new Chart(ctx3, {
+    //type: 'pie',
+    //data: dataGrafico3,
+    //options: options3
+    //});
 
-        //gráfico2
+
+    //gráfico2
     var ctx2 = document.getElementById('grafico2Canvas').getContext('2d');
     var grafico2 = new Chart(ctx2, {
         type: 'line',
@@ -367,27 +461,27 @@ const options2 = {
         options: options2
     });
 
-    seta_main.addEventListener("click", ()=>{
+    seta_main.addEventListener("click", () => {
         window.location.href = "monitorar.html";
     })
 </script>
 
 <script>
-    google.charts.load("current", {packages:["corechart"]});
+    google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Disco', 'Porcentagem Ocupação', {role: 'annotation'}],
-          ['Ocupado',     70, '70%'],
-          ['Livre',      30, '30%']
+            ['Disco', 'Porcentagem Ocupação', { role: 'annotation' }],
+            ['Ocupado', 70, '70%'],
+            ['Livre', 30, '30%']
         ]);
 
         var options = {
-        legend: {position: 'bottom', maxLines: 3},
-          is3D: true,
+            legend: { position: 'bottom', maxLines: 3 },
+            is3D: true,
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
-      }
+    }
 </script>

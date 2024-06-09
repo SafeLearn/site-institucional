@@ -22,6 +22,10 @@ class maquinaController {
     async usoDeComponente (idProcessador, nomeComponente) {
         return await maquinasModel.usoDeComponente(idProcessador, nomeComponente)
     }
+
+    async usoDeComponenteTempoReal(idProcessador, nomeComponente) {
+        return await maquinasModel.buscarDadosEmTempoReal(idProcessador, nomeComponente)
+    }
 }
 
 module.exports = new maquinaController;

@@ -332,10 +332,49 @@
 
         //gráfico1
         var ctx1 = document.getElementById(`grafico${idProcessador}Canvas`).getContext('2d');
-        var grafico1 = new Chart(ctx1, {
-            
-        });
+        var grafico1 = new Chart(ctx1, config);
+
+        setTimeout(() => atualizarGraficoCPU(idProcessador, dataGrafico1, grafico1), 2000);
  
+    }
+
+    function atualizarGraficoCPU(idProcessador, dados, chart) {
+        fetchI(`/maquina/tempo-real/${idProcessador}/CPU`, { cache: 'no-store' }).then(function(response) {
+            if(response.ok) {
+                response.json().then(function(novoRegistro) {
+                    obterDadosDeCPU(idProcessador);
+
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico:`);
+                    console.log(dados);
+
+                    //let avisoCaptura = document.getElementById(`avisoCaptura${idAquario}`)
+                    //avisoCaptura.innerHTML = ""
+
+                    if(!novoRegistro[0].momento == dados.labels[dados.labels.length -1]){
+                        dados.labels.shift();
+                        dados.labels.push(novoRegistro[0].momento);
+
+                        dados.datasets[0].data.shift();
+                        dados.datasets[0].data.push(novoRegistro[0].valorCaptura);
+
+                        chart.update();
+                    }
+
+                    proximaAtualizacao = setTimeout(() => atualizarGraficoCPU(idProcessador, dados, chart), 2000);
+                });
+            }else{
+                console.error("Nenhum dado encontrado ou erro na API");
+
+                const grafico1 = document.getElementById("grafico1");
+
+                dadosNaoEncontrados(grafico1);
+
+                proximaAtualizacao = setTimeout(() => atualizarGraficoCPU(idProcessador, dados, chart), 2000);
+            }
+        }).catch(function (error) {
+            console.error(`Erro na obtenção dos dados para po gráfico: ${error.message}`);
+        });
     }
 
 

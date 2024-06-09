@@ -206,6 +206,30 @@ class maquinasModel {
       });
     })
   }
+
+  buscarDadosEmTempoReal(idProcessador, nomeComponente) {
+    const query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
+    INNER JOIN componente c ON r.fkComponente = c.idComponente
+    WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
+    ORDER BY idRegistro;`;
+
+    return new Promise((resolve, reject) => {
+      sql.connect().then(pool => {
+        return pool.request()
+        .input('idProcessador', idProcessador)
+        .input('nomeComponente', nomeComponente)
+        .query(query);
+      }).then(result => {
+        if(result.recordset.length > 0) {
+          resolve(result.recordset);
+        }else{
+          reject(new Error("Registros não encontrados"));
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    })
+  }
 }
 
 module.exports = new maquinasModel();

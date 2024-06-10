@@ -57,26 +57,29 @@
         <section class="main">
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
-                <h1>Visualização da Máquina - 0221</h1>
+                <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
                 <i class="fas fa-user-cog"></i>
             </div>
 
             <div class="graficos-wrapper">
                 <div class="graficos-container" id="graficos_container">
                     <div id="graficoCPU" class="grafico1"></div>
-                    <div id="graficoDISCO"></div>
+                    <div id="graficoDISCO" class="grafico3"></div>
                     <div id="grafico4" class="grafico4">
                         <h1>Informações da máquina:</h1>
                         <div class="lista-info">
-                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35 minutos</p></span>
-                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p></span>
-                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p></span>
+                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35
+                                    minutos</p></span>
+                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p>
+                            </span>
+                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p>
+                            </span>
                             <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span>
                         </div>
                     </div>
                 </div>
                 <div class="graficos-container">
-                    <div id="graficoRAM" class="grafico3"></div>
+                    <div id="graficoRAM" class="grafico2"></div>
                     <div class="janela-container">
                         <div class="janelas">
                             <h4><i class="fa-solid fa-computer"></i>Janelas em aberto</h4>
@@ -170,8 +173,11 @@
             const id = urlParams.get('id');
 
             if (id) {
+                const numeroMaquina = document.getElementById("numero-maquina");
+                numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`;
                 obterDadosDeCPU(id);
                 obterDadosDeRAM(id);
+                obterDadosDeDisco(id);
             } else {
                 console.log("ID não encontrado na URL");
             }
@@ -187,27 +193,31 @@
             if (nomeComponente === 'CPU') {
                 grafico.innerHTML = `
                     <span class="titulo">Uso de CPU<p>Total de frequência: ${especificacao} GHz</p></span>
-                    <canvas id="grafico${idProcessador}Canvas" style="height: 220px;"></canvas>`;
+                    <canvas id="graficoCanvasCPU" style="height: 220px;"></canvas>`;
             } else if (nomeComponente === 'RAM') {
                 grafico.innerHTML = `
                     <span class="titulo">Uso de Memória RAM<p>Memória total: ${especificacao} GB</p></span>
-                    <canvas id="grafico${idProcessador}Canvas" style="height: 220px;"></canvas>`;
+                    <canvas id="graficoCanvasRAM" style="height: 220px;"></canvas>`;
             } else {
                 grafico.innerHTML = `
                     <span class="titulo">Uso de Disco</span>
-                    <div id="piechart_3d" style="height: 200px; width: 200px; margin: 0 auto"></div>`;
+                    <div id="piechart_3d" style="height: 200px; width: 200px; margin: 0 auto"></div>
+                    <p>Total disco: ${especificacao}GB</p>`;
             }
         }
 
         function atualizarGrafico(idProcessador, registros, nomeComponente) {
             const labels = registros.reverse().map(registro => {
-                const data = new Date(registro.momento);
-                return data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                console.log("MOMENTO ", registro.momento)
+                const data = registro.momento;
+                console.log("DATA ", data)
+                return data;
             });
 
             console.log(registros)
             const dados = registros.map(registro => {
                 if (nomeComponente === 'DISCO') {
+                    console.log(registro.valorCaptura)
                     return Math.floor((registro.valorCaptura / 1000000000) * 100);
                 } else {
                     console.log(registro.valorCaptura)
@@ -215,9 +225,10 @@
                 }
             });
 
-            console.log(dados)
+            console.log("DADOS" , dados)
 
             if (nomeComponente === 'DISCO') {
+                console.log(dados[0])
                 const data = new google.visualization.DataTable();
                 data.addColumn('string', 'Espaço');
                 data.addColumn('number', 'Quantidade');
@@ -227,20 +238,44 @@
                 ]);
 
                 const options = {
+                    legend: {position: 'bottom', maxLine: 3},
                     title: 'Uso do Disco',
                     is3D: true,
                 };
 
                 const chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
                 chart.draw(data, options);
-            } else {
-                const ctx = document.getElementById(`grafico${idProcessador}Canvas`).getContext('2d');
+            } else if (nomeComponente == 'CPU') {
+                const ctx = document.getElementById(`graficoCanvasCPU`).getContext('2d');
                 new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
                             label: 'Uso de CPU',
+                            data: dados,
+                            backgroundColor: nomeComponente === 'CPU' ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)',
+                            borderColor: nomeComponente === 'CPU' ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                            },
+                        },
+                    },
+                });
+            } else {
+                const ctx = document.getElementById(`graficoCanvasRAM`).getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Uso de RAM',
                             data: dados,
                             backgroundColor: nomeComponente === 'CPU' ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)',
                             borderColor: nomeComponente === 'CPU' ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)',
@@ -343,14 +378,43 @@
         google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(obterDadosDeDisco);
 
-        function obterDadosDeDisco() {
-            const registros = [
-                { espacoUso: 50, dataHora: new Date() },
-                // Aqui você deve buscar e adicionar os registros reais
-            ];
-            atualizarGrafico(null, registros, 'DISCO');
-            clearTimeout(proximaAtualizacaoDISCO);
-            proximaAtualizacaoDISCO = setTimeout(obterDadosDeDisco, 5000);
+        function obterDadosDeDisco(id) {
+            fetch(`/maquina/tempo-real/${id}/DISCO`, { cache: "no-store" })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        resposta.json().then(resposta => {
+                            if (resposta.length > 0) {
+                                resposta.forEach(componente => {
+                                    const especificacao = componente.especificacaoComponente;
+                                    exibirGraficos(id, especificacao, 'DISCO');
+                                    obterRegistrosDISCO(id);
+                                });
+                            } else {
+                                dadosNaoEncontrados(document.getElementById('graficoDISCO'));
+                            }
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                        dadosNaoEncontrados(document.getElementById('graficoDISCO'));
+                    }
+                })
+                .catch(console.error);
+        }
+
+        function obterRegistrosDISCO(id) {
+            fetch(`/maquina/usoDeComponente/${id}/DISCO`, { cache: "no-store" })
+            .then(resposta => {
+                if (resposta.ok) {
+                    resposta.json().then(registros => {
+                        atualizarGrafico(id, registros, 'DISCO');
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(console.error);
+        clearTimeout(proximaAtualizacaoDISCO);
+        proximaAtualizacaoDISCO = setTimeout(() => obterRegistrosDISCO(id), 5000);
         }
     </script>
 </body>

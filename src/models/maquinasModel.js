@@ -184,11 +184,20 @@ class maquinasModel {
   // MAQUINAS INDIVIDUAIS
 
   usoDeComponente(idProcessador, nomeComponente){
-    const query = `SELECT TOP 5 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
-    INNER JOIN componente c ON r.fkComponente = c.idComponente
-    WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
-    ORDER BY idRegistro;`;
 
+    let query;
+    if(nomeComponente === 'DISCO'){
+      query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
+      INNER JOIN componente c ON r.fkComponente = c.idComponente
+      WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
+      ORDER BY idRegistro DESC`;
+    }else{
+      query = `SELECT TOP 5 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
+      INNER JOIN componente c ON r.fkComponente = c.idComponente
+      WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
+      ORDER BY idRegistro DESC`;
+    }
+    
     return new Promise((resolve, reject) => {
       sql.connect().then(pool => {
         return pool.request()

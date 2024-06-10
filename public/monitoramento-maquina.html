@@ -218,7 +218,8 @@
             const dados = registros.map(registro => {
                 if (nomeComponente === 'DISCO') {
                     console.log(registro.valorCaptura)
-                    return Math.floor((registro.valorCaptura / 1000000000) * 100);
+                    //return Math.floor((registro.valorCaptura / 1000000000) * 100);
+                    return registro.valorCaptura;
                 } else {
                     console.log(registro.valorCaptura)
                     return registro.valorCaptura;
@@ -228,7 +229,6 @@
             console.log("DADOS" , dados)
 
             if (nomeComponente === 'DISCO') {
-                console.log(dados[0])
                 const data = new google.visualization.DataTable();
                 data.addColumn('string', 'Espaço');
                 data.addColumn('number', 'Quantidade');
@@ -241,6 +241,7 @@
                     legend: {position: 'bottom', maxLine: 3},
                     title: 'Uso do Disco',
                     is3D: true,
+                    colors: ['#FF0000', '#4848ff'],
                 };
 
                 const chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));

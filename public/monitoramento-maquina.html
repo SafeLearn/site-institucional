@@ -68,13 +68,13 @@
                     <div id="grafico4" class="grafico4">
                         <h1>Informações da máquina:</h1>
                         <div class="lista-info">
-                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35
+                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p id="tempo_atividade">2 horas e 35
                                     minutos</p></span>
-                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p>
+                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p id="porcet_bateria">100%</p>
                             </span>
-                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p>
+                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p id="conectado">Conectado a energia</p>
                             </span>
-                            <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span>
+                            <!-- <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span> -->
                         </div>
                     </div>
                 </div>
@@ -101,6 +101,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+        seta_main.addEventListener("click", ()=> {
+            window.location.href = "monitorar.html";
+        });
+
         let botaoDesligar = document.querySelector('#ativador');
         let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
         let nivelAcesso = sessionStorage.NIVEL_ACESSO;
@@ -164,24 +169,16 @@
             console.log("DESLIGANDO A MAQUINA: " + idMaquina);
         }
 
+        //BATERIA
+
+        //function dadosDeBateria(id) {
+          //  fetch(`/maquina/buscarBateria/${}`)
+        //}
+
+        //GRAFICOS
         let proximaAtualizacaoCPU;
         let proximaAtualizacaoRAM;
         let proximaAtualizacaoDISCO;
-
-        window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-
-            if (id) {
-                const numeroMaquina = document.getElementById("numero-maquina");
-                numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`;
-                obterDadosDeCPU(id);
-                obterDadosDeRAM(id);
-                obterDadosDeDisco(id);
-            } else {
-                console.log("ID não encontrado na URL");
-            }
-        };
 
         function dadosNaoEncontrados(nomeElemento) {
             nomeElemento.innerHTML = `<div><p>Nenhum dado encontrado!</p></div>`;

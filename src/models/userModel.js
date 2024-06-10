@@ -1,65 +1,28 @@
-const conexao = require("../infra/conexao");
+const db = require("../infra/conexao");
 
-class userModel {
-    buscar() {
-        const sql = "SELECT * FROM usuario;";
-        return new Promise((resolve, reject) => {
-            conexao.query(sql, {}, (error, resposta) => {
-                if(error) {
-                    console.log("Erro no select");
-                    reject(error);
-                }
-                console.log("Deu certo buscar os usuários");
-                resolve(resposta);
-            });  
-        });
-    }
+const getAllUsers = async () => {
+  const [rows] = await db.query('SELECT * FROM usuario');
+  return rows;
+};
 
-    criar(novoUsuario) {
-        console.log(novoUsuario);
-        const sql = "INSERT INTO usuario (nome) VALUES (@nome)";
-        const values = { nome: novoUsuario.nome };
-        return new Promise((resolve, reject) => {
-            conexao.query(sql, values, (error, resposta) => {
-                if(error) {
-                    console.log("Erro ao criar usuário");
-                    reject(error);
-                }
-                console.log("Deu certo criar o usuário");
-                resolve(resposta);
-            });
-        }); 
-    }
+const createUser = async (user) => {
+  const { userName, emailUsuario, senhaUsuario, fkNivelDeAcesso, fkInstituicao } = user;
+  const [result] = await db.query('INSERT INTO usuario (userName, emailUsuario, senhaUsuario, fkNivelDeAcesso, fkInstituicao) VALUES (?, ?, ?, ?, ?)', [userName, emailUsuario, senhaUsuario, fkNivelDeAcesso, fkInstituicao]);
+  return result.insertId;
+};
 
-    atualizar(usuarioAtualizado, id) {
-        const sql = "UPDATE usuario SET nome = @nome WHERE idUsuario = @id";
-        const values = { nome: usuarioAtualizado.nome, id: id };
-        return new Promise((resolve, reject) => {
-            conexao.query(sql, values, (error, resposta) => {
-                if(error) {
-                    console.log("Erro ao atualizar usuário");
-                    reject(error);
-                }
-                console.log("Deu certo atualizar o usuário");
-                resolve(resposta);
-            });
-        }); 
-    }
+const updateUser = async (id, user) => {
+  const { userName, emailUsuario, senhaUsuario, fkNivelDeAcesso } = user;
+  await db.query('UPDATE usuario SET userName = ?, emailUsuario = ?, senhaUsuario = ?, fkNivelDeAcesso = ? WHERE idUsuario = ?', [userName, emailUsuario, senhaUsuario, fkNivelDeAcesso, id]);
+};
 
-    deletar(id) {
-        const sql = "DELETE FROM usuario WHERE idUsuario = @id";
-        const values = { id: id };
-        return new Promise((resolve, reject) => {
-            conexao.query(sql, values, (error, resposta) => {
-                if(error) {
-                    console.log("Erro ao deletar usuário");
-                    reject(error);
-                }
-                console.log("Deu certo deletar o usuário");
-                resolve(resposta);
-            });
-        }); 
-    }
-}
+const deleteUser = async (id) => {
+  await db.query('DELETE FROM usuario WHERE idUsuario = ?', [id]);
+};
 
-module.exports = new userModel();
+module.exports = {
+  getAllUsers,
+  createUser,
+  updateUser,
+  deleteUser
+};

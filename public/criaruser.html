@@ -89,14 +89,14 @@
               <label for="m-senha">Senha</label>
               <input id="m-senha" type="password" placeholder="Digite a senha" required />
               
-              <label for="m-nome-inst">Nome da Instituição</label>
+              <!-- <label for="m-nome-inst">Nome da Instituição</label>
               <input id="m-nome-inst" type="text" placeholder="Digite o nome da instituição" required />
               
               <label for="m-cnpj">CNPJ da Instituição</label>
               <input id="m-cnpj" type="text" placeholder="Digite o CNPJ da instituição" required />
 
               <label for="m-email-inst">Email da Instituição</label>
-              <input id="m-email-inst" type="email" placeholder="Digite o email da instituição" required />
+              <input id="m-email-inst" type="email" placeholder="Digite o email da instituição" required /> -->
 
               <label for="m-nivel">Nível</label>
               <select name="m-nivel" id="m-nivel" required>
@@ -214,6 +214,41 @@
    const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
 
 loadItens()
+
+
+//teste por favor funciona
+// Adicione isso dentro do script no final do arquivo
+btnSalvar.onclick = async e => {
+  e.preventDefault();
+
+  if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+    return;
+  }
+
+  const newUser = {
+    userName: sNome.value,
+    emailUsuario: sEmail.value,
+    senhaUsuario: sSenha.value, // certifique-se de adicionar o campo de senha no HTML
+    fkNivelDeAcesso: sNivel.value,
+    fkInstituicao: 1 // assuma que o ID da instituição é 1, ajuste conforme necessário
+  };
+
+  const response = await fetch('http://localhost:3000/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newUser)
+  });
+
+  if (response.ok) {
+    loadItens(); // Recarregue a lista de usuários após criar um novo usuário
+    modal.classList.remove('active');
+  } else {
+    console.error('Failed to create user');
+  }
+};
+
 
 </script>
 </body>

@@ -86,30 +86,32 @@ class maquinasModel {
 
   porcentagemComponentes(idInstituicao) {
     const query = `WITH UltimoRegistro AS (
-            SELECT 
-                r.fkComponente,
-                r.fkMaquina,
-                r.valorCaptura,
-                ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
-            FROM 
-                registro r
-        )
-        SELECT 
-            m.idProcessador AS Maquina,
-            MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
-            MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
-            MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
-            MAX(CASE WHEN c.nomeComponente = 'BATERIA' THEN u.valorCaptura ELSE NULL END) AS BATERIA
-        FROM 
-            maquina m
-        LEFT JOIN 
-            componente c ON m.idProcessador = c.fkMaquina
-        LEFT JOIN 
-            UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
-        WHERE 
-            fkInstituicao = @idInstituicao
-        GROUP BY 
-            m.idProcessador;
+      SELECT 
+          r.fkComponente,
+          r.fkMaquina,
+          r.valorCaptura,
+          ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
+      FROM 
+          registro r
+  )
+  SELECT 
+      m.idProcessador AS Maquina,
+      MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
+      MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
+      MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
+      b.porcentagemBateria AS BATERIA
+  FROM 
+      maquina m
+  LEFT JOIN 
+      bateria b ON m.idProcessador = b.fkMaquina
+  LEFT JOIN
+      componente c ON c.fkMaquina = m.idProcessador
+  LEFT JOIN 
+      UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
+  WHERE 
+      m.fkInstituicao = @idInstituicao
+  GROUP BY 
+      m.idProcessador, b.porcentagemBateria;;
         `;
 
     return new Promise((resolve, reject) => {

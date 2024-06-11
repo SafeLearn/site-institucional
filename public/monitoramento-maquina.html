@@ -57,7 +57,7 @@
         <section class="main">
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
-                <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
+                <h1 id="numero-maquina"></h1>
                 <i class="fas fa-user-cog"></i>
             </div>
 
@@ -109,6 +109,9 @@
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
             id = urlParams.get('id');
+
+            const numeroMaquina = document.getElementById('numero-maquina');
+            numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`
 
             if (id) {
                 obterDadosDeCPU(id);
@@ -329,13 +332,14 @@
             console.log(registros)
             const dados = registros.map(registro => {
                 if (nomeComponente === 'DISCO') {
-                    console.log(registro.valorCaptura)
-                    //return Math.floor((registro.valorCaptura / 1000000000) * 100);
-                    return registro.valorCaptura;
+                    console.log(registro.valorCaptura);
+                    valorPorcentagem = Math.floor((registro.valorCaptura / 1000000000) * 100);
                 } else {
-                    console.log(registro.valorCaptura)
-                    return registro.valorCaptura;
+                    console.log(registro.valorCaptura);
+                    valorPorcentagem = registro.valorCaptura;
                 }
+
+                return Math.min(valorPorcentagem, 100);
             });
 
             console.log("DADOS", dados)

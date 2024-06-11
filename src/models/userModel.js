@@ -1,23 +1,41 @@
-const db = require("../infra/conexao");
+const sql = require("../infra/conexao");
 
-function cadastrarUsuario(nome, email, senha, nivelAcesso) {
-    const instrucao = `INSERT INTO usuario (userName, emailUsuario, senhaUsuario, fkNivelDeAcesso) VALUES (?, ?, ?, ?)`;
-    return db.query(instrucao, [nome, email, senha, nivelAcesso]);
+async function cadastrarUsuario(nome, email, senha, nivelAcesso) {
+    try {
+        const result = await sql.query`INSERT INTO usuario (userName, emailUsuario, senhaUsuario, fkNivelDeAcesso) VALUES (${nome}, ${email}, ${senha}, ${nivelAcesso})`;
+        return result.recordset[0].idUsuario; // Assumindo que você está retornando o ID do usuário inserido
+    } catch (err) {
+        console.error("Erro ao cadastrar usuário: ", err);
+        throw err;
+    }
 }
 
-function obterUsuarios() {
-    const instrucao = `SELECT * FROM usuario`;
-    return db.query(instrucao);
+async function obterUsuarios() {
+    try {
+        const result = await sql.query`SELECT * FROM usuario`;
+        return result.recordset;
+    } catch (err) {
+        console.error("Erro ao obter usuários: ", err);
+        throw err;
+    }
 }
 
-function atualizarUsuario(id, nome, email, senha, nivelAcesso) {
-    const instrucao = `UPDATE usuario SET userName = ?, emailUsuario = ?, senhaUsuario = ?, fkNivelDeAcesso = ? WHERE idUsuario = ?`;
-    return db.query(instrucao, [nome, email, senha, nivelAcesso, id]);
+async function atualizarUsuario(id, nome, email, senha, nivelAcesso) {
+    try {
+        await sql.query`UPDATE usuario SET userName = ${nome}, emailUsuario = ${email}, senhaUsuario = ${senha}, fkNivelDeAcesso = ${nivelAcesso} WHERE idUsuario = ${id}`;
+    } catch (err) {
+        console.error("Erro ao atualizar usuário: ", err);
+        throw err;
+    }
 }
 
-function excluirUsuario(id) {
-    const instrucao = `DELETE FROM usuario WHERE idUsuario = ?`;
-    return db.query(instrucao, [id]);
+async function excluirUsuario(id) {
+    try {
+        await sql.query`DELETE FROM usuario WHERE idUsuario = ${id}`;
+    } catch (err) {
+        console.error("Erro ao excluir usuário: ", err);
+        throw err;
+    }
 }
 
 module.exports = {

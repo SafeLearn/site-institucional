@@ -15,6 +15,19 @@ router.get("/buscar/:idInstituicao", async (req, res) => {
     }
 });
 
+router.get("/infoBateria/:idInstituicao", async (req, res) => {
+   
+    try {
+        const idInstituicao = req.params.idInstituicao;
+        const infos = await maquinaController.buscarBateria(idInstituicao);
+
+        res.status(200).json(infos);
+    }catch (error) {
+        res.status(400).json({ message: error.message });
+        console.error(error.message);
+    }
+})
+
 router.get("/buscarBateria/:idInstituicao/:idMaquina", async (req, res) => {
     try{
         const idInstituicao = req.params.idInstituicao;

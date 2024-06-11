@@ -280,7 +280,7 @@
 
     let mq_pouca_bateria = [];
 
-    fetch(`/maquina/buscarBateria/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
+    fetch(`/maquina/infoBateria/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
       if (!resposta.ok) {
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
       }
@@ -290,7 +290,7 @@
       console.log("Dados recebidos: ", json);
 
       json.forEach(item => {
-        if (item.valorCaptura <= 30) {
+        if (item.porcentagemBateria <= 30) {
           mq_pouca_bateria.push(item);
           lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
         }
@@ -306,14 +306,14 @@
       qtd_maquinas_bateria.innerHTML = `${mq_pouca_bateria.length}/${qtd_Maquinas_Total} cadastradas`;
 
       if(porcet <= 20){
-        barra_status_bateria.style.backgroundColor = "red";
-        qtd_maquinas_bateria.style.backgroundColor = "red";
+        barra_status_bateria.style.backgroundColor = "green";
+        qtd_maquinas_bateria.style.backgroundColor = "green";
       }else if(porcet <= 50){
         barra_status_bateria.style.backgroundColor = "yellow";
         qtd_maquinas_bateria.style.backgroundColor = "yellow";
       }else{
-        barra_status_bateria.style.backgroundColor = "green";
-        qtd_maquinas_bateria.style.backgroundColor = "green";
+        barra_status_bateria.style.backgroundColor = "red";
+        qtd_maquinas_bateria.style.backgroundColor = "red";
       }
 
 

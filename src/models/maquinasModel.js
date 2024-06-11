@@ -27,6 +27,34 @@ class maquinasModel {
     });
   }
 
+  buscarBateria(idInstituicao) {
+    const query = `SELECT idProcessador, porcentagemBateria FROM Bateria b
+    RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
+        RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao 
+            WHERE idInstituicao = @idInstituicao`;
+
+    return new Promise((resolve, reject) => {
+      sql
+        .connect()
+        .then((pool) => {
+          return pool
+            .request()
+            .input("idInstituicao", sql.Int, idInstituicao)
+            .query(query);
+        })
+        .then((result) => {
+          if (result.recordset.length > 0) {
+            resolve(result.recordset);
+          } else {
+            reject(new Error("Máquinas não encontradas"));
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
   buscarBateriaMaquina(idInstituicao, idProcessador) {
     const query = `SELECT TOP 1 porcentagemBateria, statusEnergia, dataHoraRegistroBateria, tempoAtividade FROM Bateria b
     RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina

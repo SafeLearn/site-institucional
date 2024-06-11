@@ -41,4 +41,7 @@ async function connect() {
     }
 }
 
-module.exports = { sql, connect };
+connect(); //teste
+module.exports = sql; // teste
+
+//module.exports = { sql, connect }; //antigo

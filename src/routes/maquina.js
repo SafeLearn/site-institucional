@@ -92,6 +92,26 @@ router.get("/tempo-real/:idProcessador/:nomeComponente", async (req, res) => {
         res.status(400).json({message: error.message});
         console.error(error.message);
     }
-})
+});
+
+router.put("/mudarStatus/:numAcao/:idInstituicao/:idProcessador", async (req, res) => {
+    try {
+        const numAcao = req.params.numAcao;
+        const idInstituicao = req.params.idInstituicao;
+        const idProcessador = req.params.idProcessador;
+
+        console.log("Parâmetros recebidos:", numAcao, idInstituicao, idProcessador);
+
+        if (isNaN(numAcao) || isNaN(idInstituicao)) {
+            return res.status(400).json({ message: "Parâmetros inválidos" });
+        }
+
+         const resultado = await maquinaController.mudarStatusMaquina(numAcao, idInstituicao, idProcessador);
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+        console.error(error.message);
+    }
+});
 
 module.exports = router;

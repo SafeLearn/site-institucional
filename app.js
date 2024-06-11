@@ -7,7 +7,12 @@ const bodyParser = require('body-parser');
 const router = require("./src/routes/index");
 const { sql, connect } = require("./src/infra/conexao");
 const app = express();
-const port = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? 3333 : 80;
+const port = process.env.AMBIENTE_PROCESSO === "desenvolvimento" ? 3333 : 80;
+
+if (!port) {
+    console.error("A variável de ambiente AMBIENTE_PROCESSO não está definida corretamente.");
+    process.exit(1);
+}
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "public"));

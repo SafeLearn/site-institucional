@@ -106,7 +106,6 @@
     </section>
 
   </div>
-
   <script>
     const modal = document.querySelector('.modal-container')
     const tbody = document.querySelector('tbody')
@@ -133,14 +132,14 @@
       }
 
       if (edit) {
-        sNome.value = itens[index].nome
-        sEmail.value = itens[index].email
-        sNivel.value = itens[index].nivel
+        nome.value = itens[index].nome
+        email.value = itens[index].email
+        nivel.value = itens[index].nivel
         id = index
       } else {
-        sNome.value = ''
-        sEmail.value = ''
-        sNivel.value = ''
+        nome.value = ''
+        email.value = ''
+        nivel.value = ''
       }
 
     }
@@ -173,12 +172,39 @@
     }
 
     btnSalvar.onclick = e => {
-
-      if (nome.value == '' || email.value == '') {
+      if (nome.value == '' || email.value == '' || nivel.value == '') {
         return
       }
 
       e.preventDefault();
+
+      const data = {
+        nome: nome.value,
+        email: email.value,
+        senha: senha.value, 
+        nivelAcesso: nivel.value
+      };
+
+      fetch('/cadastrarUsuario', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao cadastrar usuário');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Usuário cadastrado com sucesso:', data);
+        loadItens();
+      })
+      .catch(error => {
+        console.error('Erro ao cadastrar usuário:', error);
+      });
 
       if (id !== undefined) {
         itens[id].nome = nome.value
@@ -189,7 +215,6 @@
       }
 
       setItensBD()
-
       modal.classList.remove('active')
       loadItens()
       id = undefined
@@ -201,55 +226,13 @@
       itens.forEach((item, index) => {
         insertItem(item, index)
       })
-
     }
 
     const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-   const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+    const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
 
-loadItens()
-
-//teste
-btnSalvar.onclick = e => {
-  if (nome.value == '' || email.value == '' || nivel.value == '') {
-    return;
-  }
-
-  const data = {
-    nome: nome.value,
-    email: email.value,
-    senha: senha.value, 
-    nivelAcesso: nivel.value
-  };
-
-  fetch('/cadastrarUsuario', {
-  method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Erro ao cadastrar usuário');
-    }
-    return response.json();
-  })
-  .then(data => {
-    //  com a resposta do servidor, se necessário
-    console.log('Usuário cadastrado com sucesso:', data);
-    // Atualize a interface ou redirecione o usuário
-    loadItens();
-  })
-  .catch(error => {
-    console.error('Erro ao cadastrar usuário:', error);
-  });
-
-  e.preventDefault();
-};
-
-
-</script>
+    loadItens()
+  </script>
 </body>
 
 </html>

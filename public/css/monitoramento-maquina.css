@@ -219,6 +219,12 @@
     overflow-y: auto;
 }
 
+.janelas ul .item-processo{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
 .janelas h4{
     text-align: center;
     margin: 2px, 2px;

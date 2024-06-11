@@ -255,8 +255,15 @@
 
             registros.forEach(processo => {
                 const li = document.createElement('li');
-                li.textContent = `Título: ${processo.nomeProcesso}, Hora: ${processo.hora}`; 
+                const p = document.createElement('p');
+                const p2 = document.createElement('p');
+
+                p.textContent = `Título: ${processo.nomeProcesso}`;
+                p2.textContent = `Hora: ${processo.hora}`; 
                 listaElement.appendChild(li);
+                li.classList.add('item-processo');
+                li.appendChild(p);
+                li.appendChild(p2);
             });
         }
 

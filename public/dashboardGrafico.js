@@ -5,7 +5,7 @@ function JanelasComMaiorConsumo() {
     clearTimeout(proximaAtualizacao);
   }
 
-  fetch(`/processo/maioresProcessos/${sessionStorage.ID_INSTITUICAO}`)
+  fetch(`/processo/maioresUsos/${sessionStorage.ID_INSTITUICAO}`)
     .then((resposta) => {
       if(resposta.ok){
         resposta.json().then((response) => {
@@ -76,17 +76,17 @@ function drawBasic(resposta) {
   dataArray.push(["Janelas", "% de acesso", { role: "annotation" }]);
   console.log(dataArray)
   resposta.forEach(item => {
-    dataArray.push([item.nomeProcesso, item.consumoProcesso, item.nomeProcesso]);
+    dataArray.push([item.nomeProcesso, item.usoTotal, item.nomeProcesso]);
   });
 
   var data = google.visualization.arrayToDataTable(dataArray);
 
   var options = {
-    title: "Janelas do sistema com maior consumo (Ultima semana)",
+    title: "Janelas do sistema com maiores acessos (Ultima semana)",
     chartArea: { width: "92%", height: "250px" },
     bar: { groupWidth: "95%", backgroundColor: "silver" },
     hAxis: {
-      title: "Quantidade de consumo",
+      title: "Quantidade de acessos",
       minValue: 0,
     },
     vAxis: {

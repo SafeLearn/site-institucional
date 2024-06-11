@@ -38,15 +38,7 @@
                         <i class="fas fa-question-circle"></i>
                         <span class="nav-item">Suporte</span>
                     </a></li>
-                <li id="ativador">
-                    <i class="fas fa-power-off"></i>
-                    <span class="nav-item">Desligar Máquina</span>
-                    <div class="listaOpcoes">
-                        <span onclick="desligar(1)">Desligar</span>
-                        <span onclick="desligar(2)">Reiniciar</span>
-                        <span onclick="desligar(3)">Suspender</span>
-                    </div>
-                </li>
+               
                 <li><a href="./home.html" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Sair</span>
@@ -58,7 +50,7 @@
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
                 <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
-                <i class="fa-solid fa-power-off"></i>
+                <i class="fa-solid fa-power-off" id="power-button"></i>
             </div>
 
             <div class="graficos-wrapper">
@@ -97,8 +89,55 @@
         </section>
     </div>
 
+
+    
+    <!-- Modal HTML -->
+    <div id="power-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Escolha uma opção:</h2>
+            <button onclick="desligar(1)">Desligar</button>
+            <button onclick="desligar(2)">Reiniciar</button>
+            <button onclick="desligar(3)">Suspender</button>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+            <!-- Custom JavaScript -->
+        document.getElementById('power-button').addEventListener('click', function() {
+            document.getElementById('power-modal').style.display = 'block';
+        });
+
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('power-modal').style.display = 'none';
+        });
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('power-modal')) {
+                document.getElementById('power-modal').style.display = 'none';
+            }
+        };
+
+        function desligar(option) {
+            switch(option) {
+                case 1:
+                    alert("Desligando...");
+                    break;
+                case 2:
+                    alert("Reiniciando...");
+                    break;
+                case 3:
+                    alert("Suspendendo...");
+                    break;
+                default:
+                    alert("Opção inválida");
+            }
+            document.getElementById('power-modal').style.display = 'none';
+        }
+
+        //modal fim
 
         seta_main.addEventListener("click", () => {
             window.location.href = "monitorar.html";

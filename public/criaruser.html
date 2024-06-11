@@ -80,17 +80,17 @@
         <div class="modal-container">
           <div class="modalUser">
             <form>
-              <label for="m-nome">Nome</label>
-              <input id="m-nome" type="text" placeholder="Digite o nome" required />
+              <label for="nome">Nome</label>
+              <input id="nome" type="text" placeholder="Digite o nome" required />
 
-              <label for="m-email">Email</label>
-              <input id="m-email" type="text" placeholder="Digite o email" required />
+              <label for="email">Email</label>
+              <input id="email" type="text" placeholder="Digite o email" required />
 
-              <label for="m-senha">Senha</label>
-              <input id="m-senha" type="password" placeholder="Digite a senha" required />
+              <label for="senha">Senha</label>
+              <input id="senha" type="password" placeholder="Digite a senha" required />
               
-              <label for="m-nivel">Nível</label>
-              <select name="m-nivel" id="m-nivel" required>
+              <label for="nivel">Nível</label>
+              <select name="nivel" id="nivel" required>
                 <option value="">Selecione o tipo de nível</option>
                 <option value="Alto">Administrador</option>
                 <option value="Médio">Executador</option>
@@ -111,10 +111,10 @@
     const modal = document.querySelector('.modal-container')
     const tbody = document.querySelector('tbody')
 
-    const sNome = document.querySelector('#m-nome')
-    const sEmail = document.querySelector('#m-email')
-    const sSenha = document.querySelector('#m-senha')
-    const sNivel = document.querySelector('#m-nivel')
+    const nome = document.querySelector('#nome')
+    const email = document.querySelector('#email')
+    const senha = document.querySelector('#senha')
+    const nivel = document.querySelector('#nivel')
 
     const btnSalvar = document.querySelector('#btnSalvar')
     const modal2 = document.querySelector('.modalUser')
@@ -174,18 +174,18 @@
 
     btnSalvar.onclick = e => {
 
-      if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+      if (nome.value == '' || email.value == '') {
         return
       }
 
       e.preventDefault();
 
       if (id !== undefined) {
-        itens[id].nome = sNome.value
-        itens[id].email = sEmail.value
-        itens[id].nivel = sNivel.value
+        itens[id].nome = nome.value
+        itens[id].email = email.value
+        itens[id].nivel = nivel.value
       } else {
-        itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'nivel': sNivel.value })
+        itens.push({ 'nome': nome.value, 'email': email.value, 'nivel': nivel.value })
       }
 
       setItensBD()
@@ -211,15 +211,15 @@ loadItens()
 
 //teste
 btnSalvar.onclick = e => {
-  if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+  if (nome.value == '' || email.value == '' || nivel.value == '') {
     return;
   }
 
   const data = {
-    nome: sNome.value,
-    email: sEmail.value,
-    senha: sSenha.value, // Lembre-se de adicionar o campo de senha no formulário HTML
-    nivelAcesso: sNivel.value
+    nome: nome.value,
+    email: email.value,
+    senha: senha.value, 
+    nivelAcesso: nivel.value
   };
 
   fetch('/cadastrarUsuario', {

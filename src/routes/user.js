@@ -3,9 +3,9 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.get('/', userController.getUsers);
-router.post('/', userController.createUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+router.get('/', userController.obterUsuarios); // Rota para obter usuários
+router.post('/cadastrarUsuario', userController.cadastrarUsuario); // Rota para cadastrar novo usuário
+router.put('/:id', userController.atualizarUsuario); // Rota para atualizar usuário
+router.delete('/:id', userController.excluirUsuario); // Rota para excluir usuário
 
 module.exports = router;

@@ -88,7 +88,7 @@
 
               <label for="senha">Senha</label>
               <input id="senha" type="password" placeholder="Digite a senha" required />
-              
+
               <label for="nivel">Nível</label>
               <select name="nivel" id="nivel" required>
                 <option value="">Selecione o tipo de nível</option>
@@ -118,122 +118,186 @@
     const btnSalvar = document.querySelector('#btnSalvar')
     const modal2 = document.querySelector('.modalUser')
 
-    let itens
-    let id
-
+    let itens = []; // Inicializar como array vazio
+    let id;
+    
+    const nivelMap = {
+      1: 'Alto',
+      2: 'Médio',
+      3: 'Baixo'
+    };
+    
     function openModal(edit = false, index = 0) {
-      modal.classList.add('active')
+      modal.classList.add('active');
       modal2.style.display = 'flex';
-
+    
       modal.onclick = e => {
         if (e.target.className.indexOf('modal-container') !== -1) {
-          modal.classList.remove('active')
+          modal.classList.remove('active');
         }
-      }
-
+      };
+    
       if (edit) {
-        nome.value = itens[index].nome
-        email.value = itens[index].email
-        nivel.value = itens[index].nivel
-        id = index
+        nome.value = itens[index].userName;
+        email.value = itens[index].emailUsuario;
+        nivel.value = nivelMap[itens[index].fkNivelDeAcesso];
+        id = index;
       } else {
-        nome.value = ''
-        email.value = ''
-        nivel.value = ''
+        nome.value = '';
+        email.value = '';
+        nivel.value = '';
+        id = undefined;
       }
-
     }
-
+    
     function editItem(index) {
-      openModal(true, index)
+      openModal(true, index);
     }
-
+    
     function deleteItem(index) {
-      itens.splice(index, 1)
-      setItensBD()
-      loadItens()
+      const userId = itens[index].idUsuario;
+      
+      fetch(`/user/excluirUsuario/${userId}/${sessionStorage.ID_INSTITUICAO}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir usuário');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Usuário excluído com sucesso:', data);
+        loadItens();
+      })
+      .catch(error => {
+        console.error('Erro ao excluir usuário:', error);
+      });
+
+      window.location.reload();
     }
-
+    
     function insertItem(item, index) {
-      let tr = document.createElement('tr')
-
+      let tr = document.createElement('tr');
+      let nivel = nivelMap[item.fkNivelDeAcesso];
+    
       tr.innerHTML = `
-        <td>${item.nome}</td>
-        <td>${item.email}</td>
-        <td>${item.nivel}</td>
+        <td>${item.userName}</td>
+        <td>${item.emailUsuario}</td>
+        <td>${nivel}</td>
         <td class="acao">
           <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
         </td>
         <td class="acao">
           <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
         </td>
-      `
-      tbody.appendChild(tr)
+      `;
+      tbody.appendChild(tr);
     }
 
     btnSalvar.onclick = e => {
-      if (nome.value == '' || email.value == '' || nivel.value == '') {
-        return
-      }
 
       e.preventDefault();
+      if (nome.value === '' || email.value === '' || senha.value === '' || nivel.value === '') {
+        return;
+      }
+
+      if (nivel.value == 'Alto') {
+        numNivel = 1;
+      } else if (nivel.value == 'Médio') {
+        numNivel = 2;
+      } else {
+        numNivel = 3;
+      }
 
       const data = {
         nome: nome.value,
         email: email.value,
-        senha: senha.value, 
-        nivelAcesso: nivel.value
+        senha: senha.value,
+        nivelAcesso: numNivel,
+        idInstituicao: sessionStorage.ID_INSTITUICAO
       };
 
-      fetch('/cadastrarUsuario', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao cadastrar usuário');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Usuário cadastrado com sucesso:', data);
-        loadItens();
-      })
-      .catch(error => {
-        console.error('Erro ao cadastrar usuário:', error);
-      });
-
       if (id !== undefined) {
-        itens[id].nome = nome.value
-        itens[id].email = email.value
-        itens[id].nivel = nivel.value
+        // Atualizar usuário existente
+        fetch(`/user/atualizarUsuario/${itens[id].idUsuario}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Erro ao atualizar usuário');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Usuário atualizado com sucesso:', data);
+            loadItens();
+          })
+          .catch(error => {
+            console.error('Erro ao atualizar usuário:', error);
+          });
       } else {
-        itens.push({ 'nome': nome.value, 'email': email.value, 'nivel': nivel.value })
+        // Criar novo usuário
+        fetch('/user/cadastrarUsuario/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Erro ao cadastrar usuário');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Usuário cadastrado com sucesso:', data);
+            loadItens();
+          })
+          .catch(error => {
+            console.error('Erro ao cadastrar usuário:', error);
+          });
+
+        itens.push({ 'nome': nome.value, 'email': email.value, 'nivel': nivel.value });
       }
 
-      setItensBD()
-      modal.classList.remove('active')
-      loadItens()
-      id = undefined
-    }
+      setItensBD();
+      modal.classList.remove('active');
+      loadItens();
+      id = undefined;
+    };
 
     function loadItens() {
-      itens = getItensBD()
-      tbody.innerHTML = ''
-      itens.forEach((item, index) => {
-        insertItem(item, index)
-      })
+      fetch(`/user/listarUsuarios/${sessionStorage.ID_INSTITUICAO}/${sessionStorage.ID_USUARIO}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar usuários');
+          }
+          return response.json();
+        })
+        .then(data => {
+          itens = data;
+          tbody.innerHTML = '';
+          itens.forEach((item, index) => {
+            insertItem(item, index);
+          });
+        })
+        .catch(error => {
+          console.error('Erro ao carregar usuários:', error);
+        });
     }
 
-    const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-    const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+    const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? [];
+    const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens));
 
-    loadItens()
+    // Chamada inicial para carregar itens
+    loadItens();
   </script>
 </body>
 
 </html>
-

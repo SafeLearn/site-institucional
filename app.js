@@ -29,6 +29,7 @@ const atualizarRoute = require("./src/routes/atualizar");
 const deletarRoute = require("./src/routes/deletar");
 const maquinaRoute = require("./src/routes/maquina");
 const processoRoute = require("./src/routes/processo");
+const userRoute = require("./src/routes/user");
 
 app.use("/", homeRoute);
 app.use("/cadastro", cadastroRoute);
@@ -37,6 +38,7 @@ app.use("/atualizar", atualizarRoute);
 app.use("/deletar", deletarRoute);
 app.use("/maquina", maquinaRoute);
 app.use("/processo", processoRoute);
+app.use("/user", userRoute);
 
 app.get("/cadastrar-me", (req, res) => {
     res.sendFile("cadastroPessoal.html", { root: "public" });

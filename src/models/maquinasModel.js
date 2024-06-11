@@ -30,8 +30,8 @@ class maquinasModel {
   buscarBateria(idInstituicao) {
     const query = `SELECT idProcessador, porcentagemBateria FROM Bateria b
     RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
-        RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao 
-            WHERE idInstituicao = @idInstituicao`;
+    RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao 
+    WHERE idInstituicao = @idInstituicao`;
 
     return new Promise((resolve, reject) => {
       sql
@@ -56,10 +56,23 @@ class maquinasModel {
   }
 
   buscarBateriaMaquina(idInstituicao, idProcessador) {
-    const query = `SELECT TOP 1 porcentagemBateria, statusEnergia, dataHoraRegistroBateria, tempoAtividade FROM Bateria b
+    const query = `
+    SELECT TOP 1 
+        b.porcentagemBateria AS porcentagemBateria, 
+        b.statusEnergia AS statusEnergia, 
+        b.dataHoraRegistroBateria AS dataHoraRegistroBateria, 
+        m.idProcessador
+    FROM 
+        Bateria b
     RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
-        RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao WHERE b.fkMaquina = @idProcessador AND i.idInstituicao = @idInstituicao
-        ORDER BY b.idBateria DESC;`;
+    RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao 
+    WHERE 
+        b.fkMaquina = @idProcessador AND 
+        i.idInstituicao = @idInstituicao 
+    ORDER BY 
+        m.idProcessador,
+        b.fkMaquina DESC;
+    `;
 
     return new Promise((resolve, reject) => {
       sql
@@ -93,26 +106,26 @@ class maquinasModel {
           ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
       FROM 
           registro r
-  )
-  SELECT 
-      m.idProcessador AS Maquina,
-      MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
-      MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
-      MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
-      b.porcentagemBateria AS BATERIA
-  FROM 
-      maquina m
-  LEFT JOIN 
-      bateria b ON m.idProcessador = b.fkMaquina
-  LEFT JOIN
-      componente c ON c.fkMaquina = m.idProcessador
-  LEFT JOIN 
-      UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
-  WHERE 
-      m.fkInstituicao = @idInstituicao
-  GROUP BY 
-      m.idProcessador, b.porcentagemBateria;;
-        `;
+    )
+    SELECT 
+        m.idProcessador AS Maquina,
+        MAX(CASE WHEN c.nomeComponente = 'processador' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
+        MAX(CASE WHEN c.nomeComponente = 'memoria' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
+        MAX(CASE WHEN c.nomeComponente = 'disco' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
+        b.porcentagemBateria AS BATERIA
+    FROM 
+        maquina m
+    LEFT JOIN 
+        bateria b ON m.idProcessador = b.fkMaquina
+    LEFT JOIN
+        componente c ON c.fkMaquina = m.idProcessador
+    LEFT JOIN 
+        UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
+    WHERE 
+        m.fkInstituicao = @idInstituicao
+    GROUP BY 
+        m.idProcessador, b.porcentagemBateria;
+    `;
 
     return new Promise((resolve, reject) => {
       sql
@@ -169,10 +182,10 @@ class maquinasModel {
     )
     SELECT 
         dso.DiaSemana,
-        AVG(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaCPU,
-        AVG(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaRAM,
-        AVG(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaDISCO,
-        AVG(CASE WHEN c.nomeComponente = 'BATERIA' THEN u.valorCaptura ELSE NULL END) AS MediaBATERIA
+        AVG(CASE WHEN c.nomeComponente = 'processador' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaCPU,
+        AVG(CASE WHEN c.nomeComponente = 'memoria' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaRAM,
+        AVG(CASE WHEN c.nomeComponente = 'disco' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaDISCO,
+        AVG(CASE WHEN c.nomeComponente = 'bateria' THEN u.valorCaptura ELSE NULL END) AS MediaBATERIA
     FROM 
         DiasSemanaOrdenados dso
     LEFT JOIN 
@@ -187,8 +200,7 @@ class maquinasModel {
         dso.DiaSemana, dso.Ordenacao
     ORDER BY 
         dso.Ordenacao;
-       
-        `;
+    `;
 
     return new Promise((resolve, reject) => {
       sql
@@ -216,7 +228,7 @@ class maquinasModel {
 
   usoDeComponente(idProcessador, nomeComponente) {
     let query;
-    if (nomeComponente === "DISCO") {
+    if (nomeComponente === "disco") {
       query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
       INNER JOIN componente c ON r.fkComponente = c.idComponente
       WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
@@ -234,69 +246,13 @@ class maquinasModel {
         .then((pool) => {
           return pool
             .request()
-            .input("idProcessador", idProcessador)
-            .input("nomeComponente", nomeComponente)
-            .query(query);
-        })
-        .then((result) => {
-          if (result.recordset.length > 0) {
-            resolve(result.recordset);
-          } else {
-            reject(new Error("Registros não encontrados"));
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  buscarDadosEmTempoReal(idProcessador, nomeComponente) {
-    const query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
-    INNER JOIN componente c ON r.fkComponente = c.idComponente
-    WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
-    ORDER BY idRegistro;`;
-
-    return new Promise((resolve, reject) => {
-      sql
-        .connect()
-        .then((pool) => {
-          return pool
-            .request()
-            .input("idProcessador", idProcessador)
-            .input("nomeComponente", nomeComponente)
-            .query(query);
-        })
-        .then((result) => {
-          if (result.recordset.length > 0) {
-            resolve(result.recordset);
-          } else {
-            reject(new Error("Registros não encontrados"));
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  }
-
-  mudarStatusDaMaquina(numAcao, idInstituicao, idProcessador) {
-    const query = `UPDATE maquina SET status = @numAcao WHERE fkInstituicao = @idInstituicao AND idProcessador = @idProcessador`;
-
-    return new Promise((resolve, reject) => {
-      sql
-        .connect()
-        .then((pool) => {
-          return pool
-            .request()
-            .input("numAcao", sql.Int, numAcao)
-            .input("idInstituicao", sql.VarChar, idInstituicao)
+            .input("nomeComponente", sql.VarChar, nomeComponente)
             .input("idProcessador", sql.VarChar, idProcessador)
             .query(query);
         })
         .then((result) => {
-          if (result.rowsAffected[0] > 0) {
-            resolve({ message: "Status atualizado com sucesso" });
+          if (result.recordset.length > 0) {
+            resolve(result.recordset);
           } else {
             reject(new Error("Registros não encontrados"));
           }
@@ -309,8 +265,3 @@ class maquinasModel {
 }
 
 module.exports = new maquinasModel();
-
-// 0 Ligado
-// 1 Desligar
-// 2 Reiniciar
-// 3 Suspender

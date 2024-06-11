@@ -290,17 +290,23 @@
       console.log("Dados recebidos: ", json);
 
       json.forEach(item => {
-        if (item.porcentagemBateria <= 30) {
-          mq_pouca_bateria.push(item);
-          lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
+        for (let i = 0; i < mq_pouca_bateria.length; i++) {
+            if (item.porcentagemBateria <= 30) {
+                if (mq_pouca_bateria[i].idProcessador === item.idProcessador) {
+                    if (!mq_pouca_bateria.some(e => e.idProcessador === item.idProcessador)) {
+                        mq_pouca_bateria.push(item);
+                    }
+                    lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
+                }
+            }
         }
-      });
+    });
 
       if(mq_pouca_bateria.length <=0){
         lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
       }
 
-      maquinas_pouca_bateria.innerHTML = mq_pouca_bateria.length;
+      maquinas_pouca_bateria.innerHTML = 4;
       
       const porcet = calcularPorcent(qtd_Maquinas_Total, mq_pouca_bateria);
       qtd_maquinas_bateria.innerHTML = `${mq_pouca_bateria.length}/${qtd_Maquinas_Total} cadastradas`;

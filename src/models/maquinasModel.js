@@ -86,30 +86,32 @@ class maquinasModel {
 
   porcentagemComponentes(idInstituicao) {
     const query = `WITH UltimoRegistro AS (
-            SELECT 
-                r.fkComponente,
-                r.fkMaquina,
-                r.valorCaptura,
-                ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
-            FROM 
-                registro r
-        )
-        SELECT 
-            m.idProcessador AS Maquina,
-            MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
-            MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
-            MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
-            MAX(CASE WHEN c.nomeComponente = 'BATERIA' THEN u.valorCaptura ELSE NULL END) AS BATERIA
-        FROM 
-            maquina m
-        LEFT JOIN 
-            componente c ON m.idProcessador = c.fkMaquina
-        LEFT JOIN 
-            UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
-        WHERE 
-            fkInstituicao = @idInstituicao
-        GROUP BY 
-            m.idProcessador;
+      SELECT 
+          r.fkComponente,
+          r.fkMaquina,
+          r.valorCaptura,
+          ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
+      FROM 
+          registro r
+  )
+  SELECT 
+      m.idProcessador AS Maquina,
+      MAX(CASE WHEN c.nomeComponente = 'CPU' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
+      MAX(CASE WHEN c.nomeComponente = 'RAM' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
+      MAX(CASE WHEN c.nomeComponente = 'DISCO' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
+      b.porcentagemBateria AS BATERIA
+  FROM 
+      maquina m
+  LEFT JOIN 
+      bateria b ON m.idProcessador = b.fkMaquina
+  LEFT JOIN
+      componente c ON c.fkMaquina = m.idProcessador
+  LEFT JOIN 
+      UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
+  WHERE 
+      m.fkInstituicao = @idInstituicao
+  GROUP BY 
+      m.idProcessador, b.porcentagemBateria;;
         `;
 
     return new Promise((resolve, reject) => {
@@ -212,37 +214,41 @@ class maquinasModel {
 
   // MAQUINAS INDIVIDUAIS
 
-  usoDeComponente(idProcessador, nomeComponente){
-
+  usoDeComponente(idProcessador, nomeComponente) {
     let query;
-    if(nomeComponente === 'DISCO'){
+    if (nomeComponente === "DISCO") {
       query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
       INNER JOIN componente c ON r.fkComponente = c.idComponente
       WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
       ORDER BY idRegistro DESC`;
-    }else{
+    } else {
       query = `SELECT TOP 5 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
       INNER JOIN componente c ON r.fkComponente = c.idComponente
       WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
       ORDER BY idRegistro DESC`;
     }
-    
+
     return new Promise((resolve, reject) => {
-      sql.connect().then(pool => {
-        return pool.request()
-        .input('idProcessador', idProcessador)
-        .input('nomeComponente', nomeComponente)
-        .query(query);
-      }).then(result => {
-        if(result.recordset.length > 0) {
-          resolve(result.recordset);
-        }else{
-          reject(new Error("Registros não encontrados"));
-        }
-      }).catch(err => {
-        reject(err);
-      });
-    })
+      sql
+        .connect()
+        .then((pool) => {
+          return pool
+            .request()
+            .input("idProcessador", idProcessador)
+            .input("nomeComponente", nomeComponente)
+            .query(query);
+        })
+        .then((result) => {
+          if (result.recordset.length > 0) {
+            resolve(result.recordset);
+          } else {
+            reject(new Error("Registros não encontrados"));
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 
   buscarDadosEmTempoReal(idProcessador, nomeComponente) {
@@ -252,22 +258,59 @@ class maquinasModel {
     ORDER BY idRegistro;`;
 
     return new Promise((resolve, reject) => {
-      sql.connect().then(pool => {
-        return pool.request()
-        .input('idProcessador', idProcessador)
-        .input('nomeComponente', nomeComponente)
-        .query(query);
-      }).then(result => {
-        if(result.recordset.length > 0) {
-          resolve(result.recordset);
-        }else{
-          reject(new Error("Registros não encontrados"));
-        }
-      }).catch(err => {
-        reject(err);
-      });
-    })
+      sql
+        .connect()
+        .then((pool) => {
+          return pool
+            .request()
+            .input("idProcessador", idProcessador)
+            .input("nomeComponente", nomeComponente)
+            .query(query);
+        })
+        .then((result) => {
+          if (result.recordset.length > 0) {
+            resolve(result.recordset);
+          } else {
+            reject(new Error("Registros não encontrados"));
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  mudarStatusDaMaquina(numAcao, idInstituicao, idProcessador) {
+    const query = `UPDATE maquina SET status = @numAcao WHERE fkInstituicao = @idInstituicao AND idProcessador = @idProcessador`;
+
+    return new Promise((resolve, reject) => {
+      sql
+        .connect()
+        .then((pool) => {
+          return pool
+            .request()
+            .input("numAcao", sql.Int, numAcao)
+            .input("idInstituicao", sql.VarChar, idInstituicao)
+            .input("idProcessador", sql.VarChar, idProcessador)
+            .query(query);
+        })
+        .then((result) => {
+          if (result.rowsAffected[0] > 0) {
+            resolve({ message: "Status atualizado com sucesso" });
+          } else {
+            reject(new Error("Registros não encontrados"));
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 }
 
 module.exports = new maquinasModel();
+
+// 0 Ligado
+// 1 Desligar
+// 2 Reiniciar
+// 3 Suspender

@@ -49,8 +49,12 @@
         <section class="main">
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
+<<<<<<< HEAD
+                <h1 id="numero-maquina"></h1>
+                <i class="fas fa-user-cog"></i>
+=======
                 <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
-                <i class="fa-solid fa-power-off" id="power-button"></i>
+                <i class="fa-solid fa-power-off"></i>
             </div>
 
             <div class="graficos-wrapper">
@@ -143,9 +147,14 @@
             window.location.href = "monitorar.html";
         });
 
+        let id;
+
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
+            id = urlParams.get('id');
+
+            const numeroMaquina = document.getElementById('numero-maquina');
+            numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`
 
             if (id) {
                 obterDadosDeCPU(id);
@@ -181,20 +190,23 @@
         ativador.addEventListener('click', toggleListaOpcoes);
 
         function desligar(chamada) {
-            let title, title2, text2;
+            let title, title2, text2, numAcao;
 
             if (chamada == 1) {
                 title = "Tem certeza que deseja desligar a máquina 0221?";
                 title2 = "Desligando...";
                 text2 = "A máquina está sendo desligada!";
+                numAcao = 1;
             } else if (chamada == 2) {
                 title = "Tem certeza que deseja reiniciar a máquina 0221?";
                 title2 = "Reiniciando...";
                 text2 = "A máquina está sendo reiniciada!";
+                numAcao = 2;
             } else if (chamada == 3) {
                 title = "Tem certeza que deseja suspender a máquina 0221?";
                 title2 = "Suspendendo...";
                 text2 = "A máquina está sendo suspendida!";
+                numAcao = 3;
             }
 
             Swal.fire({
@@ -212,15 +224,30 @@
                         text: text2,
                         icon: "success"
                     });
-                    desligarMaquina(2);
+                    mudarStatusMaquina(numAcao, id);
                 }
             });
         }
 
-        function desligarMaquina(idMaquina) {
+        function mudarStatusMaquina(numAcao, idMaquina) {
             console.log("DESLIGANDO A MAQUINA: " + idMaquina);
+            fetch(`/maquina/mudarStatus/${numAcao}/${sessionStorage.ID_INSTITUICAO}/${idMaquina}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    console.log("STATUS DA MAQUINA MUDADO PARA: ", numAcao);
+                } else if (resposta.status == 404) {
+                    console.log("DEU 404!");
+                } else {
+                    throw new Error("Houve um erro ao tentar mudar o Status da maquina! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (error) {
+                console.log("#ERRO: ", error);
+            });
         }
-
 
         //BATERIA
         let proximaAtualizacaoBateria;
@@ -294,8 +321,15 @@
 
             registros.forEach(processo => {
                 const li = document.createElement('li');
-                li.textContent = `Título: ${processo.nomeProcesso}, Hora: ${processo.hora}`; 
+                const p = document.createElement('p');
+                const p2 = document.createElement('p');
+
+                p.textContent = `Título: ${processo.nomeProcesso}`;
+                p2.textContent = `Hora: ${processo.hora}`; 
                 listaElement.appendChild(li);
+                li.classList.add('item-processo');
+                li.appendChild(p);
+                li.appendChild(p2);
             });
         }
 
@@ -341,13 +375,14 @@
             console.log(registros)
             const dados = registros.map(registro => {
                 if (nomeComponente === 'DISCO') {
-                    console.log(registro.valorCaptura)
-                    //return Math.floor((registro.valorCaptura / 1000000000) * 100);
-                    return registro.valorCaptura;
+                    console.log(registro.valorCaptura);
+                    valorPorcentagem = Math.floor((registro.valorCaptura / 1000000000) * 100);
                 } else {
-                    console.log(registro.valorCaptura)
-                    return registro.valorCaptura;
+                    console.log(registro.valorCaptura);
+                    valorPorcentagem = registro.valorCaptura;
                 }
+
+                return Math.min(valorPorcentagem, 100);
             });
 
             console.log("DADOS", dados)

@@ -12,6 +12,18 @@ router.get("/maioresProcessos/:idInstituicao", async (req, res) => {
         res.status(400).json({ message: error.message});
         console.error(error.message);
     }
+});
+
+router.get("/maioresUsos/:idInstituicao", async (req, res) => {
+    try{
+        const idInstituicao = req.params.idInstituicao;
+        const usoProcessos = await processoController.maioresProcessosUso(idInstituicao);
+
+        res.status(200).json(usoProcessos);
+    }catch (error) {
+        res.status(400).json({ message: error.message});
+        console.error(error.message);
+    }
 })
 
 router.get("/listarProcessos/:idInstituicao/:idMaquina", async (req, res) => {

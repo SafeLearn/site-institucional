@@ -30,6 +30,10 @@ class maquinaController {
     async usoDeComponenteTempoReal(idProcessador, nomeComponente) {
         return await maquinasModel.buscarDadosEmTempoReal(idProcessador, nomeComponente)
     }
+
+    async mudarStatusMaquina (numAcao, idInstituicao, idProcessador) {
+        return await maquinasModel.mudarStatusDaMaquina(numAcao, idInstituicao, idProcessador);
+    }
 }
 
 module.exports = new maquinaController;

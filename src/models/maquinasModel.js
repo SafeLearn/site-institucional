@@ -28,10 +28,10 @@ class maquinasModel {
   }
 
   buscarBateriaMaquina(idInstituicao, idProcessador) {
-    const query = `SELECT TOP 1 porcentagemBateria, statusEnergia, dataHoraRegistroBateria FROM Bateria 
-    RIGHT JOIN maquina ON idProcessador = fkMaquina
-        RIGHT JOIN instituicao ON idInstituicao = fkInstituicao WHERE fkMaquina = @idProcessador AND idInstituicao = @idInstituicao
-        ORDER BY idBateria DESC;`;
+    const query = `SELECT TOP 1 porcentagemBateria, statusEnergia, dataHoraRegistroBateria, tempoAtividade FROM Bateria b
+    RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
+        RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao WHERE b.fkMaquina = @idProcessador AND i.idInstituicao = @idInstituicao
+        ORDER BY b.idBateria DESC;`;
 
     return new Promise((resolve, reject) => {
       sql

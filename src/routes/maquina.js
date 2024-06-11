@@ -15,10 +15,11 @@ router.get("/buscar/:idInstituicao", async (req, res) => {
     }
 });
 
-router.get("/buscarBateria/:idInstituicao", async (req, res) => {
+router.get("/buscarBateria/:idInstituicao/:idMaquina", async (req, res) => {
     try{
         const idInstituicao = req.params.idInstituicao;
-        const maquinasBateria = await maquinaController.buscarBateriaMaquina(idInstituicao);
+        const idMaquina = req.params.idMaquina;
+        const maquinasBateria = await maquinaController.buscarBateriaMaquina(idInstituicao, idMaquina);
 
         res.status(200).json(maquinasBateria);
     }catch(error) {

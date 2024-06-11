@@ -27,11 +27,11 @@ class maquinasModel {
     });
   }
 
-  buscarBateriaMaquina(idInstituicao) {
-    const query = `SELECT idProcessador, nome, valorCaptura FROM maquina 
-        LEFT JOIN componente ON fkMaquina = idProcessador
-            LEFT JOIN registro ON fkComponente = idComponente
-                WHERE fkInstituicao = @idInstituicao AND nomeComponente LIKE 'Bateria';`;
+  buscarBateriaMaquina(idInstituicao, idProcessador) {
+    const query = `SELECT TOP 1 porcentagemBateria, statusEnergia, dataHoraRegistroBateria, tempoAtividade FROM Bateria b
+    RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
+        RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao WHERE b.fkMaquina = @idProcessador AND i.idInstituicao = @idInstituicao
+        ORDER BY b.idBateria DESC;`;
 
     return new Promise((resolve, reject) => {
       sql
@@ -39,6 +39,7 @@ class maquinasModel {
         .then((pool) => {
           return pool
             .request()
+            .input("idProcessador", idProcessador)
             .input("idInstituicao", sql.Int, idInstituicao)
             .query(query);
         })

@@ -5,8 +5,8 @@ class maquinaController {
         return await maquinasModel.buscarMaquinasPorInstituicao(idInstituicao);
     }
 
-    async buscarBateriaMaquina(idInstituicao){
-        return await maquinasModel.buscarBateriaMaquina(idInstituicao);
+    async buscarBateriaMaquina(idInstituicao, idProcessador){
+        return await maquinasModel.buscarBateriaMaquina(idInstituicao, idProcessador);
     }
 
     async porcentagemComponentes (idInstituicao){

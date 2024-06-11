@@ -68,13 +68,14 @@
                     <div id="grafico4" class="grafico4">
                         <h1>Informações da máquina:</h1>
                         <div class="lista-info">
-                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p>2 horas e 35
-                                    minutos</p></span>
-                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p>100%</p>
+                            <span><img src="imagens/icons-dash/clock-five.svg">Tempo de atividade: <p
+                                    id="tempo_atividade">-</p></span>
+                            <span><img src="imagens/icons-dash/battery-full.svg">Porcentagem da bateria: <p
+                                    id="porcet_bateria">-</p>
                             </span>
-                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p>Conectado a energia</p>
+                            <span><img src="imagens/icons-dash/charging-station.svg">Status: <p id="conectado">-</p>
                             </span>
-                            <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span>
+                            <!-- <span><img src="imagens/icons-dash/it.svg">Vida útil da bateria: <p>80%</p></span> -->
                         </div>
                     </div>
                 </div>
@@ -83,14 +84,11 @@
                     <div class="janela-container">
                         <div class="janelas">
                             <h4><i class="fa-solid fa-computer"></i>Janelas em aberto</h4>
-                            <ul>
-                                <li>Título: Google Chrome</li>
-                                <li>Título: Microsoft Word</li>
-                                <li>Título: Microsoft Excel</li>
-                                <li>Título: Photoshop</li>
-                                <li>Título: Microsoft Powerpoint</li>
-                                <li>Título: Visual Studio Code</li>
-                                <!-- Additional windows can be listed here -->
+                            <ul id="lista-processos">
+                                <div style="display: flex;
+                                align-content: center;
+                                height: 200px;
+                                align-items: center; padding-left: 10px;">Nenhum dado encontrado!</div>
                             </ul>
                         </div>
                     </div>
@@ -101,6 +99,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+        seta_main.addEventListener("click", () => {
+            window.location.href = "monitorar.html";
+        });
+
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if (id) {
+                obterDadosDeCPU(id);
+                obterDadosDeRAM(id);
+                obterDadosDeDisco(id);
+                dadosDeBateria(id);
+                obterProcessos(id);
+            } else {
+                console.log("ID não encontrado na URL");
+            }
+        }
+
         let botaoDesligar = document.querySelector('#ativador');
         let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
         let nivelAcesso = sessionStorage.NIVEL_ACESSO;
@@ -164,27 +182,94 @@
             console.log("DESLIGANDO A MAQUINA: " + idMaquina);
         }
 
+
+        //BATERIA
+        let proximaAtualizacaoBateria;
+
+        function dadosDeBateria(id) {
+            fetch(`/maquina/buscarBateria/${sessionStorage.ID_INSTITUICAO}/${id}`, { cache: "no-store" }).then(resposta => {
+                if (resposta.ok) {
+                    resposta.json().then(resgistros => {
+                        atualizarDadosBateria(id, resgistros)
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou error na API');
+                }
+            }).catch(console.error);
+            clearTimeout(proximaAtualizacaoBateria);
+            proximaAtualizacaoBateria = setTimeout(() => dadosDeBateria(id), 5000);
+        }
+
+        function atualizarDadosBateria(id, registros) {
+            const tempo_atividade = document.getElementById("tempo_atividade");
+            const porcent_bateria = document.getElementById("porcet_bateria");
+            const conectado = document.getElementById("conectado");
+
+            const tempoAtividadeEmMinutos = registros[0].tempoAtividade;
+
+            const dias = Math.floor(tempoAtividadeEmMinutos / 1440);
+            const minutosRestantesAposDias = tempoAtividadeEmMinutos % 1440;
+
+            const horas = Math.floor(minutosRestantesAposDias / 60);
+            const minutosRestantes = minutosRestantesAposDias % 60;
+
+            const minutos = Math.floor(minutosRestantes);
+            const segundos = Math.floor((minutosRestantes - minutos) * 60);
+
+            const tempoFormatado = `${dias}d ${horas}h ${minutos}min ${segundos}s`;
+
+            tempo_atividade.innerHTML = tempoFormatado;
+
+
+
+            porcent_bateria.innerHTML = `${registros[0].porcentagemBateria}%`
+
+            if (registros[0].statusEnergia == 1) {
+                conectado.innerHTML = 'Conectado a energia';
+            } else {
+                conectado.innerHTML = 'Não conectado a energia';
+            }
+        }
+
+        //LISTA DE PROCESSOS
+        let proximaAtualizacaoProcessos;
+
+        function obterProcessos(id) {
+            fetch(`/processo/listarProcessos/${sessionStorage.ID_INSTITUICAO}/${id}`, { cache: "no-store" }).then(resposta => {
+                if (resposta.ok) {
+                    resposta.json().then(registros => {
+                        atualizarLista(id, registros)
+                    });
+                }else{
+                    console.error('Nenhum dado encontrado ou error na API');
+                }
+            }).catch(console.error);
+            clearTimeout(proximaAtualizacaoProcessos);
+            proximaAtualizacaoProcessos = setTimeout(() => obterProcessos(id), 5000); 
+        }
+
+        function atualizarLista(id, registros) {
+
+            const listaElement = document.getElementById('lista-processos'); 
+            listaElement.innerHTML = ''; 
+
+            registros.forEach(processo => {
+                const li = document.createElement('li');
+                li.textContent = `Título: ${processo.nomeProcesso}, Hora: ${processo.hora}`; 
+                listaElement.appendChild(li);
+            });
+        }
+
+        //GRAFICOS
         let proximaAtualizacaoCPU;
         let proximaAtualizacaoRAM;
         let proximaAtualizacaoDISCO;
 
-        window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-
-            if (id) {
-                const numeroMaquina = document.getElementById("numero-maquina");
-                numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`;
-                obterDadosDeCPU(id);
-                obterDadosDeRAM(id);
-                obterDadosDeDisco(id);
-            } else {
-                console.log("ID não encontrado na URL");
-            }
-        };
-
         function dadosNaoEncontrados(nomeElemento) {
-            nomeElemento.innerHTML = `<div><p>Nenhum dado encontrado!</p></div>`;
+            nomeElemento.innerHTML = `<div style="display: flex;
+            align-content: center;
+            height: 100px;
+            align-items: center; padding-left: 10px;">Nenhum dado encontrado!</div>`;
         }
 
         function exibirGraficos(idProcessador, especificacao, nomeComponente) {
@@ -226,7 +311,7 @@
                 }
             });
 
-            console.log("DADOS" , dados)
+            console.log("DADOS", dados)
 
             if (nomeComponente === 'DISCO') {
                 const data = new google.visualization.DataTable();
@@ -238,7 +323,7 @@
                 ]);
 
                 const options = {
-                    legend: {position: 'bottom', maxLine: 3},
+                    legend: { position: 'bottom', maxLine: 3 },
                     title: 'Uso do Disco',
                     is3D: true,
                     colors: ['#FF0000', '#4848ff'],
@@ -404,18 +489,18 @@
 
         function obterRegistrosDISCO(id) {
             fetch(`/maquina/usoDeComponente/${id}/DISCO`, { cache: "no-store" })
-            .then(resposta => {
-                if (resposta.ok) {
-                    resposta.json().then(registros => {
-                        atualizarGrafico(id, registros, 'DISCO');
-                    });
-                } else {
-                    console.error('Nenhum dado encontrado ou erro na API');
-                }
-            })
-            .catch(console.error);
-        clearTimeout(proximaAtualizacaoDISCO);
-        proximaAtualizacaoDISCO = setTimeout(() => obterRegistrosDISCO(id), 5000);
+                .then(resposta => {
+                    if (resposta.ok) {
+                        resposta.json().then(registros => {
+                            atualizarGrafico(id, registros, 'DISCO');
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                    }
+                })
+                .catch(console.error);
+            clearTimeout(proximaAtualizacaoDISCO);
+            proximaAtualizacaoDISCO = setTimeout(() => obterRegistrosDISCO(id), 5000);
         }
     </script>
 </body>

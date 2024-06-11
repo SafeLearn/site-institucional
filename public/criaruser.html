@@ -88,7 +88,7 @@
 
               <label for="m-senha">Senha</label>
               <input id="m-senha" type="password" placeholder="Digite a senha" required />
-
+              
               <label for="m-nivel">Nível</label>
               <select name="m-nivel" id="m-nivel" required>
                 <option value="">Selecione o tipo de nível</option>
@@ -110,39 +110,147 @@
   <script>
     const modal = document.querySelector('.modal-container')
     const tbody = document.querySelector('tbody')
+
     const sNome = document.querySelector('#m-nome')
     const sEmail = document.querySelector('#m-email')
-    const sSenha = document.querySelector('#m-senha') 
+    const sSenha = document.querySelector('#m-senha')
     const sNivel = document.querySelector('#m-nivel')
+
     const btnSalvar = document.querySelector('#btnSalvar')
     const modal2 = document.querySelector('.modalUser')
 
-    btnSalvar.addEventListener('click', async () => {
-      try {
-        const response = await fetch('/api/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            userName: sNome.value,
-            emailUsuario: sEmail.value,
-            senhaUsuario: sSenha.value,
-            fkNivelDeAcesso: sNivel.value
-          })
-        });
-        if (response.ok) {
-          const newUser = await response.json();
-          console.log('New user created:', newUser);
-          // You may want to update your UI here to reflect the newly created user
-        } else {
-          console.error('Failed to create user:', response.status);
+    let itens
+    let id
+
+    function openModal(edit = false, index = 0) {
+      modal.classList.add('active')
+      modal2.style.display = 'flex';
+
+      modal.onclick = e => {
+        if (e.target.className.indexOf('modal-container') !== -1) {
+          modal.classList.remove('active')
         }
-      } catch (error) {
-        console.error('Error creating user:', error);
       }
-    });
-  </script>
+
+      if (edit) {
+        sNome.value = itens[index].nome
+        sEmail.value = itens[index].email
+        sNivel.value = itens[index].nivel
+        id = index
+      } else {
+        sNome.value = ''
+        sEmail.value = ''
+        sNivel.value = ''
+      }
+
+    }
+
+    function editItem(index) {
+      openModal(true, index)
+    }
+
+    function deleteItem(index) {
+      itens.splice(index, 1)
+      setItensBD()
+      loadItens()
+    }
+
+    function insertItem(item, index) {
+      let tr = document.createElement('tr')
+
+      tr.innerHTML = `
+        <td>${item.nome}</td>
+        <td>${item.email}</td>
+        <td>${item.nivel}</td>
+        <td class="acao">
+          <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+        </td>
+        <td class="acao">
+          <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+        </td>
+      `
+      tbody.appendChild(tr)
+    }
+
+    btnSalvar.onclick = e => {
+
+      if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+        return
+      }
+
+      e.preventDefault();
+
+      if (id !== undefined) {
+        itens[id].nome = sNome.value
+        itens[id].email = sEmail.value
+        itens[id].nivel = sNivel.value
+      } else {
+        itens.push({ 'nome': sNome.value, 'email': sEmail.value, 'nivel': sNivel.value })
+      }
+
+      setItensBD()
+
+      modal.classList.remove('active')
+      loadItens()
+      id = undefined
+    }
+
+    function loadItens() {
+      itens = getItensBD()
+      tbody.innerHTML = ''
+      itens.forEach((item, index) => {
+        insertItem(item, index)
+      })
+
+    }
+
+    const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
+   const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+
+loadItens()
+
+//teste
+btnSalvar.onclick = e => {
+  if (sNome.value == '' || sEmail.value == '' || sNivel.value == '') {
+    return;
+  }
+
+  const data = {
+    nome: sNome.value,
+    email: sEmail.value,
+    senha: sSenha.value, // Lembre-se de adicionar o campo de senha no formulário HTML
+    nivelAcesso: sNivel.value
+  };
+
+  fetch('/cadastrar-usuario', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro ao cadastrar usuário');
+    }
+    return response.json();
+  })
+  .then(data => {
+    //  com a resposta do servidor, se necessário
+    console.log('Usuário cadastrado com sucesso:', data);
+    // Atualize a interface ou redirecione o usuário
+    loadItens();
+  })
+  .catch(error => {
+    console.error('Erro ao cadastrar usuário:', error);
+  });
+
+  e.preventDefault();
+};
+
+
+</script>
 </body>
 
 </html>
+

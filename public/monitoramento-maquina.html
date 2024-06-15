@@ -50,6 +50,7 @@
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
                 <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
+                <i class="fa-solid fa-pencil" id="apelido-button"></i>
                 <i class="fa-solid fa-power-off" id="power-button"></i>
             </div>
 
@@ -225,9 +226,9 @@
             });
         }
 
-        function mudarStatusMaquina(numAcao, idMaquina) {
-            console.log("DESLIGANDO A MAQUINA: " + idMaquina);
-            fetch(`/maquina/mudarStatus/${numAcao}/${sessionStorage.ID_INSTITUICAO}/${idMaquina}`, {
+        function mudarStatusMaquina(numAcao, idProcessador) {
+            console.log("DESLIGANDO A MAQUINA: " + idProcessador);
+            fetch(`/maquina/mudarStatus/${numAcao}/${sessionStorage.ID_INSTITUICAO}/${idProcessador}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

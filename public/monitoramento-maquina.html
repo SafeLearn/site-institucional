@@ -388,10 +388,8 @@
 
             console.log(registros)
             const dados = registros.map(registro => {
-                console.log('REGISTRO: ', registro);
                 if (nomeComponente === 'DISCO') {
-                    console.log(registro.valorCaptura);
-                    valorPorcentagem = Math.floor((registro.valorCaptura / 1000000000) * 100);
+                    valorPorcentagem = Math.floor((registro.valorCaptura / registro.especificacaoComponente) * 100);
                 } else {
                     console.log(registro.valorCaptura);
                     valorPorcentagem = registro.valorCaptura;

@@ -105,9 +105,42 @@
         </div>
     </div>
 
+        <!-- Edit Name Modal HTML -->
+        <div id="edit-name-modal" class="modal">
+            <div class="modal-content-e">
+                <span class="close">&times;</span>
+                <h3>Editar Nome da Máquina</h3>
+                <label for="new-name">Novo Nome:</label>
+                <input type="text" id="new-name" name="new-name">
+                <button onclick="salvarNome()">Salvar</button>
+                <button onclick="excluirNome()">Excluir</button>
+            </div>
+        </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+              // Edit Name Modal JavaScript
+        document.getElementById('apelido-button').addEventListener('click', function () {
+            document.getElementById('edit-name-modal').style.display = 'block';
+        });
+
+        function salvarNome() {
+            // Lógica para salvar o novo nome
+            alert("Nome salvo!");
+            document.getElementById('edit-name-modal').style.display = 'none';
+        }
+
+        function excluirNome() {
+            // Lógica para excluir o nome
+            alert("Nome excluído!");
+            document.getElementById('edit-name-modal').style.display = 'none';
+        }
+        // 
+
+
+
         <!-- Custom JavaScript -->
         document.getElementById('power-button').addEventListener('click', function () {
             document.getElementById('power-modal').style.display = 'block';

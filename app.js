@@ -41,7 +41,7 @@ app.use("/deletar", deletarRoute);
 app.use("/maquina", maquinaRoute);
 app.use("/processo", processoRoute);
 app.use("/user", userRoute);
-app.use("/nivelAcesso", nivelAcesso);
+app.use("/nivelAcesso", nivelAcessoRoute);
 
 app.get("/cadastrar-me", (req, res) => {
     res.sendFile("cadastroPessoal.html", { root: "public" });

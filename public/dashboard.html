@@ -52,7 +52,7 @@
             <span class="nav-item">Monitoramento</span>
           </a>
         </li>
-        
+
         <li>
           <a href="./suporte.html">
             <i class="fas fa-question-circle"></i>
@@ -167,7 +167,7 @@
             <p id="qtd_maquinas_risco"></p>
           </div>
           <ul id="lista_maquinas_risco">
-            
+
         </div>
       </div>
 
@@ -197,7 +197,7 @@
   let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
   let nivelAcesso = sessionStorage.NIVEL_ACESSO;
 
-  if (nivelAcesso == "Baixo" || nivelAcesso == "Médio") {
+  if (nivelAcesso != "Alto") {
     botaoUsuario.style.display = 'none';
   }
 
@@ -208,33 +208,33 @@
 <script>
   let qtd_Maquinas_Total = 0;
 
-  function dadosNaoEncontrados(nomeElemento) {
+  function mensagemDadosNaoEncontrados(nomeElemento) {
     nomeElemento.innerHTML = `<div>
     <p>Nenhum dado encontrado!</p>
   </div>`;
-}
+  }
 
-  function calcularPorcent(totalMaquina, listaSeparada){
+  function calcularPorcent(listaSeparada) {
     const totalSeparada = listaSeparada.length;
     let porcentagem = 0;
 
-    if(totalMaquina === 0){
+    if (qtd_Maquinas_Total === 0) {
       porcentagem = 0;
-    }else{
-      porcentagem = (totalSeparada / totalMaquina) * 100;
+    } else {
+      porcentagem = (totalSeparada / qtd_Maquinas_Total) * 100;
     }
-     
+
     return porcentagem;
   }
 
   function visaoGeral() {
-    const maquinas_ligadas = document.getElementById("maquinas_ligadas");
+    const qtd_maquinas_ligadas = document.getElementById("maquinas_ligadas");
     const lista_maquinas_ligadas = document.getElementById("lista_maquinas_ligadas");
     const qtd_maquinas = document.getElementById("qtd_maquinas");
     const barra_status = document.getElementById("barra-status");
 
     let data = [];
-   
+
 
     //Máquinas ligadas
     fetch(`/maquina/buscar/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
@@ -250,36 +250,34 @@
       json.forEach(item => {
         if (item.status === 0) {
           data.push(item);
-          lista_maquinas_ligadas.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
+          lista_maquinas_ligadas.innerHTML += `<li>Máquina: ${item.nome}</li>`;
         }
       });
 
-      if(data.length <=0){
+      if (data.length <= 0) {
         lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
       }
 
-      maquinas_ligadas.innerHTML = data.length;
-      console.log("Lista de itens com status 0:", data);
+      const porcet = calcularPorcent(data);
 
-      const porcet = calcularPorcent(qtd_Maquinas_Total, data);
-
-      qtd_maquinas.innerHTML = `${data.length}/${json.length} cadastradas`;
-
-      if(porcet <= 20){
+      if (porcet <= 20) {
         barra_status.style.backgroundColor = "red";
         qtd_maquinas.style.backgroundColor = "red";
-      }else if(porcet <= 50){
+      } else if (porcet <= 50) {
         barra_status.style.backgroundColor = "yellow";
         qtd_maquinas.style.backgroundColor = "yellow";
-      }else{
+      } else {
         barra_status.style.backgroundColor = "green";
         qtd_maquinas.style.backgroundColor = "green";
       }
 
+      qtd_maquinas_ligadas.innerHTML = data.length;
+
+      qtd_maquinas.innerHTML = `${data.length}/${json.length} cadastradas`;
 
     }).catch(error => {
       console.error("Error ao buscar dados:", error);
-      
+
     });
 
     //Máquina e Bateria
@@ -300,49 +298,47 @@
       console.log("Dados recebidos: ", json);
 
       json.forEach(item => {
-        for (let i = 0; i < mq_pouca_bateria.length; i++) {
-            if (item.porcentagemBateria <= 30) {
-                if (mq_pouca_bateria[i].idProcessador === item.idProcessador) {
-                    if (!mq_pouca_bateria.some(e => e.idProcessador === item.idProcessador)) {
-                        mq_pouca_bateria.push(item);
-                    }
-                    lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.idProcessador}</li>`;
-                }
-            }
+        const itemJaExiste = mq_pouca_bateria.some(e => e.idProcessador === item.idProcessador);
+
+        if (item.porcentagemBateria <= 30 && !itemJaExiste) {
+          mq_pouca_bateria.push(item);
+          lista_maquinas_bateria.innerHTML += `<li>Máquina: ${item.nome}</li>`;
         }
-    });
 
-      if(mq_pouca_bateria.length <=0){
-        lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
-      }
+      });
 
-      maquinas_pouca_bateria.innerHTML = 4;
+      const porcet = calcularPorcent(mq_pouca_bateria);
       
-      const porcet = calcularPorcent(qtd_Maquinas_Total, mq_pouca_bateria);
-      qtd_maquinas_bateria.innerHTML = `${mq_pouca_bateria.length}/${qtd_Maquinas_Total} cadastradas`;
-
-      if(porcet <= 20){
+      if (porcet <= 20) {
         barra_status_bateria.style.backgroundColor = "green";
         qtd_maquinas_bateria.style.backgroundColor = "green";
-      }else if(porcet <= 50){
+      } else if (porcet <= 50) {
         barra_status_bateria.style.backgroundColor = "yellow";
         qtd_maquinas_bateria.style.backgroundColor = "yellow";
-      }else{
+      } else {
         barra_status_bateria.style.backgroundColor = "red";
         qtd_maquinas_bateria.style.backgroundColor = "red";
       }
+      
+      if (mq_pouca_bateria.length <= 0) {
+        lista_maquinas_bateria.innerHTML += `<p>Sem máquinas para mostrar</p>`;
+      }
 
+      maquinas_pouca_bateria.innerHTML = mq_pouca_bateria.length;
+
+      qtd_maquinas_bateria.innerHTML = `${mq_pouca_bateria.length}/${qtd_Maquinas_Total} cadastradas`;
+      
 
     }).catch(error => {
       console.error("Error ao buscar dados:", error);
     });
   }
 
-  function statusComponentes(){
+  function statusComponentes() {
     const lista_maquinas = document.querySelector(".lista-maquinas");
 
     fetch(`/maquina/porcentagem/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
-      if(!resposta.ok){
+      if (!resposta.ok) {
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
       }
       return resposta.json();
@@ -350,6 +346,7 @@
       console.log("Dados recebidos: ", json);
 
       let components = json;
+      console.log('COMPONENTES RECIBIDOS POR JSON: ', components);
 
       // Verifica se o JSON está vazio
       if (components.length === 0) {
@@ -364,158 +361,160 @@
         let alerta = 0;
         let critico = 0;
 
-        if(item.CPU >= 80){
-          alerta ++;
-        }else if(item.CPU >= 90){
-          critico ++;
-        }else if(item.CPU == null){
-          critico ++;
-        }else{
-          bom ++;
+        if (item.CPU >= 90) {
+          critico++;
+        } else if (item.CPU >= 80) {
+          alerta++;
+        } else if (item.CPU == null) {
+          critico++;
+        } else {
+          bom++;
         }
 
-        if(item.RAM >= 70){
-          alerta ++;
-        }else if(item.RAM >= 80){
-          critico ++;
-        }else if(item.RAM == null){
-          critico ++;
-        }else{
-          bom ++;
+        if (item.RAM >= 80) {
+          critico++
+        } else if (item.RAM >= 70) {
+          alerta++;
+        } else if (item.RAM == null) {
+          critico++;
+        } else {
+          bom++;
         }
 
-        if(item.DISCO >= 70){
-          alerta ++;
-        }else if(item.DISCO >= 80){
-          critico ++;
-        }else if(item.DISCO == null){
-          critico ++;
-        }else{
-          bom ++;
+        if (item.DISCO >= 80) {
+          critico++
+        } else if (item.DISCO >= 70) {
+          alerta++;
+        } else if (item.DISCO == null) {
+          critico++;
+        } else {
+          bom++;
         }
 
-        if(item.BATERIA <= 15){
-          critico ++;
-        }else if(item.BATERIA <= 60){
-          alerta ++;
-        }else if(item.BATERIA == null){
-          critico ++;
-        }else{
-          bom ++;
+        if (item.BATERIA <= 15) {
+          critico++;
+        } else if (item.BATERIA <= 60) {
+          alerta++;
+        } else if (item.BATERIA == null) {
+          critico++;
+        } else {
+          bom++;
         }
 
         let status;
 
-        if(bom >= alerta && bom >= critico){
+        if (bom >= alerta && bom >= critico) {
           status = "Bom";
-        }else if(alerta >= bom && alerta >= critico){
+        } else if (alerta >= bom && alerta >= critico) {
           status = "Alerta";
-        }else{
+        } else {
           status = "Critico"
         }
 
-        if(critico >=2 || critico == 4){
+        if (critico >= 2 || critico == 4) {
           status = "Critico"
-        }else if(bom == 4){
+        } else if (bom == 4) {
           status = "Bom"
-        }else{
+        } else {
           status = "Alerta"
         }
 
         item.STATUS = status
 
-        console.log(item) 
+        console.log(item)
       });
 
-  const order = [];
-  let maquinasCriticas = [];
+      const order = [];
+      let maquinasCriticas = [];
 
-  function verificaEOrdenaPorStatusItem() {
+      function verificaEOrdenaPorStatusItem() {
 
-    for (let i = 0; i < components.length; i++) {
-      let corStatus;
-      const status = components[i].STATUS;
+        for (let i = 0; i < components.length; i++) {
+          let corStatus;
+          const status = components[i].STATUS;
 
-      switch (status) {
-        case "Critico":
-          corStatus = "red";
-          order.splice(i, 0, { ...components[i], corStatus });
-          maquinasCriticas.push(components[i]);
-          break;
-        case "Alerta":
-          corStatus = "yellow";
-          order.splice(i, 0, { ...components[i], corStatus });
-          break;
-        case "Bom":
-          corStatus = "green";
-          order.splice(i, 0, { ...components[i], corStatus });
-          break;
-        default:
-          corStatus = "none";
+          switch (status) {
+            case "Critico":
+              corStatus = "red";
+              order.splice(i, 0, { ...components[i], corStatus });
+              maquinasCriticas.push(components[i]);
+              break;
+            case "Alerta":
+              corStatus = "yellow";
+              order.splice(i, 0, { ...components[i], corStatus });
+              break;
+            case "Bom":
+              corStatus = "green";
+              order.splice(i, 0, { ...components[i], corStatus });
+              break;
+            default:
+              corStatus = "none";
+          }
+        }
       }
-    }
-  }
 
-  function createItem(item) {
-    const div = document.createElement("div");
-    div.classList.add("item-maquina");
+      function createItem(item) {
+        const div = document.createElement("div");
+        div.classList.add("item-maquina");
 
-    div.innerHTML = `
+        div.innerHTML = `
             <span>${item.Maquina}</span>
             <span>${item.CPU == null ? "-" : (item.CPU).toFixed(1)}%</span>
             <span>${item.RAM == null ? "-" : (item.RAM).toFixed(1)}%</span>
             <span>${item.DISCO == null ? "-" : (item.DISCO).toFixed(1)}%</span>
             <span>${item.BATERIA == null ? "-" : (item.BATERIA).toFixed(1)}%</span>
         `;
-    div.style.borderBottom = `6px solid ${item.corStatus}`;
-    lista_maquinas.appendChild(div);
-  }
+        div.style.borderBottom = `6px solid ${item.corStatus}`;
+        lista_maquinas.appendChild(div);
+      }
 
-  function updateList() {
-    lista_maquinas.innerHTML = "";
-    order.forEach(createItem);
-  }
+      function updateList() {
+        lista_maquinas.innerHTML = "";
+        order.forEach(createItem);
+      }
 
-  function updateMaquinasRisco(){
-    const maquinas_risco = document.getElementById("maquinas_risco");
-    const barra_status_risco = document.getElementById("barra_status_risco");
-    const qtd_maquinas_risco = document.getElementById("qtd_maquinas_risco");
-    const lista_maquinas_risco = document.getElementById("lista_maquinas_risco");
+      function updateMaquinasRisco() {
+        const maquinas_risco = document.getElementById("maquinas_risco");
+        const barra_status_risco = document.getElementById("barra_status_risco");
+        const qtd_maquinas_risco = document.getElementById("qtd_maquinas_risco");
+        const lista_maquinas_risco = document.getElementById("lista_maquinas_risco");
 
-    const porcet = calcularPorcent(qtd_Maquinas_Total, maquinasCriticas);
+        const porcet = calcularPorcent(maquinasCriticas);
 
-    console.log("porcentagem ", porcet)
+        console.log("porcentagem ", porcet)
 
-    if(porcet >= 80){
-      barra_status_risco.style.backgroundColor = "red";
-      qtd_maquinas_risco.style.backgroundColor = "red";
-    }else if(porcet >= 50){
-      barra_status_risco.style.backgroundColor = "yellow";
-      qtd_maquinas_risco.style.backgroundColor = "yellow";
-    }else{
-      barra_status_risco.style.backgroundColor = "green";
-      qtd_maquinas_risco.style.backgroundColor = "green";
-    }
+        if (porcet >= 80) {
+          barra_status_risco.style.backgroundColor = "red";
+          qtd_maquinas_risco.style.backgroundColor = "red";
+        } else if (porcet >= 50) {
+          barra_status_risco.style.backgroundColor = "yellow";
+          qtd_maquinas_risco.style.backgroundColor = "yellow";
+        } else {
+          barra_status_risco.style.backgroundColor = "green";
+          qtd_maquinas_risco.style.backgroundColor = "green";
+        }
 
-    maquinasCriticas.forEach(item =>{
-      lista_maquinas_risco.innerHTML += `<li>Máquina: ${item.Maquina}</li>`;
-    })
+        maquinasCriticas.forEach(item => {
+          lista_maquinas_risco.innerHTML += `<li>Máquina: ${item.nome}</li>`;
+        })
 
-    if(lista_maquinas_risco.length <=0){
-      lista_maquinas_risco.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
-    }
+        if (lista_maquinas_risco.length <= 0) {
+          lista_maquinas_risco.innerHTML += `<p>Sem máquinas para mostrar</p>`; //ARRUMAR FRONT DISSO
+        }
 
-    maquinas_risco.innerHTML = maquinasCriticas.length;
-    qtd_maquinas_risco.innerHTML = `${maquinasCriticas.length}/${components.length} cadastradas`;
+        maquinas_risco.innerHTML = maquinasCriticas.length;
+        qtd_maquinas_risco.innerHTML = `${maquinasCriticas.length}/${components.length} cadastradas`;
 
-  }
+      }
 
-  verificaEOrdenaPorStatusItem();
-  updateList();
-  updateMaquinasRisco();
+      verificaEOrdenaPorStatusItem();
+      updateList();
+      updateMaquinasRisco();
     });
+
+    //setTimeout(statusComponentes, 5000);
   }
-  
+
 
 
   //   modal

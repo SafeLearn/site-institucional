@@ -38,7 +38,7 @@
                         <i class="fas fa-question-circle"></i>
                         <span class="nav-item">Suporte</span>
                     </a></li>
-               
+
                 <li><a href="./home.html" class="logout">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="nav-item">Sair</span>
@@ -49,7 +49,7 @@
         <section class="main">
             <div class="main-top">
                 <img src="./imagens/icons-dash/arrow-left-svgrepo-com.svg" alt="Seta" id="seta_main">
-                <h1 id="numero-maquina">Visualização da Máquina - 0221</h1>
+                <h1 id="numero-maquina">Visualização da Máquina - </h1>
                 <i class="fa-solid fa-pencil" id="apelido-button"></i>
                 <i class="fa-solid fa-power-off" id="power-button"></i>
             </div>
@@ -91,7 +91,7 @@
     </div>
 
 
-    
+
     <!-- Modal HTML -->
     <div id="power-modal" class="modal">
         <div class="modal-content-i">
@@ -106,23 +106,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-            <!-- Custom JavaScript -->
-        document.getElementById('power-button').addEventListener('click', function() {
+        <!-- Custom JavaScript -->
+        document.getElementById('power-button').addEventListener('click', function () {
             document.getElementById('power-modal').style.display = 'block';
         });
 
-        document.querySelector('.close').addEventListener('click', function() {
+        document.querySelector('.close').addEventListener('click', function () {
             document.getElementById('power-modal').style.display = 'none';
         });
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == document.getElementById('power-modal')) {
                 document.getElementById('power-modal').style.display = 'none';
             }
         };
 
         function desligar(option) {
-            switch(option) {
+            switch (option) {
                 case 1:
                     alert("Desligando...");
                     break;
@@ -145,13 +145,17 @@
         });
 
         let id;
+        let nomeMaquina;
+
+        let proximaAtualizacaoBateria = null;
+        let proximaAtualizacaoProcessos = null;
+        let proximaAtualizacaoCPU = null;
+        let proximaAtualizacaoRAM = null;
+        let proximaAtualizacaoDISCO = null;
 
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
-            id = urlParams.get('id');
-
-            const numeroMaquina = document.getElementById('numero-maquina');
-            numeroMaquina.innerHTML = `Visualização da Máquina - ${id}`
+            const id = urlParams.get('id');
 
             if (id) {
                 obterDadosDeCPU(id);
@@ -162,9 +166,13 @@
             } else {
                 console.log("ID não encontrado na URL");
             }
+        };
+
+        function atualizarNumeroMaquina() {
+            const numeroMaquina = document.getElementById('numero-maquina');
+            numeroMaquina.innerHTML = `Visualização da Máquina - ${nomeMaquina}`;
         }
 
-        let botaoDesligar = document.querySelector('#ativador');
         let botaoUsuario = document.querySelector('.criarUsuarioNavegador');
         let nivelAcesso = sessionStorage.NIVEL_ACESSO;
 
@@ -175,32 +183,22 @@
             botaoUsuario.style.display = 'none';
         }
 
-        const listaOpcoes = document.querySelector('.listaOpcoes');
-        const ativador = document.querySelector('#ativador');
-
-        function toggleListaOpcoes() {
-            const isActive = ativador.classList.contains('active');
-            ativador.classList.toggle('active');
-            listaOpcoes.style.display = isActive ? 'none' : 'flex';
-        }
-
-        ativador.addEventListener('click', toggleListaOpcoes);
 
         function desligar(chamada) {
             let title, title2, text2, numAcao;
 
             if (chamada == 1) {
-                title = "Tem certeza que deseja desligar a máquina 0221?";
+                title = `Tem certeza que deseja desligar a máquina ${nomeMaquina}?`;
                 title2 = "Desligando...";
                 text2 = "A máquina está sendo desligada!";
                 numAcao = 1;
             } else if (chamada == 2) {
-                title = "Tem certeza que deseja reiniciar a máquina 0221?";
+                title = `Tem certeza que deseja reiniciar a máquina ${nomeMaquina}?`;
                 title2 = "Reiniciando...";
                 text2 = "A máquina está sendo reiniciada!";
                 numAcao = 2;
             } else if (chamada == 3) {
-                title = "Tem certeza que deseja suspender a máquina 0221?";
+                title = `Tem certeza que deseja suspender a máquina ${nomeMaquina}?`;
                 title2 = "Suspendendo...";
                 text2 = "A máquina está sendo suspendida!";
                 numAcao = 3;
@@ -247,20 +245,32 @@
         }
 
         //BATERIA
-        let proximaAtualizacaoBateria;
-
         function dadosDeBateria(id) {
-            fetch(`/maquina/buscarBateria/${sessionStorage.ID_INSTITUICAO}/${id}`, { cache: "no-store" }).then(resposta => {
-                if (resposta.ok) {
-                    resposta.json().then(resgistros => {
-                        atualizarDadosBateria(id, resgistros)
-                    });
-                } else {
-                    console.error('Nenhum dado encontrado ou error na API');
-                }
-            }).catch(console.error);
-            clearTimeout(proximaAtualizacaoBateria);
-            proximaAtualizacaoBateria = setTimeout(() => dadosDeBateria(id), 5000);
+            // Cancelar qualquer timeout anterior
+            if (proximaAtualizacaoBateria) {
+                clearTimeout(proximaAtualizacaoBateria);
+            }
+
+            fetch(`/maquina/buscarBateria/${sessionStorage.ID_INSTITUICAO}/${id}`, { cache: "no-store" })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        resposta.json().then(registros => {
+                            if (registros.length > 0) {
+                                nomeMaquina = registros[0].nome;
+                                atualizarDadosBateria(id, registros);
+                                atualizarNumeroMaquina();
+                            } else {
+                                console.error('Nenhum dado encontrado.');
+                            }
+                        });
+                    } else {
+                        console.error('Erro na resposta da API');
+                    }
+                })
+                .catch(console.error)
+                .finally(() => {
+                    proximaAtualizacaoBateria = setTimeout(() => dadosDeBateria(id), 5000);
+                });
         }
 
         function atualizarDadosBateria(id, registros) {
@@ -283,11 +293,15 @@
 
             tempo_atividade.innerHTML = tempoFormatado;
 
+            if(registros[0].porcentagemBateria == null){
+                porcent_bateria.innerHTML = `-%`;
+            }else{
+                porcent_bateria.innerHTML = `${registros[0].porcentagemBateria}%`;
+            }
 
-
-            porcent_bateria.innerHTML = `${registros[0].porcentagemBateria}%`
-
-            if (registros[0].statusEnergia == 1) {
+            if(registros[0].statusEnergia == null){
+                conectado.innerHTML = '-';
+            }else if (registros[0].statusEnergia == 1) {
                 conectado.innerHTML = 'Conectado a energia';
             } else {
                 conectado.innerHTML = 'Não conectado a energia';
@@ -295,26 +309,31 @@
         }
 
         //LISTA DE PROCESSOS
-        let proximaAtualizacaoProcessos;
 
         function obterProcessos(id) {
+            // Cancelar qualquer timeout anterior
+            if (proximaAtualizacaoProcessos) {
+                clearTimeout(proximaAtualizacaoProcessos);
+            }
+
             fetch(`/processo/listarProcessos/${sessionStorage.ID_INSTITUICAO}/${id}`, { cache: "no-store" }).then(resposta => {
                 if (resposta.ok) {
                     resposta.json().then(registros => {
                         atualizarLista(id, registros)
                     });
-                }else{
+                } else {
                     console.error('Nenhum dado encontrado ou error na API');
                 }
-            }).catch(console.error);
-            clearTimeout(proximaAtualizacaoProcessos);
-            proximaAtualizacaoProcessos = setTimeout(() => obterProcessos(id), 5000); 
+            }).catch(console.error)
+                .finally(() => {
+                    proximaAtualizacaoProcessos = setTimeout(() => obterProcessos(id), 5000);
+                });
         }
 
         function atualizarLista(id, registros) {
 
-            const listaElement = document.getElementById('lista-processos'); 
-            listaElement.innerHTML = ''; 
+            const listaElement = document.getElementById('lista-processos');
+            listaElement.innerHTML = '';
 
             registros.forEach(processo => {
                 const li = document.createElement('li');
@@ -322,7 +341,7 @@
                 const p2 = document.createElement('p');
 
                 p.textContent = `Título: ${processo.nomeProcesso}`;
-                p2.textContent = `Hora: ${processo.hora}`; 
+                p2.textContent = `Hora: ${processo.hora}`;
                 listaElement.appendChild(li);
                 li.classList.add('item-processo');
                 li.appendChild(p);
@@ -331,9 +350,6 @@
         }
 
         //GRAFICOS
-        let proximaAtualizacaoCPU;
-        let proximaAtualizacaoRAM;
-        let proximaAtualizacaoDISCO;
 
         function dadosNaoEncontrados(nomeElemento) {
             nomeElemento.innerHTML = `<div style="display: flex;
@@ -344,20 +360,21 @@
 
         function exibirGraficos(idProcessador, especificacao, nomeComponente) {
             const grafico = document.getElementById(`grafico${nomeComponente}`);
+            const especificacaoFormt = especificacao.toFixed(2)
 
             if (nomeComponente === 'CPU') {
                 grafico.innerHTML = `
-                    <span class="titulo">Uso de CPU<p>Total de frequência: ${especificacao} GHz</p></span>
-                    <canvas id="graficoCanvasCPU" style="height: 220px;"></canvas>`;
+    <span class="titulo">Uso de CPU<p>Total de frequência: ${especificacaoFormt} GHz</p></span>
+    <canvas id="graficoCanvasCPU" style="height: 220px;"></canvas>`;
             } else if (nomeComponente === 'RAM') {
                 grafico.innerHTML = `
-                    <span class="titulo">Uso de Memória RAM<p>Memória total: ${especificacao} GB</p></span>
-                    <canvas id="graficoCanvasRAM" style="height: 220px;"></canvas>`;
+    <span class="titulo">Uso de Memória RAM<p>Memória total: ${especificacaoFormt} GB</p></span>
+    <canvas id="graficoCanvasRAM" style="height: 220px;"></canvas>`;
             } else {
                 grafico.innerHTML = `
-                    <span class="titulo">Uso de Disco</span>
-                    <div id="piechart_3d" style="height: 200px; width: 200px; margin: 0 auto"></div>
-                    <p>Total disco: ${especificacao}GB</p>`;
+    <span class="titulo">Uso de Disco</span>
+    <div id="piechart_3d" style="height: 200px; width: 200px; margin: 0 auto"></div>
+    <p>Total disco: ${especificacao}GB</p>`;
             }
         }
 
@@ -371,6 +388,7 @@
 
             console.log(registros)
             const dados = registros.map(registro => {
+                console.log('REGISTRO: ', registro);
                 if (nomeComponente === 'DISCO') {
                     console.log(registro.valorCaptura);
                     valorPorcentagem = Math.floor((registro.valorCaptura / 1000000000) * 100);
@@ -452,7 +470,7 @@
         }
 
         function obterDadosDeCPU(id) {
-            fetch(`/maquina/usoDeComponente/${id}/CPU`, { cache: "no-store" })
+            fetch(`/maquina/usoDeComponente/${id}/processador`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(dados => {
@@ -478,7 +496,10 @@
         }
 
         function obterRegistrosCPU(idProcessador) {
-            fetch(`/maquina/tempo-real/${idProcessador}/CPU`, { cache: "no-store" })
+            if(proximaAtualizacaoCPU){
+                clearTimeout(proximaAtualizacaoCPU);
+            }
+            fetch(`/maquina/tempo-real/${idProcessador}/processador`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(registros => {
@@ -488,13 +509,14 @@
                         console.error('Nenhum dado encontrado ou erro na API');
                     }
                 })
-                .catch(console.error);
-            clearTimeout(proximaAtualizacaoCPU);
-            proximaAtualizacaoCPU = setTimeout(() => obterRegistrosCPU(idProcessador), 5000);
+                .catch(console.error)
+                .finally(() => {
+                    proximaAtualizacaoCPU = setTimeout(() => obterRegistrosCPU(idProcessador), 5000);
+                })
         }
 
         function obterDadosDeRAM(id) {
-            fetch(`/maquina/tempo-real/${id}/RAM`, { cache: "no-store" })
+            fetch(`/maquina/tempo-real/${id}/memoria`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(resposta => {
@@ -517,7 +539,10 @@
         }
 
         function obterRegistrosRAM(id) {
-            fetch(`/maquina/usoDeComponente/${id}/RAM`, { cache: "no-store" })
+            if(proximaAtualizacaoRAM) {
+                clearTimeout(proximaAtualizacaoRAM);
+            }
+            fetch(`/maquina/usoDeComponente/${id}/memoria`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(registros => {
@@ -527,16 +552,17 @@
                         console.error('Nenhum dado encontrado ou erro na API');
                     }
                 })
-                .catch(console.error);
-            clearTimeout(proximaAtualizacaoRAM);
-            proximaAtualizacaoRAM = setTimeout(() => obterRegistrosRAM(id), 5000);
+                .catch(console.error)
+                .finally(() => {
+                    proximaAtualizacaoRAM = setTimeout(() => obterRegistrosRAM(id), 5000);
+                })     
         }
 
         google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(obterDadosDeDisco);
 
         function obterDadosDeDisco(id) {
-            fetch(`/maquina/tempo-real/${id}/DISCO`, { cache: "no-store" })
+            fetch(`/maquina/tempo-real/${id}/disco`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(resposta => {
@@ -559,7 +585,10 @@
         }
 
         function obterRegistrosDISCO(id) {
-            fetch(`/maquina/usoDeComponente/${id}/DISCO`, { cache: "no-store" })
+            if(proximaAtualizacaoDISCO) {
+                clearTimeout(proximaAtualizacaoDISCO);
+            }
+            fetch(`/maquina/usoDeComponente/${id}/disco`, { cache: "no-store" })
                 .then(resposta => {
                     if (resposta.ok) {
                         resposta.json().then(registros => {
@@ -569,9 +598,10 @@
                         console.error('Nenhum dado encontrado ou erro na API');
                     }
                 })
-                .catch(console.error);
-            clearTimeout(proximaAtualizacaoDISCO);
-            proximaAtualizacaoDISCO = setTimeout(() => obterRegistrosDISCO(id), 5000);
+                .catch(console.error)
+                .finally(() => {
+                    proximaAtualizacaoDISCO = setTimeout(() => obterRegistrosDISCO(id), 5000);
+                })   
         }
     </script>
 </body>

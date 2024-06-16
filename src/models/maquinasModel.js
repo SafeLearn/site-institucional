@@ -3,7 +3,7 @@ const { sql } = require("../infra/conexao");
 
 class maquinasModel {
   buscarMaquinasPorInstituicao(idInstituicao) {
-    const query = `SELECT idProcessador, nome, sistemaOperacional, status FROM maquina WHERE fkInstituicao = @idInstituicao;`;
+    const query = `SELECT idProcessador, nome, sistemaOperacional, status, tempoAtividade FROM maquina WHERE fkInstituicao = @idInstituicao;`;
 
     return new Promise((resolve, reject) => {
       sql
@@ -28,7 +28,7 @@ class maquinasModel {
   }
 
   buscarBateria(idInstituicao) {
-    const query = `SELECT idProcessador, porcentagemBateria FROM Bateria b
+    const query = `SELECT m.idProcessador, m.nome, b.porcentagemBateria FROM Bateria b
     RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
     RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao
     WHERE idInstituicao = @idInstituicao`;
@@ -61,17 +61,18 @@ class maquinasModel {
         b.porcentagemBateria AS porcentagemBateria,
         b.statusEnergia AS statusEnergia,
         b.dataHoraRegistroBateria AS dataHoraRegistroBateria,
-        m.idProcessador
+        m.idProcessador,
+        m.nome,
+        m.tempoAtividade
     FROM
-        Bateria b
-    RIGHT JOIN maquina m ON m.idProcessador = b.fkMaquina
-    RIGHT JOIN instituicao i ON i.idInstituicao = m.fkInstituicao
+      maquina m
+    LEFT JOIN Bateria b ON m.idProcessador = b.fkMaquina
+    JOIN instituicao i ON i.idInstituicao = m.fkInstituicao
     WHERE
-        b.fkMaquina = @idProcessador AND
+        m.idProcessador = @idProcessador AND
         i.idInstituicao = @idInstituicao
     ORDER BY
-        m.idProcessador,
-        b.fkMaquina DESC;
+        b.dataHoraRegistroBateria DESC;
     `;
 
     return new Promise((resolve, reject) => {
@@ -106,26 +107,26 @@ class maquinasModel {
           ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
       FROM
           registro r
-    )
-    SELECT
-        m.idProcessador AS Maquina,
-        MAX(CASE WHEN c.nomeComponente = 'cpu' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
-        MAX(CASE WHEN c.nomeComponente = 'ram' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
-        MAX(CASE WHEN c.nomeComponente = 'hd' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
-        b.porcentagemBateria AS BATERIA
-    FROM
-        maquina m
-    LEFT JOIN
-        bateria b ON m.idProcessador = b.fkMaquina
-    LEFT JOIN
-        componente c ON c.fkMaquina = m.idProcessador
-    LEFT JOIN
-        UltimoRegistro u ON c.idComponente = u.fkComponente AND u.rn = 1
-    WHERE
-        m.fkInstituicao = @idInstituicao
-    GROUP BY
-        m.idProcessador, b.porcentagemBateria;
-    `;
+  )
+  SELECT
+      m.idProcessador AS Maquina,
+      m.nome,
+      MAX(CASE WHEN c.nomeComponente = 'processador' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
+      MAX(CASE WHEN c.nomeComponente = 'memoria' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
+      MAX(CASE WHEN c.nomeComponente = 'disco' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
+      MAX(b.porcentagemBateria) AS BATERIA
+  FROM
+      maquina m
+  LEFT JOIN
+      bateria b ON m.idProcessador = b.fkMaquina
+  LEFT JOIN
+      componente c ON c.fkMaquina = m.idProcessador
+  LEFT JOIN
+      UltimoRegistro u ON c.idComponente = u.fkComponente AND u.fkMaquina = m.idProcessador AND u.rn = 1
+  WHERE
+      m.fkInstituicao = @idInstituicao
+  GROUP BY
+      m.idProcessador, m.nome;`;
 
     return new Promise((resolve, reject) => {
       sql
@@ -182,10 +183,9 @@ class maquinasModel {
     )
     SELECT
         dso.DiaSemana,
-        AVG(CASE WHEN c.nomeComponente = 'cpu' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaCPU,
-        AVG(CASE WHEN c.nomeComponente = 'ram' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaRAM,
-        AVG(CASE WHEN c.nomeComponente = 'hd' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaDISCO,
-        AVG(CASE WHEN c.nomeComponente = 'bateria' THEN u.valorCaptura ELSE NULL END) AS MediaBATERIA
+        AVG(CASE WHEN c.nomeComponente = 'processador' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaCPU,
+        AVG(CASE WHEN c.nomeComponente = 'memoria' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaRAM,
+        AVG(CASE WHEN c.nomeComponente = 'disco' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS MediaDISCO
     FROM
         DiasSemanaOrdenados dso
     LEFT JOIN
@@ -228,7 +228,7 @@ class maquinasModel {
 
   usoDeComponente(idProcessador, nomeComponente) {
     let query;
-    if (nomeComponente === "hd") {
+    if (nomeComponente === "disco") {
       query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
       INNER JOIN componente c ON r.fkComponente = c.idComponente
       WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador
@@ -247,7 +247,7 @@ class maquinasModel {
           return pool
             .request()
             .input("nomeComponente", sql.VarChar, nomeComponente)
-            .input("idProcessador", sql.Int, idProcessador)
+            .input("idProcessador", sql.VarChar, idProcessador)
             .query(query);
         })
         .then((result) => {
@@ -265,7 +265,7 @@ class maquinasModel {
 
   usoDeComponentePorProcessador(idProcessador, nomeComponente) {
     let query;
-    if (nomeComponente === "hd") {
+    if (nomeComponente === "disco") {
       query = `SELECT TOP 1 r.valorCaptura, c.especificacaoComponente, FORMAT(r.dataHoraRegistro, 'HH:mm:ss') AS momento FROM registro r
       INNER JOIN componente c ON r.fkComponente = c.idComponente
       WHERE c.nomeComponente = @nomeComponente AND r.fkMaquina = @idProcessador

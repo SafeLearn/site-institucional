@@ -73,7 +73,7 @@ function drawBasic(resposta) {
   console.log(resposta)
 
   var dataArray = [];
-  dataArray.push(["Janelas", "% de acesso", { role: "annotation" }]);
+  dataArray.push(["Janelas", "acessos", { role: "annotation" }]);
   console.log(dataArray)
   resposta.forEach(item => {
     dataArray.push([item.nomeProcesso, item.usoTotal, item.nomeProcesso]);

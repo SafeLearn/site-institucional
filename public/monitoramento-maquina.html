@@ -106,7 +106,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        <!-- Custom JavaScript -->
+       // Custom JavaScript
         document.getElementById('power-button').addEventListener('click', function () {
             document.getElementById('power-modal').style.display = 'block';
         });
@@ -155,7 +155,7 @@
 
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
+            id = urlParams.get('id');
 
             if (id) {
                 obterDadosDeCPU(id);
@@ -401,12 +401,13 @@
             console.log("DADOS", dados)
 
             if (nomeComponente === 'DISCO') {
+                console.log('DADOS',dados[0]);
                 const data = new google.visualization.DataTable();
                 data.addColumn('string', 'Espaço');
                 data.addColumn('number', 'Quantidade');
                 data.addRows([
-                    ['Usado', dados[0]],
-                    ['Disponível', 100 - dados[0]],
+                    ['Usado', 100 - dados[0]],
+                    ['Disponível', dados[0]],
                 ]);
 
                 const options = {

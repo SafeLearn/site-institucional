@@ -67,12 +67,10 @@ router.get("/mediaComponentes/:idInstituicao", async (req, res) => {
 
 router.get("/usoDeComponente/:idProcessador/:nomeComponente", async (req, res) => {
     try{
-        console.log(`Received request: idProcessador=${req.params.idProcessador}, nomeComponente=${req.params.nomeComponente}`)
+
         const idProcessador = req.params.idProcessador;
         const nomeComponente = req.params.nomeComponente;
         const usoDeComponente = await maquinaController.usoDeComponente(idProcessador, nomeComponente);
-
-        console.log(`Database response: ${JSON.stringify(usoDeComponente)}`);
 
         res.status(200).json(usoDeComponente);
     }catch(error){

@@ -30,6 +30,8 @@ const deletarRoute = require("./src/routes/deletar");
 const maquinaRoute = require("./src/routes/maquina");
 const processoRoute = require("./src/routes/processo");
 const userRoute = require("./src/routes/user");
+const nivelAcessoRoute = require("./src/routes/nivelAcesso");
+
 
 app.use("/", homeRoute);
 app.use("/cadastro", cadastroRoute);
@@ -39,6 +41,7 @@ app.use("/deletar", deletarRoute);
 app.use("/maquina", maquinaRoute);
 app.use("/processo", processoRoute);
 app.use("/user", userRoute);
+app.use("/nivelAcesso", nivelAcesso);
 
 app.get("/cadastrar-me", (req, res) => {
     res.sendFile("cadastroPessoal.html", { root: "public" });

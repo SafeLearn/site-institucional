@@ -110,82 +110,76 @@
 
   </div>
   <script>
-    const modal = document.querySelector('.modal-container')
-    const tbody = document.querySelector('tbody')
+    const modal = document.querySelector('.modal-container');
+    const tbody = document.querySelector('tbody');
 
-    const nome = document.querySelector('#nome')
-    const nivel = document.querySelector('#nivel')
+    const nomeNivel = document.querySelector('#nome-nivel');
+    const permissoes = document.getElementsByName('permissoes');
 
-    const btnSalvar = document.querySelector('#btnSalvar')
-    const modal2 = document.querySelector('.modalUser')
+    const btnSalvar = document.querySelector('#btnSalvar');
+    const modal2 = document.querySelector('.modalUser-nivel');
 
     let itens = []; // Inicializar como array vazio
     let id;
-    
-    const nivelMap = {
-      1: 'Alto',
-      2: 'Médio',
-      3: 'Baixo'
-    };
-    
+
     function openModal(edit = false, index = 0) {
       modal.classList.add('active');
       modal2.style.display = 'flex';
-    
+
       modal.onclick = e => {
         if (e.target.className.indexOf('modal-container') !== -1) {
           modal.classList.remove('active');
         }
       };
-    
+
       if (edit) {
-        nome.value = itens[index].userName;
-        email.value = itens[index].emailUsuario;
-        nivel.value = nivelMap[itens[index].fkNivelDeAcesso];
+        const item = itens[index];
+        nomeNivel.value = item.nomeCargo;
+        permissoes.forEach(checkbox => {
+          checkbox.checked = item.permissoes.includes(checkbox.value);
+        });
         id = index;
       } else {
-        nome.value = '';
-        email.value = '';
-        nivel.value = '';
+        nomeNivel.value = '';
+        permissoes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
         id = undefined;
       }
     }
-    
+
     function editItem(index) {
       openModal(true, index);
     }
-    
+
     function deleteItem(index) {
-      const userId = itens[index].idUsuario;
-      
-      fetch(`/user/excluirUsuario/${userId}/${sessionStorage.ID_INSTITUICAO}`, {
+      const nivelId = itens[index].id;
+
+      fetch(`/nivel/excluirNivel/${nivelId}`, {
         method: 'DELETE',
       })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Erro ao excluir usuário');
+          throw new Error('Erro ao excluir nível de acesso');
         }
         return response.json();
       })
       .then(data => {
-        console.log('Usuário excluído com sucesso:', data);
+        console.log('Nível de acesso excluído com sucesso:', data);
         loadItens();
       })
       .catch(error => {
-        console.error('Erro ao excluir usuário:', error);
+        console.error('Erro ao excluir nível de acesso:', error);
       });
-
-      window.location.reload();  
     }
-    
+
     function insertItem(item, index) {
       let tr = document.createElement('tr');
-      let nivel = nivelMap[item.fkNivelDeAcesso];
-    
+      let permissoesTexto = item.permissoes.join(', ');
+
       tr.innerHTML = `
-        <td>${item.userName}</td>
-        <td>${item.emailUsuario}</td>
-        <td>${nivel}</td>
+        <td>${item.nomeCargo}</td>
+        <td>${permissoesTexto}</td>
         <td class="acao">
           <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
         </td>
@@ -197,74 +191,69 @@
     }
 
     btnSalvar.onclick = e => {
-
       e.preventDefault();
-      if (nome.value === '' || email.value === '' || senha.value === '' || nivel.value === '') {
+      if (nomeNivel.value === '') {
         return;
       }
 
-      if (nivel.value == 'Alto') {
-        numNivel = 1;
-      } else if (nivel.value == 'Médio') {
-        numNivel = 2;
-      } else {
-        numNivel = 3;
-      }
+      const permissoesSelecionadas = [];
+      permissoes.forEach(checkbox => {
+        if (checkbox.checked) {
+          permissoesSelecionadas.push(checkbox.value);
+        }
+      });
 
       const data = {
-        nome: nome.value,
-        email: email.value,
-        senha: senha.value,
-        nivelAcesso: numNivel,
-        idInstituicao: sessionStorage.ID_INSTITUICAO
+        nomeCargo: nomeNivel.value,
+        permissoes: permissoesSelecionadas,
       };
 
       if (id !== undefined) {
-        // Atualizar usuário existente
-        fetch(`/user/atualizarUsuario/${itens[id].idUsuario}`, {
+        // Atualizar nível de acesso existente
+        fetch(`/nivel/atualizarNivel/${itens[id].id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Erro ao atualizar usuário');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Usuário atualizado com sucesso:', data);
-            loadItens();
-          })
-          .catch(error => {
-            console.error('Erro ao atualizar usuário:', error);
-          });
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao atualizar nível de acesso');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Nível de acesso atualizado com sucesso:', data);
+          loadItens();
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar nível de acesso:', error);
+        });
       } else {
-        // Criar novo usuário
-        fetch('/user/cadastrarUsuario/', {
+        // Criar novo nível de acesso
+        fetch('/nivel/cadastrarNivel/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Erro ao cadastrar usuário');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Usuário cadastrado com sucesso:', data);
-            loadItens();
-          })
-          .catch(error => {
-            console.error('Erro ao cadastrar usuário:', error);
-          });
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao cadastrar nível de acesso');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Nível de acesso cadastrado com sucesso:', data);
+          loadItens();
+        })
+        .catch(error => {
+          console.error('Erro ao cadastrar nível de acesso:', error);
+        });
 
-        itens.push({ 'nome': nome.value, 'email': email.value, 'nivel': nivel.value });
+        itens.push({ 'nomeCargo': nomeNivel.value, 'permissoes': permissoesSelecionadas });
       }
 
       setItensBD();
@@ -274,29 +263,29 @@
     };
 
     function loadItens() {
-      fetch(`/user/listarUsuarios/${sessionStorage.ID_INSTITUICAO}/${sessionStorage.ID_USUARIO}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao carregar usuários');
-          }
-          return response.json();
-        })
-        .then(data => {
-          itens = data;
-          tbody.innerHTML = '';
-          itens.forEach((item, index) => {
-            insertItem(item, index);
-          });
-        })
-        .catch(error => {
-          console.error('Erro ao carregar usuários:', error);
+      fetch(`/nivel/listarNiveis`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao carregar níveis de acesso');
+        }
+        return response.json();
+      })
+      .then(data => {
+        itens = data;
+        tbody.innerHTML = '';
+        itens.forEach((item, index) => {
+          insertItem(item, index);
         });
+      })
+      .catch(error => {
+        console.error('Erro ao carregar níveis de acesso:', error);
+      });
     }
 
-    const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? [];
-    const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens));
+    function setItensBD() {
+      localStorage.setItem('itensDB', JSON.stringify(itens));
+    }
 
-    // Chamada inicial para carregar itens
     loadItens();
   </script>
 </body>

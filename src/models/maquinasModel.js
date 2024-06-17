@@ -107,26 +107,35 @@ class maquinasModel {
           ROW_NUMBER() OVER (PARTITION BY r.fkComponente, r.fkMaquina ORDER BY r.dataHoraRegistro DESC) AS rn
       FROM
           registro r
-  )
-  SELECT
+),
+UltimaBateria AS (
+      SELECT
+          b.fkMaquina,
+          b.porcentagemBateria,
+          ROW_NUMBER() OVER (PARTITION BY b.fkMaquina ORDER BY b.dataHoraRegistroBateria DESC) AS rn
+      FROM
+          bateria b
+)
+SELECT
       m.idProcessador AS Maquina,
       m.nome,
       MAX(CASE WHEN c.nomeComponente = 'processador' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS CPU,
       MAX(CASE WHEN c.nomeComponente = 'memoria' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS RAM,
       MAX(CASE WHEN c.nomeComponente = 'disco' THEN LEAST((u.valorCaptura / c.especificacaoComponente) * 100, 100) ELSE NULL END) AS DISCO,
-      MAX(b.porcentagemBateria) AS BATERIA
-  FROM
+      ub.porcentagemBateria AS BATERIA
+FROM
       maquina m
-  LEFT JOIN
-      bateria b ON m.idProcessador = b.fkMaquina
-  LEFT JOIN
+LEFT JOIN
       componente c ON c.fkMaquina = m.idProcessador
-  LEFT JOIN
+LEFT JOIN
       UltimoRegistro u ON c.idComponente = u.fkComponente AND u.fkMaquina = m.idProcessador AND u.rn = 1
-  WHERE
+LEFT JOIN
+      UltimaBateria ub ON m.idProcessador = ub.fkMaquina AND ub.rn = 1
+WHERE
       m.fkInstituicao = @idInstituicao
-  GROUP BY
-      m.idProcessador, m.nome;`;
+GROUP BY
+      m.idProcessador, m.nome, ub.porcentagemBateria;
+`;
 
     return new Promise((resolve, reject) => {
       sql
@@ -300,31 +309,32 @@ class maquinasModel {
     });
   }
 
-mudarStatusDaMaquina(numAcao, idInstituicao, idProcessador) {
-const query = 'UPDATE maquina SET status = @numAcao WHERE fkInstituicao = @idInstituicao AND idProcessador = @idProcessador';
+  mudarStatusDaMaquina(numAcao, idInstituicao, idProcessador) {
+    const query =
+      "UPDATE maquina SET status = @numAcao WHERE fkInstituicao = @idInstituicao AND idProcessador = @idProcessador";
 
-return new Promise((resolve, reject) => {
-  sql
-    .connect()
-    .then((pool) => {
-      return pool
-        .request()
-        .input("numAcao", sql.Int, numAcao)
-        .input("idInstituicao", sql.VarChar, idInstituicao)
-        .input("idProcessador", sql.VarChar, idProcessador)
-        .query(query);
-    })
-    .then((result) => {
-      if (result.rowsAffected[0] > 0) {
-        resolve({ message: "Status atualizado com sucesso" });
-      } else {
-        reject(new Error("Registros não encontrados"));
-      }
-    })
-    .catch((err) => {
-      reject(err);
+    return new Promise((resolve, reject) => {
+      sql
+        .connect()
+        .then((pool) => {
+          return pool
+            .request()
+            .input("numAcao", sql.Int, numAcao)
+            .input("idInstituicao", sql.VarChar, idInstituicao)
+            .input("idProcessador", sql.VarChar, idProcessador)
+            .query(query);
+        })
+        .then((result) => {
+          if (result.rowsAffected[0] > 0) {
+            resolve({ message: "Status atualizado com sucesso" });
+          } else {
+            reject(new Error("Registros não encontrados"));
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-});
   }
 }
 

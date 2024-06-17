@@ -17,10 +17,10 @@ const sql = require('mssql');
 // };
 
 const config = {
-    server: "safelearn-server.database.windows.net",
+    server: "ec2-52-73-82-233.compute-1.amazonaws.com",
     database: "safelearn",
-    user: "user",
-    password: "senha123.",
+    user: "sa",
+    password: "senha",
     pool: {
         max: 10,
         min: 0,

@@ -104,6 +104,11 @@
                 <option value="3">Visualizador</option>
               </select>
 
+              <!-- <label for="nivel">Nível</label>
+              <select name="nivel" id="nivel" required>
+                <option value="">Selecione o tipo de nível</option>
+              </select> -->
+
               <button type="button" id="btnSalvar">Salvar</button>
             </form>
           </div>
@@ -113,6 +118,25 @@
     </section>
 
   </div>
+
+  <script>
+    // Função para carregar níveis de acesso do localStorage
+    function loadNiveis() {
+      const itens = JSON.parse(localStorage.getItem('itensDB')) || [];
+      const nivelSelect = document.getElementById('nivel');
+      
+      itens.forEach((item, index) => {
+        const option = document.createElement('option');
+        option.value = index + 1; // ou qualquer outro valor apropriado
+        option.textContent = item.nomeCargo;
+        nivelSelect.appendChild(option);
+      });
+    }
+
+    // Chame a função para carregar os níveis de acesso ao carregar a página
+    window.onload = loadNiveis;
+  </script>
+  
   <script>
     const modal = document.querySelector('.modal-container')
     const tbody = document.querySelector('tbody')

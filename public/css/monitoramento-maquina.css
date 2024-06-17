@@ -461,8 +461,7 @@ h2 {
 
 
 /* css do modal de editar nome */
-
-.modal-content-i, .modal-content-e {
+.modal-content {
   background-color: #fefefe;
   margin: 15% auto; 
   padding: 20px;
@@ -470,11 +469,11 @@ h2 {
   width: 80%;
   max-width: 500px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  animation-name: animatetop;
-  animation-duration: 0.4s;
   border-radius: 10px;
+  position: relative;
 }
 
+/* Animação de entrada */
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
@@ -494,38 +493,37 @@ h2 {
   cursor: pointer;
 }
 
-.modal-content-e label,
-.modal-content-e input {
+.modal-content label,
+.modal-content input {
   display: block;
   margin-bottom: 10px;
-  border: #888;
 }
 
-/* Input Styles */
-.modal-content-e input[type="text"] {
-  width: 100%;
+/* Estilo do input */
+.modal-content input[type="text"] {
+  width: calc(100% - 22px);
   padding: 10px;
   margin: 8px 0;
   box-sizing: border-box;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-
-.modal-content-e button {
+/* Botões */
+.modal-content button {
   margin-top: 10px;
   padding: 10px 15px;
   border: none;
-  background-color: #4CAF50;
+  background: linear-gradient(240deg, #FEDD58, #FF7E07);
   color: white;
   cursor: pointer;
-
+  border-radius: 4px;
 }
 
-.modal-content-e button:last-of-type {
-  background-color: #f44336;
+.modal-content button:last-of-type {
+  background: linear-gradient(240deg, #FEDD58, #FF7E07);
 }
 
-.modal-content-e button:hover {
+.modal-content button:hover {
   opacity: 0.8;
 }

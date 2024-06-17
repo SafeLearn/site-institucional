@@ -433,3 +433,99 @@ button:hover {
 h2 {
   margin-top: 0;
 }
+
+.icon-lapis i{
+  position: absolute;
+  margin-right: 350px;
+}
+.icon-lapis::after {
+  content: "Editar nome"; 
+  position: absolute;
+  top: 2px; 
+  left: 68.5%; 
+  transform: translateX(-60%); 
+  background-color: rgba(255, 246, 211, 0.8);
+  color: rgb(0, 0, 0); 
+  padding: 3px 5px; 
+  border-radius: 5px; 
+  font-size: 14px; 
+  visibility: hidden;
+  opacity: 0; 
+  transition: visibility 0s, opacity 0.3s ease; 
+}
+
+.icon-lapis:hover::after {
+  visibility: visible; /* Torna visível ao passar o mouse */
+  opacity: 0.8;
+}
+
+
+/* css do modal de editar nome */
+
+.modal-content-i, .modal-content-e {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 10px;
+}
+
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content-e label,
+.modal-content-e input {
+  display: block;
+  margin-bottom: 10px;
+  border: #888;
+}
+
+/* Input Styles */
+.modal-content-e input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.modal-content-e button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+
+}
+
+.modal-content-e button:last-of-type {
+  background-color: #f44336;
+}
+
+.modal-content-e button:hover {
+  opacity: 0.8;
+}

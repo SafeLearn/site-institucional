@@ -171,7 +171,7 @@
       })
         .then(response => response.json())
         .then(data => {
-          alert(data.message);
+          //alert(data.message);
           document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
           listarNomesMaquina(); // Example function to update list after adding
         })
@@ -193,7 +193,7 @@
       })
         .then(response => response.json())
         .then(data => {
-          alert(data.message);
+          //alert(data.message);
           document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
           listarNomesMaquina(); // Example function to update list after editing
         })
@@ -210,11 +210,16 @@
       })
         .then(response => response.json())
         .then(data => {
-          alert(data.message);
+          //alert(data.message);
           document.getElementById("numero-maquina").textContent = 'Visualização da Máquina -';
           listarNomesMaquina(); // Example function to update list after deletion
         })
-        .catch(error => console.error('Erro ao excluir nome da máquina:', error));
+        .catch(error => console.error('Erro ao excluir nome da máquina:', error))
+        .finally(() => {
+      document.getElementById("new-name").value = ""; // Limpa o campo de entrada
+      document.getElementById("edit-name-modal").style.display = "none"; // Fecha o modal
+    });
+        
 
       document.getElementById("edit-name-modal").style.display = "none";
     }
@@ -304,7 +309,7 @@
 
     function atualizarNumeroMaquina() {
       const numeroMaquina = document.getElementById("numero-maquina");
-      numeroMaquina.innerHTML = `Visualização da Máquina - ${nomeMaquina}`;
+      numeroMaquina.innerHTML = `Visualização da Máquina - ${novoNome}`;
     }
 
     let botaoUsuario = document.querySelector(".criarUsuarioNavegador");

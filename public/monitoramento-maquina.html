@@ -105,17 +105,20 @@
         </div>
     </div>
 
-        <!-- Edit Name Modal HTML -->
-        <div id="edit-name-modal" class="modal">
-            <div class="modal-content-e">
-                <span class="close">&times;</span>
-                <h3>Editar Nome da Máquina</h3>
-                <label for="new-name">Novo Nome:</label>
-                <input type="text" id="new-name" name="new-name">
-                <button onclick="salvarNome()">Salvar</button>
-                <button onclick="excluirNome()">Excluir</button>
-            </div>
-        </div>
+<!-- Edit Name Modal HTML -->
+<div id="edit-name-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Gerenciar Nomes de Máquinas</h3>
+        <label for="new-name">Nome:</label>
+        <input type="text" id="new-name" name="new-name">
+        <button onclick="salvarNome()">Salvar Nome</button>
+        <button onclick="editarNome()">Editar Nome</button>
+        <button onclick="excluirNome()">Excluir Nome</button>
+        <div id="nome-list"></div>
+    </div>
+</div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -125,6 +128,9 @@
         document.getElementById('apelido-button').addEventListener('click', function () {
             document.getElementById('edit-name-modal').style.display = 'block';
         });
+
+
+
 
         function salvarNome() {
             // Lógica para salvar o novo nome
@@ -190,7 +196,7 @@
 
         window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
+             id = urlParams.get('id');
 
             if (id) {
                 obterDadosDeCPU(id);

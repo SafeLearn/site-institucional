@@ -84,23 +84,24 @@
           </table>
         </div>
 
-        <div class="modal-container">
-            <div class="modalUser-nivel">
-                <form>
-                    <label for="nome-nivel">Nome do cargo</label><br>
-                    <input id="nome-nivel" type="text" placeholder="Digite o nome" required />
-    
-                    <fieldset>
-                        <legend>Adicionar Permissões</legend>
-                        <input type="checkbox" name="permissoes" value="Permissão desligar"> Desligar<br>
-                        <input type="checkbox" name="permissoes" value="Permissão reiniciar"> Reiniciar<br>
-                        <input type="checkbox" name="permissoes" value="Permissão visualizar"> Suspender<br>
-                        <input type="checkbox" name="permissoes" value="Permissão visualizar"> Visualizar<br>
-                        <input type="checkbox" name="permissoes" value="Permissão administrador"> Administrador (todos)
-                    </fieldset>
-    
-                    <button type="button" id="btnSalvar">Salvar</button>
-                </form>
+<!-- Modal para cadastro/editar -->
+<div class="modal-container">
+  <div class="modalUser-nivel">
+    <form>
+      <label for="nome-nivel">Nome do Cargo</label><br>
+      <input id="nome-nivel" type="text" placeholder="Digite o nome" required />
+
+      <fieldset>
+        <legend>Adicionar Permissões</legend>
+        <input type="checkbox" name="permissoes" value="Permissão desligar"> Desligar<br>
+        <input type="checkbox" name="permissoes" value="Permissão reiniciar"> Reiniciar<br>
+        <input type="checkbox" name="permissoes" value="Permissão suspender"> Suspender<br>
+        <input type="checkbox" name="permissoes" value="Permissão visualizar"> Visualizar<br>
+        <input type="checkbox" name="permissoes" value="Permissão administrador"> Administrador (todos)
+      </fieldset>
+
+      <button type="button" id="btnSalvar">Salvar</button>
+    </form>
 
           </div>
         </div>
@@ -112,26 +113,26 @@
   <script>
     const modal = document.querySelector('.modal-container');
     const tbody = document.querySelector('tbody');
-
+  
     const nomeNivel = document.querySelector('#nome-nivel');
     const permissoes = document.getElementsByName('permissoes');
-
+  
     const btnSalvar = document.querySelector('#btnSalvar');
     const modal2 = document.querySelector('.modalUser-nivel');
-
-    let itens = []; // Inicializar como array vazio
+  
+    let itens = getItensBD(); // Carregar itens do localStorage ou inicializar como array vazio
     let id;
-
+  
     function openModal(edit = false, index = 0) {
       modal.classList.add('active');
       modal2.style.display = 'flex';
-
+  
       modal.onclick = e => {
         if (e.target.className.indexOf('modal-container') !== -1) {
           modal.classList.remove('active');
         }
       };
-
+  
       if (edit) {
         const item = itens[index];
         nomeNivel.value = item.nomeCargo;
@@ -147,148 +148,86 @@
         id = undefined;
       }
     }
-
+  
     function editItem(index) {
       openModal(true, index);
     }
-
+  
     function deleteItem(index) {
-      const nivelId = itens[index].id;
-
-      fetch(`/nivel/excluirNivel/${nivelId}`, {
-        method: 'DELETE',
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao excluir nível de acesso');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Nível de acesso excluído com sucesso:', data);
-        loadItens();
-      })
-      .catch(error => {
-        console.error('Erro ao excluir nível de acesso:', error);
-      });
+      // Remover o item do array localmente (simulação de exclusão)
+      itens.splice(index, 1);
+      renderItens();
+      setItensBD();
     }
-
+  
     function insertItem(item, index) {
-  let tr = document.createElement('tr');
-  let permissoesTexto = item.permissoes.join(', ');
-
-  tr.innerHTML = `
-    <td>${item.nomeCargo}</td>
-    <td>${permissoesTexto}</td>
-    <td class="acao">
-      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
-    </td>
-    <td class="acao">
-      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
-    </td>
-  `;
-  tbody.appendChild(tr);
-}
-
-
+      let tr = document.createElement('tr');
+      let permissoesTexto = item.permissoes.join(', ');
+  
+      tr.innerHTML = `
+        <td>${item.nomeCargo}</td>
+        <td>${permissoesTexto}</td>
+        <td class="acao">
+          <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+        </td>
+        <td class="acao">
+          <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+  
     btnSalvar.onclick = e => {
       e.preventDefault();
       if (nomeNivel.value === '') {
         return;
       }
-
+  
       const permissoesSelecionadas = [];
       permissoes.forEach(checkbox => {
         if (checkbox.checked) {
           permissoesSelecionadas.push(checkbox.value);
         }
       });
-
-      const data = {
+  
+      const novoItem = {
         nomeCargo: nomeNivel.value,
         permissoes: permissoesSelecionadas,
       };
-
+  
       if (id !== undefined) {
-        // Atualizar nível de acesso existente
-        fetch(`/nivel/atualizarNivel/${itens[id].id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao atualizar nível de acesso');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('Nível de acesso atualizado com sucesso:', data);
-          loadItens();
-        })
-        .catch(error => {
-          console.error('Erro ao atualizar nível de acesso:', error);
-        });
+        itens[id] = novoItem;
       } else {
-        // Criar novo nível de acesso
-        fetch('/nivel/cadastrarNivel/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao cadastrar nível de acesso');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('Nível de acesso cadastrado com sucesso:', data);
-          loadItens();
-        })
-        .catch(error => {
-          console.error('Erro ao cadastrar nível de acesso:', error);
-        });
-
-        itens.push({ 'nomeCargo': nomeNivel.value, 'permissoes': permissoesSelecionadas });
+        itens.push(novoItem);
       }
-
+  
+      renderItens();
       setItensBD();
+  
+      // Fechar o modal
       modal.classList.remove('active');
-      loadItens();
       id = undefined;
     };
-
-    function loadItens() {
-      fetch(`/nivel/listarNiveis`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao carregar níveis de acesso');
-        }
-        return response.json();
-      })
-      .then(data => {
-        itens = data;
-        tbody.innerHTML = '';
-        itens.forEach((item, index) => {
-          insertItem(item, index);
-        });
-      })
-      .catch(error => {
-        console.error('Erro ao carregar níveis de acesso:', error);
+  
+    function renderItens() {
+      tbody.innerHTML = '';
+      itens.forEach((item, index) => {
+        insertItem(item, index);
       });
     }
-
+  
+    function getItensBD() {
+      return JSON.parse(localStorage.getItem('itensDB')) || [];
+    }
+  
     function setItensBD() {
       localStorage.setItem('itensDB', JSON.stringify(itens));
     }
-
-    loadItens();
+  
+    // Inicialização: carregar itens do localStorage e exibir na tabela
+    renderItens();
   </script>
+  
 </body>
 
 </html>

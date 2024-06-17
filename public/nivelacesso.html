@@ -174,21 +174,22 @@
     }
 
     function insertItem(item, index) {
-      let tr = document.createElement('tr');
-      let permissoesTexto = item.permissoes.join(', ');
+  let tr = document.createElement('tr');
+  let permissoesTexto = item.permissoes.join(', ');
 
-      tr.innerHTML = `
-        <td>${item.nomeCargo}</td>
-        <td>${permissoesTexto}</td>
-        <td class="acao">
-          <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
-        </td>
-        <td class="acao">
-          <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    }
+  tr.innerHTML = `
+    <td>${item.nomeCargo}</td>
+    <td>${permissoesTexto}</td>
+    <td class="acao">
+      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+    </td>
+    <td class="acao">
+      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+    </td>
+  `;
+  tbody.appendChild(tr);
+}
+
 
     btnSalvar.onclick = e => {
       e.preventDefault();

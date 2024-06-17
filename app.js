@@ -31,6 +31,8 @@ const maquinaRoute = require("./src/routes/maquina");
 const processoRoute = require("./src/routes/processo");
 const userRoute = require("./src/routes/user");
 const nivelAcessoRoute = require("./src/routes/nivelAcesso");
+const nomeMaquinaRoute = require("./src/routes/nomeMaquina"); // Adicione esta linha
+
 
 
 app.use("/", homeRoute);
@@ -42,6 +44,8 @@ app.use("/maquina", maquinaRoute);
 app.use("/processo", processoRoute);
 app.use("/user", userRoute);
 app.use("/nivelAcesso", nivelAcessoRoute);
+app.use("/nomeMaquina", nomeMaquinaRoute); // Adicione esta linha
+
 
 app.get("/cadastrar-me", (req, res) => {
     res.sendFile("cadastroPessoal.html", { root: "public" });

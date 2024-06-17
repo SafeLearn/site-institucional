@@ -436,7 +436,7 @@ h2 {
 
 .icon-lapis i{
   position: absolute;
-  margin-right: 350px;
+  margin-right: 250px;
 }
 .icon-lapis::after {
   content: "Editar nome"; 

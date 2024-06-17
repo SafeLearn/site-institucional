@@ -153,122 +153,122 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-  // Open edit-name-modal on pencil icon click
-  document.getElementById("apelido-button").addEventListener("click", function () {
-    document.getElementById("edit-name-modal").style.display = "block";
-  });
-
-  // Close edit-name-modal on close button click
-  document.querySelector("#edit-name-modal .close").addEventListener("click", function () {
-    document.getElementById("edit-name-modal").style.display = "none";
-  });
-
-  // Close edit-name-modal when clicking outside
-  window.onclick = function (event) {
-    if (event.target == document.getElementById("edit-name-modal")) {
-      document.getElementById("edit-name-modal").style.display = "none";
-    }
-  };
-});
-
-function salvarNome() {
-  const novoNome = document.getElementById("new-name").value;
-
-  fetch('/nomeMaquina/cadastrarNomeMaquina', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ nomeMaquina: novoNome }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
-      listarNomesMaquina(); // Example function to update list after adding
-    })
-    .catch(error => console.error('Erro ao cadastrar nome da máquina:', error));
-
-  document.getElementById("edit-name-modal").style.display = "none";
-}
-
-function editarNome() {
-  const novoNome = document.getElementById("new-name").value;
-  const idNomeMaquina = document.getElementById("nome-list").dataset.idNomeMaquina; // Assuming you have machine ID in your HTML
-
-  fetch(`/nomeMaquina/atualizarNomeMaquina/${idNomeMaquina}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ nomeMaquina: novoNome }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
-      listarNomesMaquina(); // Example function to update list after editing
-    })
-    .catch(error => console.error('Erro ao editar nome da máquina:', error));
-
-  document.getElementById("edit-name-modal").style.display = "none";
-}
-
-function excluirNome() {
-  const idNomeMaquina = document.getElementById("nome-list").dataset.idNomeMaquina; // Assuming you have machine ID in your HTML
-
-  fetch(`/nomeMaquina/excluirNomeMaquina/${idNomeMaquina}`, {
-    method: 'DELETE',
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      document.getElementById("numero-maquina").textContent = 'Visualização da Máquina -';
-      listarNomesMaquina(); // Example function to update list after deletion
-    })
-    .catch(error => console.error('Erro ao excluir nome da máquina:', error));
-
-  document.getElementById("edit-name-modal").style.display = "none";
-}
-
-function listarNomesMaquina() {
-  fetch('/nomeMaquina/listarNomesMaquina')
-    .then(response => response.json())
-    .then(data => {
-      // Example of how you can update the list on the interface
-      const nomeList = document.getElementById("nome-list");
-      nomeList.innerHTML = ''; // Clear the current list
-
-      data.forEach(nome => {
-        const item = document.createElement('div');
-        item.textContent = nome.nomeMaquina;
-        nomeList.appendChild(item);
+      document.addEventListener("DOMContentLoaded", function () {
+        // Open edit-name-modal on pencil icon click
+        document.getElementById("apelido-button").addEventListener("click", function () {
+          document.getElementById("edit-name-modal").style.display = "block";
+        });
+  
+        // Close edit-name-modal on close button click
+        document.querySelector("#edit-name-modal .close").addEventListener("click", function () {
+          document.getElementById("edit-name-modal").style.display = "none";
+        });
+  
+        // Close edit-name-modal when clicking outside
+        window.onclick = function (event) {
+          if (event.target == document.getElementById("edit-name-modal")) {
+            document.getElementById("edit-name-modal").style.display = "none";
+          }
+        };
       });
-    })
-    .catch(error => console.error('Erro ao obter lista de nomes de máquina:', error));
-}
-
-    // fim logica editar nome
-
+  
+      function salvarNome() {
+        const novoNome = document.getElementById("new-name").value;
+  
+        fetch('/nomeMaquina/cadastrarNomeMaquina', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nomeMaquina: novoNome }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message);
+            document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
+            listarNomesMaquina(); 
+          })
+          .catch(error => console.error('Erro ao cadastrar nome da máquina:', error));
+  
+        document.getElementById("edit-name-modal").style.display = "none";
+      }
+  
+      function editarNome() {
+        const novoNome = document.getElementById("new-name").value;
+        const idNomeMaquina = document.getElementById("nome-list").dataset.idNomeMaquina; // Assuming you have machine ID in your HTML
+  
+        fetch(`/nomeMaquina/atualizarNomeMaquina/${idNomeMaquina}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nomeMaquina: novoNome }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message);
+            document.getElementById("numero-maquina").textContent = `Visualização da Máquina - ${novoNome}`;
+            listarNomesMaquina(); // Example function to update list after editing
+          })
+          .catch(error => console.error('Erro ao editar nome da máquina:', error));
+  
+        document.getElementById("edit-name-modal").style.display = "none";
+      }
+  
+      function excluirNome() {
+        const idNomeMaquina = document.getElementById("nome-list").dataset.idNomeMaquina; // Assuming you have machine ID in your HTML
+  
+        fetch(`/nomeMaquina/excluirNomeMaquina/${idNomeMaquina}`, {
+          method: 'DELETE',
+        })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message);
+            document.getElementById("numero-maquina").textContent = 'Visualização da Máquina -';
+            listarNomesMaquina(); // Example function to update list after deletion
+          })
+          .catch(error => console.error('Erro ao excluir nome da máquina:', error));
+  
+        document.getElementById("edit-name-modal").style.display = "none";
+      }
+  
+      function listarNomesMaquina() {
+        fetch('/nomeMaquina/listarNomesMaquina')
+          .then(response => response.json())
+          .then(data => {
+            const nomeList = document.getElementById("nome-list");
+            nomeList.innerHTML = ''; 
+  
+            data.forEach(nome => {
+              const item = document.createElement('div');
+              item.textContent = nome.nomeMaquina;
+              nomeList.appendChild(item);
+            });
+          })
+          .catch(error => console.error('Erro ao obter lista de nomes de máquina:', error));
+      }
+  
+      // fim logica editar nome
+  
       <!-- Custom JavaScript -->
       document
         .getElementById("power-button")
         .addEventListener("click", function () {
           document.getElementById("power-modal").style.display = "block";
         });
-
+  
       document.querySelector(".close").addEventListener("click", function () {
         document.getElementById("power-modal").style.display = "none";
       });
-
+  
       window.onclick = function (event) {
         if (event.target == document.getElementById("power-modal")) {
           document.getElementById("power-modal").style.display = "none";
         }
       };
-
+  
       function desligar(option) {
         switch (option) {
           case 1:
@@ -285,26 +285,26 @@ function listarNomesMaquina() {
         }
         document.getElementById("power-modal").style.display = "none";
       }
-
+  
       //modal fim
-
+  
       seta_main.addEventListener("click", () => {
         window.location.href = "monitorar.html";
       });
-
+  
       let id;
       let nomeMaquina;
-
+  
       let proximaAtualizacaoBateria = null;
       let proximaAtualizacaoProcessos = null;
       let proximaAtualizacaoCPU = null;
       let proximaAtualizacaoRAM = null;
       let proximaAtualizacaoDISCO = null;
-
+  
       window.onload = function () {
         const urlParams = new URLSearchParams(window.location.search);
-        id = urlParams.get("id");
-
+        const id = urlParams.get('id');
+  
         if (id) {
           obterDadosDeCPU(id);
           obterDadosDeRAM(id);
@@ -315,11 +315,13 @@ function listarNomesMaquina() {
           console.log("ID não encontrado na URL");
         }
       };
-
+  
       function atualizarNumeroMaquina() {
         const numeroMaquina = document.getElementById("numero-maquina");
-        numeroMaquina.innerHTML = `Visualização da Máquina - ${nomeMaquina}`;
+        numeroMaquina.innerHTML = `Visualização da Máquina - ${novoNome}`;
       }
+
+      // 
 
       let botaoUsuario = document.querySelector(".criarUsuarioNavegador");
       let nivelAcesso = sessionStorage.NIVEL_ACESSO;

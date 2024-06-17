@@ -284,8 +284,6 @@
     const qtd_maquinas_bateria = document.getElementById("qtd_maquinas_bateria");
     const barra_status_bateria = document.getElementById("barra_status_bateria");
 
-    let mq_pouca_bateria = [];
-
     fetch(`/maquina/infoBateria/${sessionStorage.ID_INSTITUICAO}`).then(resposta => {
       if (!resposta.ok) {
         throw new Error(`Erro na solicitação fetch: ${resposta.status} ${resposta.statusText}`);
@@ -294,6 +292,8 @@
     }).then(json => {
 
       console.log("Dados recebidos: ", json);
+
+      let mq_pouca_bateria = [];
 
       json.forEach(item => {
         const itemJaExiste = mq_pouca_bateria.some(e => e.idProcessador === item.idProcessador);
@@ -455,12 +455,14 @@
         const div = document.createElement("div");
         div.classList.add("item-maquina");
 
+        console.log('ITEM BATERIA', item.BATERIA);
+
         div.innerHTML = `
-            <span>${item.Maquina}</span>
+            <span>${item.nome}</span>
             <span>${item.CPU == null ? "-" : (item.CPU).toFixed(1)}%</span>
             <span>${item.RAM == null ? "-" : (item.RAM).toFixed(1)}%</span>
             <span>${item.DISCO == null ? "-" : (item.DISCO).toFixed(1)}%</span>
-            <span>${item.BATERIA == null ? "-" : (item.BATERIA).toFixed(1)}%</span>
+            <span>${item.BATERIA == null ? "-" : item.BATERIA}%</span>
         `;
         div.style.borderBottom = `6px solid ${item.corStatus}`;
         lista_maquinas.appendChild(div);
@@ -510,7 +512,7 @@
       updateMaquinasRisco();
     });
 
-    //setTimeout(statusComponentes, 5000);
+    setTimeout(statusComponentes, 5000);
   }
 
 

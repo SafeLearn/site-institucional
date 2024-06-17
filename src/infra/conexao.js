@@ -1,10 +1,10 @@
 const sql = require('mssql');
 
-// const config = {
-//     server: "safelearn-server.database.windows.net",
+// const newLocal = {
+//     server: "ec2-52-73-82-233.compute-1.amazonaws.com",
 //     database: "safelearn",
-//     user: "user",
-//     password: "senha123.",
+//     user: "sa",
+//     password: "senha",
 //     pool: {
 //         max: 10,
 //         min: 0,
@@ -17,10 +17,10 @@ const sql = require('mssql');
 // };
 
 const config = {
-    server: "ec2-52-73-82-233.compute-1.amazonaws.com",
+    server: "safelearn-server.database.windows.net",
     database: "safelearn",
-    user: "sa",
-    password: "senha",
+    user: "user",
+    password: "senha123.",
     pool: {
         max: 10,
         min: 0,
@@ -31,6 +31,8 @@ const config = {
         trustServerCertificate: true
     }
 };
+
+// const config = newLocal;
 
 async function connect() {
     try {

@@ -56,7 +56,31 @@ async function listarUsuarios(idInstituicao, idUsuario) {
         if (result.recordset.length > 0) {
           resolve(result.recordset);
         } else {
-          reject(new Error("Cadastro não realizado!"));
+          reject(new Error("Usuario não listados!"));
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+async function listarNiveis() {
+  const query = `SELECT idNivelDeAcesso, nivelDeAcesso FROM NivelDeAcesso`;
+
+  return new Promise((resolve, reject) => {
+    sql
+      .connect()
+      .then((pool) => {
+        return pool
+          .request()
+          .query(query);
+      })
+      .then((result) => {
+        if (result.recordset.length > 0) {
+          resolve(result.recordset);
+        } else {
+          reject(new Error("Niveis não listados!"));
         }
       })
       .catch((err) => {
@@ -129,6 +153,7 @@ async function excluirUsuario(idUsuario, idInstituicao) {
 module.exports = {
   cadastrarUsuario,
   listarUsuarios,
+  listarNiveis,
   atualizarUsuario,
   excluirUsuario,
 };

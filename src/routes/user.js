@@ -11,6 +11,10 @@ router.get('/listarUsuarios/:idInstituicao/:idUsuario', (req, res) => {
     userController.listarUsuarios(req, res);
 });
 
+router.get('/listarNiveis', (req, res) => {
+    userController.listarNiveis(req, res);
+});
+
 router.put('/atualizarUsuario/:idUsuario', async (req, res) => {
     userController.atualizarUsuario(req, res)
 });

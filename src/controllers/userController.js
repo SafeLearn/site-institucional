@@ -15,7 +15,6 @@ async function cadastrarUsuario(req, res) {
       .json({ error: "Nível de acesso deve ser um número." });
       
   }
-  console.log(nivelAcesso);
   try {
     const resultado = await userModel.cadastrarUsuario(
       nome,
@@ -50,6 +49,25 @@ async function listarUsuarios(req, res) {
             res.status(500).json(erro.sqlMessage);
         }
     )
+}
+
+async function listarNiveis(req, res) {
+
+  userModel.listarNiveis().then(
+      function (resultado) {
+          if(resultado.length > 0) {
+              res.status(200).json(resultado);
+          }else{
+              res.status(204).send("Nenhum resultado encontrado!")
+          }
+      }
+  ).catch(
+      function (erro) {
+          console.log(erro);
+          console.log("Houve um erro ao buscar os niveis!", erro.sqlMessage);
+          res.status(500).json(erro.sqlMessage);
+      }
+  )
 }
 
 async function atualizarUsuario(req, res) {
@@ -98,6 +116,7 @@ async function excluirUsuario(req, res) {
 module.exports = {
   cadastrarUsuario,
   listarUsuarios,
+  listarNiveis,
   atualizarUsuario,
   excluirUsuario,
 };

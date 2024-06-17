@@ -172,7 +172,7 @@
         })
 
          // Chamada inicial para carregar itens
-        loadItens();
+         loadItens();
 
       })
     }
@@ -195,7 +195,7 @@
       })
       .then(data => {
         console.log('Usuário excluído com sucesso:', data);
-        loadItens();
+        listarNiveisDeAcesso();
       })
       .catch(error => {
         console.error('Erro ao excluir usuário:', error);
@@ -254,7 +254,7 @@
           })
           .then(data => {
             console.log('Usuário atualizado com sucesso:', data);
-            loadItens();
+            listarNiveisDeAcesso();
           })
           .catch(error => {
             console.error('Erro ao atualizar usuário:', error);
@@ -276,7 +276,7 @@
           })
           .then(data => {
             console.log('Usuário cadastrado com sucesso:', data);
-            loadItens();
+            listarNiveisDeAcesso();
           })
           .catch(error => {
             console.error('Erro ao cadastrar usuário:', error);
@@ -287,7 +287,7 @@
 
       setItensBD();
       modal.classList.remove('active');
-      loadItens();
+      listarNiveisDeAcesso();
       id = undefined;
     };
 
